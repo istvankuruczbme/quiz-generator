@@ -1,0 +1,31 @@
+import {
+	faLandmark,
+	faGlobe,
+	faFlask,
+	faBook,
+	faPalette,
+	faMusic,
+	faFilm,
+	faFootballBall,
+	faMicrochip,
+	faBalanceScale,
+	faUtensils,
+	faPlane,
+	faLightbulb,
+} from "@fortawesome/free-solid-svg-icons";
+
+export const categories = [
+	{ name: "History", icon: faLandmark },
+	{ name: "Geography", icon: faGlobe },
+	{ name: "Science", icon: faFlask },
+	{ name: "Literature", icon: faBook },
+	{ name: "Art", icon: faPalette },
+	{ name: "Music", icon: faMusic },
+	{ name: "Movies", icon: faFilm },
+	{ name: "Sports", icon: faFootballBall },
+	{ name: "Technology", icon: faMicrochip },
+	{ name: "Politics", icon: faBalanceScale },
+	{ name: "Food", icon: faUtensils },
+	{ name: "Travel", icon: faPlane },
+	{ name: "General Knowledge", icon: faLightbulb },
+] as const;
