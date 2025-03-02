@@ -1,35 +1,52 @@
 import { useEffect } from "react";
-import { supabase } from "../../../lib/supabase";
-import axios from "axios";
+import { supabase } from "../../../config/supabase";
 import useUser from "../../../contexts/UserContext/useUser";
+import isNewUser from "../utils/isNewUser";
+import getUser from "../../user/services/getUser";
+import createUser from "../../user/services/createUser";
 
 const useAuth = () => {
 	// #region Hooks
-	const { setUser } = useUser();
+	const { setUser, setLoading } = useUser();
 	// #endregion
 
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+			// console.log(event);
+			setLoading(true);
+
 			if (event === "SIGNED_IN" && session != null) {
-				setUser(session.user);
+				const authUser = session.user;
+
+				// Check if new user
+				if (isNewUser(authUser)) {
+					try {
+						// Create user in DB
+						await createUser(authUser.id, authUser.user_metadata!.name, authUser.email!);
+					} catch (err) {
+						console.log("Error creating the user.", err);
+						return;
+					}
+				}
 
 				try {
-					const { data } = await axios.get(
-						`/test/users/${session.user.id}`
-						// 	,
-						// 	{
-						// 	headers: {
-						// 		Authorization: `Bearer ${session.access_token}`,
-						// 	},
-						// }
-					);
-					console.log("User data from DB: ", data);
+					// Fetch user data
+					const user = await getUser(authUser.id);
+
+					// Update user state
+					setUser(user);
+					setLoading(false);
 				} catch (err) {
-					console.log("Error fetching user data from DB.", err);
+					console.log("Error fetching the user from DB.", err);
+					setLoading(false);
 				}
 			}
 			if (event === "SIGNED_OUT") {
 				setUser(null);
+				setLoading(false);
+			}
+			if (event === "INITIAL_SESSION") {
+				setLoading(false);
 			}
 		});
 

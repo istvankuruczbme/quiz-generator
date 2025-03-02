@@ -9,7 +9,12 @@ type UserProviderProps = {
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 	// #region States
 	const [user, setUser] = useState<User>(null);
+	const [loading, setLoading] = useState(true);
 	// #endregion
 
-	return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+	return (
+		<UserContext.Provider value={{ user, setUser, loading, setLoading }}>
+			{children}
+		</UserContext.Provider>
+	);
 };

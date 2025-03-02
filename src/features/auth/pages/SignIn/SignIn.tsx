@@ -1,17 +1,22 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import signInWithPassword from "../../services/signInWithPassword";
 import "./SignIn.css";
-import { supabase } from "../../../lib/supabase";
 
 type SignInProps = HTMLAttributes<HTMLDivElement>;
 
 const SignIn: FC<SignInProps> = () => {
+	// #region Hooks
+	const navigate = useNavigate();
+	//#endregion
+
 	// #region Refs
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	// #endregion
 
 	// #region Functions
-	async function signInUser(e: FormEvent<HTMLFormElement>) {
+	async function handleSignInClick(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		// Input values
@@ -30,19 +35,10 @@ const SignIn: FC<SignInProps> = () => {
 
 		// Sign in user
 		try {
-			const { data, error } = await supabase.auth.signInWithPassword({
-				email: email as string,
-				password: password as string,
-			});
+			await signInWithPassword(email as string, password as string);
 
-			// Check if there is an error
-			if (error != null) {
-				console.log(error.code);
-				throw error;
-			}
-
-			// Log data
-			console.log("Sign in data: ", data);
+			// Navigate
+			navigate("/");
 		} catch (err) {
 			console.log("Error signing in the user to Supabase.\n", err);
 		}
@@ -52,7 +48,8 @@ const SignIn: FC<SignInProps> = () => {
 	return (
 		<div>
 			<h1>SignIn</h1>
-			<form onSubmit={signInUser}>
+
+			<form onSubmit={handleSignInClick}>
 				<label htmlFor="sinInEmail">Email:</label>
 				<input type="email" id="sinInEmail" placeholder="Email" required ref={emailRef} />
 				<br />
