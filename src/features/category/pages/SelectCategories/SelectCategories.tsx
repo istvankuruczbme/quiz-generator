@@ -1,16 +1,21 @@
 import { ChangeEvent, FC, FormEvent, Fragment, HTMLAttributes, useState } from "react";
-import useCategories from "../../../category/hooks/useCategories";
-import "./ProfileCategories.css";
+import useCategories from "../../hooks/useCategories";
+import "./SelectCategories.css";
+import createUserCategories from "../../../user/services/createUserCategories";
+import useUser from "../../../../contexts/UserContext/useUser";
+import { useNavigate } from "react-router-dom";
 
-type ProfileCategoriesProps = HTMLAttributes<HTMLDivElement>;
+type SelectCategoriesProps = HTMLAttributes<HTMLDivElement>;
 
-const ProfileCategories: FC<ProfileCategoriesProps> = () => {
+const SelectCategories: FC<SelectCategoriesProps> = () => {
 	// #region States
 	const [categoryIds, setCategoryIds] = useState<string[]>([]);
 	// #endregion
 
 	//#region Hooks
+	const { user } = useUser();
 	const { categories } = useCategories();
+	const navigate = useNavigate();
 	//#endregion
 
 	// #region Functions
@@ -24,6 +29,27 @@ const ProfileCategories: FC<ProfileCategoriesProps> = () => {
 
 	async function handleSubmitSelectCategoriesClick(e: FormEvent<HTMLFormElement>): Promise<void> {
 		e.preventDefault();
+
+		// Check user
+		if (user == null) return;
+
+		// Validate categories
+		try {
+			if (categoryIds.length === 0) throw new Error("user/categories-missing");
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+
+		try {
+			// Create user categories
+			await createUserCategories(categoryIds, user.id);
+
+			// Navigate to home page
+			navigate("/");
+		} catch (err) {
+			console.log("Error creating user categories.", err);
+		}
 	}
 	//#endregion
 
@@ -51,4 +77,4 @@ const ProfileCategories: FC<ProfileCategoriesProps> = () => {
 	);
 };
 
-export default ProfileCategories;
+export default SelectCategories;
