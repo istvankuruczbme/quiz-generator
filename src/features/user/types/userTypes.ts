@@ -9,3 +9,10 @@ export type User = {
 	createdAt: Date;
 	deletedAt: Date | null;
 };
+
+export type InsertUserData = {
+	id: string;
+	name: string;
+	email: string;
+	photoUrl: string | null;
+};

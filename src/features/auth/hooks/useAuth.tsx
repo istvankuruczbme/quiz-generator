@@ -4,6 +4,7 @@ import useUser from "../../../contexts/UserContext/useUser";
 import isNewUser from "../utils/isNewUser";
 import getUser from "../../user/services/getUser";
 import createUser from "../../user/services/createUser";
+import getUserData from "../utils/getUserData";
 
 const useAuth = () => {
 	// #region Hooks
@@ -21,8 +22,11 @@ const useAuth = () => {
 				// Check if new user
 				if (isNewUser(authUser)) {
 					try {
+						// Get user data
+						const { id, name, email, photoUrl } = getUserData(authUser);
+
 						// Create user in DB
-						await createUser(authUser.id, authUser.user_metadata!.name, authUser.email!);
+						await createUser(id, name, email, photoUrl);
 					} catch (err) {
 						console.log("Error creating the user.", err);
 						return;

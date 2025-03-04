@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 // Functions
 import validateSignUpInputs from "../../utils/validation/validateSignUpInputs";
 import signUpWithPassword from "../../services/signUpWithPassword";
+import signInWithGoogle from "../../services/signInWithGoogle";
 // CSS
 import "./SignUp.css";
 
@@ -49,6 +50,10 @@ const SignUp: FC<SignUpProps> = () => {
 			console.log("Error signing up the user.\n", err);
 		}
 	}
+
+	function handleGoogleSignUpClick() {
+		signInWithGoogle();
+	}
 	//#endregion
 
 	return (
@@ -86,6 +91,10 @@ const SignUp: FC<SignUpProps> = () => {
 
 				<button type="submit">Create account</button>
 			</form>
+
+			<br />
+
+			<button onClick={handleGoogleSignUpClick}>Sign Up with Google</button>
 		</div>
 	);
 };

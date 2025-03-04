@@ -1,6 +1,10 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
+// Hooks
 import { useNavigate } from "react-router-dom";
+// Functions
 import signInWithPassword from "../../services/signInWithPassword";
+import signInWithGoogle from "../../services/signInWithGoogle";
+// CSS
 import "./SignIn.css";
 
 type SignInProps = HTMLAttributes<HTMLDivElement>;
@@ -43,6 +47,10 @@ const SignIn: FC<SignInProps> = () => {
 			console.log("Error signing in the user to Supabase.\n", err);
 		}
 	}
+
+	function handleGoogleSignInClick() {
+		signInWithGoogle();
+	}
 	//#endregion
 
 	return (
@@ -66,6 +74,10 @@ const SignIn: FC<SignInProps> = () => {
 
 				<button type="submit">Sign In</button>
 			</form>
+
+			<br />
+
+			<button onClick={handleGoogleSignInClick}>Sign In with Google</button>
 		</div>
 	);
 };
