@@ -1,9 +1,12 @@
 import { ChangeEvent, FC, FormEvent, Fragment, HTMLAttributes, useState } from "react";
-import useCategories from "../../hooks/useCategories";
-import "./SelectCategories.css";
-import createUserCategories from "../../../user/services/createUserCategories";
+// Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
+import useCategories from "../../hooks/useCategories";
 import { useNavigate } from "react-router-dom";
+// Functions
+import createUserCategories from "../../../user/services/createUserCategories";
+// CSS
+import "./SelectCategories.css";
 
 type SelectCategoriesProps = HTMLAttributes<HTMLDivElement>;
 

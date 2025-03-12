@@ -11,6 +11,7 @@ import Home from "../pages/Home/Home";
 import useAuth from "../features/auth/hooks/useAuth";
 // CSS
 import "./App.css";
+import Profile from "../features/user/pages/Profile/Profile";
 
 function App() {
 	//#region Hooks
@@ -21,6 +22,7 @@ function App() {
 		<>
 			<Routes>
 				<Route element={<SignedInRoute />}>
+					<Route path="/profile" element={<Profile />} />
 					<Route path="/profile/subscription" element={<ChangeSubscription />} />
 					<Route path="/profile/categories" element={<SelectCategories />} />
 				</Route>
