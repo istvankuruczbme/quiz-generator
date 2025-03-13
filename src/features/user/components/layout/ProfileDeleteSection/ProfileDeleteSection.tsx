@@ -1,0 +1,70 @@
+import { FC, HTMLAttributes } from "react";
+// Hooks
+import useUser from "../../../../../contexts/UserContext/useUser";
+import { useNavigate } from "react-router-dom";
+// Functions
+import deleteUserDb from "../../../services/deleteUser";
+import deleteUserAuth from "../../../../auth/services/deleteUser";
+// CSS
+import "./ProfileDeleteSection.css";
+import signOut from "../../../../auth/services/signOut";
+
+type ProfileDeleteSectionProps = HTMLAttributes<HTMLDivElement>;
+
+const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
+	//#region Hooks
+	const { user } = useUser();
+	const navigate = useNavigate();
+	//#endregion
+
+	// #region Functions
+	async function handleDeleteUserClick(): Promise<void> {
+		// Confirmation
+		const confirm = window.confirm("Are you sure you want to delete your account?");
+		if (!confirm) return;
+
+		// Check user
+		if (user == null) return;
+
+		try {
+			// Delete user from DB
+			await deleteUserDb(user.id);
+		} catch (err) {
+			console.log("Error deleting the user from DB.", err);
+			return;
+		}
+
+		try {
+			// Delete user from Supabase auth
+			await deleteUserAuth(user.id);
+		} catch (err) {
+			console.log("Error deleting the user from Supabase auth.", err);
+			return;
+		}
+
+		try {
+			// Sign out user
+			await signOut();
+		} catch (err) {
+			console.log("Error signing out the user.", err);
+			return;
+		}
+
+		// Navigate to home page
+		navigate("/");
+	}
+	//#endregion
+
+	return (
+		<div>
+			<h2>Delete profile</h2>
+
+			<p>Click on the button below to delete your account.</p>
+			<p>By deleting your account your subscription will be lost.</p>
+
+			<button onClick={handleDeleteUserClick}>Delete</button>
+		</div>
+	);
+};
+
+export default ProfileDeleteSection;

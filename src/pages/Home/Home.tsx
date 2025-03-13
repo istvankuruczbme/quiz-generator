@@ -32,8 +32,18 @@ const Home = () => {
 			</NotSignedIn>
 
 			<SignedIn>
-				<h2>Hello {user?.email}!</h2>
+				<h2>Hello {user?.name}!</h2>
 				<p>{JSON.stringify(user)}</p>
+
+				<nav>
+					Menu:
+					<ul>
+						<li>
+							<Link to="/profile">Profile</Link>
+						</li>
+					</ul>
+				</nav>
+
 				<button onClick={signOut}>Sign Out</button>
 			</SignedIn>
 		</div>
