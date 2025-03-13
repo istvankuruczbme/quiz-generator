@@ -5,15 +5,16 @@ import isNewUser from "../utils/isNewUser";
 import getUser from "../../user/services/getUser";
 import createUser from "../../user/services/createUser";
 import getUserData from "../utils/getUserData";
+import updateEmail from "../services/updateEmail";
 
 const useAuth = () => {
 	// #region Hooks
-	const { setUser, setLoading } = useUser();
+	const { user, setUser, setLoading, refresh } = useUser();
 	// #endregion
 
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-			// console.log(event);
+			console.log(event);
 			setLoading(true);
 
 			if (event === "SIGNED_IN" && session != null) {
@@ -29,7 +30,21 @@ const useAuth = () => {
 						await createUser(id, name, email, photoUrl);
 					} catch (err) {
 						console.log("Error creating the user.", err);
+						setLoading(false);
 						return;
+					}
+				}
+
+				// Check different email
+				if (user != null && authUser.email != undefined && user.email !== authUser.email) {
+					try {
+						// Update user email in DB
+						await updateEmail(authUser.id, authUser.email);
+
+						console.log("User email updated.");
+					} catch (err) {
+						console.log("Error updating user email in DB.", err);
+						setLoading(false);
 					}
 				}
 
@@ -55,7 +70,7 @@ const useAuth = () => {
 		});
 
 		return () => data.subscription.unsubscribe();
-	});
+	}, [setLoading, user, setUser, refresh]);
 };
 
 export default useAuth;

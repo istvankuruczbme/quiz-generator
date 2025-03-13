@@ -1,3 +1,7 @@
-export default function checkSamePassword(password: string, passwordConfirm: string): void {
-	if (password !== passwordConfirm) throw new Error("auth/passwords-dont-match");
+export default function checkSamePassword(
+	password: string,
+	passwordConfirm: string,
+	prefix?: string
+): void {
+	if (password !== passwordConfirm) throw new Error(`${prefix || ""}passwords-dont-match`);
 }

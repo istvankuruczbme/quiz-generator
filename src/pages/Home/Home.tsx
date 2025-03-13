@@ -32,7 +32,8 @@ const Home = () => {
 			</NotSignedIn>
 
 			<SignedIn>
-				<p>Hello {user?.id}</p>
+				<h2>Hello {user?.email}!</h2>
+				<p>{JSON.stringify(user)}</p>
 				<button onClick={signOut}>Sign Out</button>
 			</SignedIn>
 		</div>

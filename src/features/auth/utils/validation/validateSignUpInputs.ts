@@ -11,7 +11,7 @@ export default function validateSignUpInputs(
 ): void {
 	validateName(name, "auth/");
 	validateEmail(email, "auth/");
-	validatePassword(password);
-	validatePassword(passwordConfirm);
-	checkSamePassword(password as string, passwordConfirm as string);
+	validatePassword(password, "auth/");
+	validatePassword(passwordConfirm, "auth/");
+	checkSamePassword(password as string, passwordConfirm as string, "auth/");
 }

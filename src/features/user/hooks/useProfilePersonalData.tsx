@@ -6,7 +6,6 @@ const useProfilePersonalData = () => {
 	// #region States
 	const [photoUrl, setPhotoUrl] = useState("");
 	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
 	// #endregion
 
 	// #region Hooks
@@ -20,15 +19,13 @@ const useProfilePersonalData = () => {
 		if (user == null) {
 			setPhotoUrl(defaultUserPhotoUrl);
 			setName("");
-			setEmail("");
 		} else {
 			setPhotoUrl(user.photoUrl || defaultUserPhotoUrl);
 			setName(user.name);
-			setEmail(user.email);
 		}
 	}, [user, loading]);
 
-	return { photoUrl, setPhotoUrl, name, setName, email, setEmail };
+	return { photoUrl, setPhotoUrl, name, setName };
 };
 
 export default useProfilePersonalData;

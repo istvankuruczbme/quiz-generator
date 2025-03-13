@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef } from "react";
-import { supabase } from "../../../../../config/supabase";
+// Components
+import { Link } from "react-router-dom";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
 import useProfilePersonalData from "../../../hooks/useProfilePersonalData";
@@ -14,7 +15,7 @@ type ProfilePersonalSectionProps = HTMLAttributes<HTMLDivElement>;
 const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 	// #region Hooks
 	const { user } = useUser();
-	const { photoUrl, setPhotoUrl, name, setName, email, setEmail } = useProfilePersonalData();
+	const { photoUrl, setPhotoUrl, name, setName } = useProfilePersonalData();
 	// #endregion
 
 	// #region Refs
@@ -50,20 +51,15 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 
 		try {
 			// Check input values
-			validatePersonalDataInputs(name, email);
+			validatePersonalDataInputs(name);
 		} catch (err) {
 			console.log("Error validating sign up data.\n", err);
 			return;
 		}
 
 		try {
-			// Update user email in Supabase
-			await supabase.auth.updateUser({
-				email: email as string,
-			});
-
-			// Update user name and email in DB
-			await updateUserPersonalData(user.id, name, email, photo);
+			// Update user name and photo in DB
+			await updateUserPersonalData(user.id, name, photo);
 
 			console.log("Successful update.");
 		} catch (err) {
@@ -75,6 +71,19 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 	return (
 		<div>
 			<h2>Personal data</h2>
+
+			<div>
+				<Link to="/profile/change-email">
+					<button type="button" tabIndex={-1}>
+						Change email
+					</button>
+				</Link>
+				<Link to="/profile/change-password">
+					<button type="button" tabIndex={-1}>
+						Change password
+					</button>
+				</Link>
+			</div>
 
 			<form onSubmit={handleSubmitPersonalData}>
 				<img src={photoUrl === "" ? undefined : photoUrl} alt={name} />
@@ -94,17 +103,6 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 					placeholder="Name"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
-					required
-				/>
-				<br />
-
-				<label htmlFor="profileEmail">Email:</label>
-				<input
-					type="email"
-					id="profileEmail"
-					placeholder="Email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
 					required
 				/>
 				<br />
