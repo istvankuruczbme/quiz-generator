@@ -1,8 +1,11 @@
 import { FC, HTMLAttributes } from "react";
-import "./Profile.css";
+// Components
 import ProfileCategoriesSection from "../../components/layout/ProfileCategoriesSection/ProfileCategoriesSection";
 import ProfilePersonalSection from "../../components/layout/ProfilePersonalSection/ProfilePersonalSection";
 import ProfileDeleteSection from "../../components/layout/ProfileDeleteSection/ProfileDeleteSection";
+import ProfileSubscriptionSection from "../../components/layout/ProfileSubscriptionSection/ProfileSubscriptionSection";
+// CSS
+import "./Profile.css";
 
 type ProfileProps = HTMLAttributes<HTMLDivElement>;
 
@@ -12,6 +15,8 @@ const Profile: FC<ProfileProps> = () => {
 			<h1>Profile</h1>
 
 			<ProfilePersonalSection />
+
+			<ProfileSubscriptionSection />
 
 			<ProfileCategoriesSection />
 
