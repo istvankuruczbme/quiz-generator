@@ -1,6 +1,6 @@
 import { axios } from "../../../config/axios";
 
-export default async function createUserCategories(
+export default async function updateUserCategories(
 	categoryIds: string[],
 	userId: string
 ): Promise<void> {

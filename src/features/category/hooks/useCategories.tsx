@@ -17,6 +17,7 @@ const useCategories = () => {
 		// Check user
 		if (user == null) {
 			setCategories([]);
+			setLoading(false);
 			return;
 		}
 

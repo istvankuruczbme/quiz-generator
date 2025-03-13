@@ -4,7 +4,7 @@ import useUser from "../../../../contexts/UserContext/useUser";
 import useCategories from "../../hooks/useCategories";
 import { useNavigate } from "react-router-dom";
 // Functions
-import createUserCategories from "../../../user/services/createUserCategories";
+import updateUserCategories from "../../../user/services/updateUserCategories";
 // CSS
 import "./SelectCategories.css";
 
@@ -46,7 +46,7 @@ const SelectCategories: FC<SelectCategoriesProps> = () => {
 
 		try {
 			// Create user categories
-			await createUserCategories(categoryIds, user.id);
+			await updateUserCategories(categoryIds, user.id);
 
 			// Navigate to home page
 			navigate("/");
