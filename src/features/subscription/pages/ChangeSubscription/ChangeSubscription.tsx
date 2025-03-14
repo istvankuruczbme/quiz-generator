@@ -1,26 +1,24 @@
-import { ChangeEvent, FC, FormEvent, Fragment, HTMLAttributes, useState } from "react";
+import { ChangeEvent, FC, FormEvent, Fragment, HTMLAttributes } from "react";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
 import useSubscriptions from "../../hooks/useSubscriptions";
-import useDefaultSignUpSubscription from "../../../auth/hooks/useDefaultSignUpSubscription";
+import useDefaultSubscription from "../../../auth/hooks/useDefaultSubscription";
+import { useNavigate, useSearchParams } from "react-router-dom";
 // Functions
 import createSubscriptionCheckoutSession from "../../services/createSubscriptionCheckoutSession";
+import updateSubscription from "../../services/updateSubscription";
 // CSS
 import "./ChangeSubscription.css";
-import { useSearchParams } from "react-router-dom";
 
 type ChangeSubscriptionProps = HTMLAttributes<HTMLDivElement>;
 
 const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
-	// #region States
-	const [subscriptionId, setSubscriptionId] = useState("");
-	// #endregion
-
 	// #region Hooks
 	const { user } = useUser();
 	const { subscriptions } = useSubscriptions();
-	useDefaultSignUpSubscription(subscriptions, setSubscriptionId);
+	const { subscriptionId, setSubscriptionId } = useDefaultSubscription();
 	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
 	//#endregion
 
 	// #region Variables
@@ -43,16 +41,36 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 		const subscription = subscriptions.find(
 			(subscription) => subscription.id === subscriptionId
 		)!;
+		const priceId = subscription.default_price.id;
 
-		// Create checkout session
-		const { url } = await createSubscriptionCheckoutSession(
-			user.customerId,
-			subscription.default_price.id,
-			"/profile/categories"
-		);
+		// Create subscription
+		if (user.subscriptionId == null) {
+			try {
+				// Create checkout session
+				const { url } = await createSubscriptionCheckoutSession(
+					user.customerId,
+					priceId,
+					"/profile/categories"
+				);
 
-		// Navigate to checkout portal
-		window.location.href = url;
+				// Navigate to checkout portal
+				window.location.href = url;
+			} catch (err) {
+				console.log("Error creating the checkout session.", err);
+			}
+		}
+		// Update subscription
+		else {
+			try {
+				// Update subscription
+				await updateSubscription(user.id, priceId);
+
+				// Navigate to Profile page
+				navigate("/profile");
+			} catch (err) {
+				console.log("Error updating the subscription.", err);
+			}
+		}
 	}
 	//#endregion
 

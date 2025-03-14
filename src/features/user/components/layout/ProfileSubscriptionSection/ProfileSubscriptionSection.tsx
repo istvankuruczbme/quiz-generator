@@ -37,9 +37,9 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 
 			<button onClick={handleCustomerPortalClick}>My subscription</button>
 
-			{/* <Link to="/profile/subscription">
+			<Link to="/profile/subscription">
 				<button>Change subscription</button>
-			</Link> */}
+			</Link>
 		</div>
 	);
 };
