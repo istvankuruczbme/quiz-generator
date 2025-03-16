@@ -4,10 +4,15 @@ import validateChangePasswordInputs from "../../utils/validation/validateChangeP
 import updateUserPassword from "../../services/updateUserPassword";
 // CSS
 import "./ChangePassword.css";
+import { useNavigate } from "react-router-dom";
 
 type ChangePasswordProps = HTMLAttributes<HTMLDivElement>;
 
 const ChangePassword: FC<ChangePasswordProps> = () => {
+	// #region Hooks
+	const navigate = useNavigate();
+	//#endregion
+
 	// #region Refs
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const passwordConfirmRef = useRef<HTMLInputElement>(null);
@@ -32,11 +37,12 @@ const ChangePassword: FC<ChangePasswordProps> = () => {
 		try {
 			// Change password in Supabase
 			await updateUserPassword(password as string);
-
-			console.log("Password updated");
 		} catch (err) {
 			console.log("Error updating user password.", err);
+			return;
 		}
+
+		navigate("/profile");
 	}
 	// #endregion
 

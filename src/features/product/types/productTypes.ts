@@ -1,5 +1,5 @@
 import Stripe from "stripe";
 
-export type Subscription = Stripe.Product & {
+export type Product = Stripe.Product & {
 	default_price: Stripe.Price;
 };

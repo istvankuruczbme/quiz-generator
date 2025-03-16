@@ -1,22 +1,24 @@
 import { ChangeEvent, FC, FormEvent, Fragment, HTMLAttributes } from "react";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
-import useSubscriptions from "../../hooks/useSubscriptions";
-import useDefaultSubscription from "../../../auth/hooks/useDefaultSubscription";
+import useProducts from "../../../product/hooks/useProducts";
+import useDefaultProduct from "../../../auth/hooks/useDefaultProduct";
 import { useNavigate, useSearchParams } from "react-router-dom";
 // Functions
-import createSubscriptionCheckoutSession from "../../services/createSubscriptionCheckoutSession";
+import createCheckoutSession from "../../../product/services/createCheckoutSession";
 import updateSubscription from "../../services/updateSubscription";
 // CSS
 import "./ChangeSubscription.css";
+import useUserSubscription from "../../../user/hooks/useUserSubscription";
 
 type ChangeSubscriptionProps = HTMLAttributes<HTMLDivElement>;
 
 const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 	// #region Hooks
 	const { user } = useUser();
-	const { subscriptions } = useSubscriptions();
-	const { subscriptionId, setSubscriptionId } = useDefaultSubscription();
+	const { subscription } = useUserSubscription();
+	const { products } = useProducts();
+	const { productId, setProductId } = useDefaultProduct();
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	//#endregion
@@ -27,8 +29,8 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 	// #endregion
 
 	// #region Functions
-	function handleSubscriptionChange(e: ChangeEvent<HTMLInputElement>, id: string) {
-		if (e.target.checked) setSubscriptionId(id);
+	function handleProductChange(e: ChangeEvent<HTMLInputElement>, id: string) {
+		if (e.target.checked) setProductId(id);
 	}
 
 	async function handleSubscriptionSubmit(e: FormEvent<HTMLFormElement>) {
@@ -37,17 +39,15 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 		// Check user
 		if (user == null) return;
 
-		// Find subscription
-		const subscription = subscriptions.find(
-			(subscription) => subscription.id === subscriptionId
-		)!;
-		const priceId = subscription.default_price.id;
+		// Find product
+		const product = products.find((product) => product.id === productId)!;
+		const priceId = product.default_price.id;
 
 		// Create subscription
 		if (user.subscriptionId == null) {
 			try {
 				// Create checkout session
-				const { url } = await createSubscriptionCheckoutSession(
+				const { url } = await createCheckoutSession(
 					user.customerId,
 					priceId,
 					"/profile/categories"
@@ -62,14 +62,32 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 		// Update subscription
 		else {
 			try {
+				// Check user subscription
+				if (subscription == null) throw new Error("user/subscription-missing");
+
+				// Get user subscription's product
+				const userProductId = subscription.items.data[0].plan.product;
+
+				// Check product
+				if (typeof userProductId !== "string") throw new Error("product/id-missing");
+
+				// Check same product ID
+				if (userProductId === productId) throw new Error("subscription/same-plan");
+			} catch (err) {
+				console.log(err);
+				return;
+			}
+
+			try {
 				// Update subscription
 				await updateSubscription(user.id, priceId);
-
-				// Navigate to Profile page
-				navigate("/profile");
 			} catch (err) {
 				console.log("Error updating the subscription.", err);
+				return;
 			}
+
+			// Navigate to Profile page
+			navigate("/profile");
 		}
 	}
 	//#endregion
@@ -85,16 +103,16 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 			{success && <p>Payment was successful.</p>}
 
 			<form onSubmit={handleSubscriptionSubmit}>
-				{subscriptions.map((subscription) => (
-					<Fragment key={subscription.id}>
+				{products.map((product) => (
+					<Fragment key={product.id}>
 						<input
 							type="radio"
 							name="signUpSubscription"
-							id={subscription.id}
-							checked={subscriptionId === subscription.id}
-							onChange={(e) => handleSubscriptionChange(e, subscription.id)}
+							id={product.id}
+							checked={productId === product.id}
+							onChange={(e) => handleProductChange(e, product.id)}
 						/>
-						<label htmlFor={subscription.id}>{subscription.name}</label>
+						<label htmlFor={product.id}>{product.name}</label>
 						<br />
 					</Fragment>
 				))}

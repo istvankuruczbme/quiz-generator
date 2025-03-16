@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import "./SignedIn.css";
 import useUser from "../../../../../contexts/UserContext/useUser";
+import "./SignedIn.css";
 
 type SignedInProps = {
 	children: ReactNode;

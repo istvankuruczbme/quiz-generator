@@ -2,6 +2,7 @@ import { FC, FormEvent, HTMLAttributes, useRef } from "react";
 // Hooks
 import { useNavigate } from "react-router-dom";
 // Functions
+import validateSignInInputs from "../../utils/validation/validateSignInInputs";
 import signInWithPassword from "../../services/signInWithPassword";
 import signInWithGoogle from "../../services/signInWithGoogle";
 // CSS
@@ -27,25 +28,24 @@ const SignIn: FC<SignInProps> = () => {
 		const email = emailRef.current?.value;
 		const password = passwordRef.current?.value;
 
-		// Check input values
 		try {
-			if (email == undefined || email === "") throw new Error("auth/invalid-email");
-			if (password == undefined) throw new Error("auth/password-missing");
-			if (password.length < 6) throw new Error("auth/password-too-short");
+			// Check input values
+			validateSignInInputs(email, password);
 		} catch (err) {
 			console.log("Error signing up the user.\n", err);
 			return;
 		}
 
-		// Sign in user
 		try {
+			// Sign in user
 			await signInWithPassword(email as string, password as string);
-
-			// Navigate
-			navigate("/");
 		} catch (err) {
 			console.log("Error signing in the user to Supabase.\n", err);
+			return;
 		}
+
+		// Navigate
+		navigate("/");
 	}
 
 	function handleGoogleSignInClick() {

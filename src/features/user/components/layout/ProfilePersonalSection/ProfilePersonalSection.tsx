@@ -14,7 +14,7 @@ type ProfilePersonalSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 	// #region Hooks
-	const { user } = useUser();
+	const { user, updateUserState } = useUser();
 	const { photoUrl, setPhotoUrl, name, setName } = useProfilePersonalData();
 	// #endregion
 
@@ -60,11 +60,15 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 		try {
 			// Update user name and photo in DB
 			await updateUserPersonalData(user.id, name, photo);
-
-			console.log("Successful update.");
 		} catch (err) {
 			console.log("Error updating the personal data of user.", err);
+			return;
 		}
+
+		// Update user state
+		await updateUserState();
+
+		console.log("Successful update.");
 	}
 	//#endregion
 

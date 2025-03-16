@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
 import { supabase } from "../../../config/supabase";
 import useUser from "../../../contexts/UserContext/useUser";
 import isNewUser from "../utils/isNewUser";
@@ -8,16 +9,30 @@ import getUserData from "../utils/getUserData";
 import updateEmail from "../services/updateEmail";
 
 const useAuth = () => {
+	// #region States
+	const [previousSession, setPreviousSession] = useState<Session | null>(null);
+	// #endregion
+
 	// #region Hooks
-	const { user, setUser, setLoading, refresh } = useUser();
+	const { user, setUser, setLoading } = useUser();
 	// #endregion
 
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
 			console.log(event);
-			setLoading(true);
 
 			if (event === "SIGNED_IN" && session != null) {
+				// Check same session
+				if (previousSession != null && previousSession.access_token == session.access_token) {
+					return;
+				}
+
+				setLoading(true);
+
+				// Update previous session
+				setPreviousSession(session);
+
+				// Get user from session
 				const authUser = session.user;
 
 				// Check if new user
@@ -49,7 +64,7 @@ const useAuth = () => {
 				}
 
 				try {
-					// Fetch user data
+					// Fetch user from DB
 					const user = await getUser(authUser.id);
 
 					// Update user state
@@ -62,15 +77,11 @@ const useAuth = () => {
 			}
 			if (event === "SIGNED_OUT") {
 				setUser(null);
-				setLoading(false);
-			}
-			if (event === "INITIAL_SESSION") {
-				setLoading(false);
 			}
 		});
 
 		return () => data.subscription.unsubscribe();
-	}, [setLoading, user, setUser, refresh]);
+	}, [previousSession, user, setUser, setLoading]);
 };
 
 export default useAuth;

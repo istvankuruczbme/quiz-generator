@@ -6,16 +6,14 @@ type UserContextType = {
 	setUser: Dispatch<SetStateAction<User | null>>;
 	loading: boolean;
 	setLoading: Dispatch<SetStateAction<boolean>>;
-	refresh: boolean;
-	setRefresh: Dispatch<SetStateAction<boolean>>;
+	updateUserState: () => Promise<void>;
 };
 const UserContext = createContext<UserContextType>({
 	user: null,
 	setUser: () => {},
 	loading: true,
 	setLoading: () => {},
-	refresh: true,
-	setRefresh: () => {},
+	updateUserState: async () => {},
 });
 
 export default UserContext;

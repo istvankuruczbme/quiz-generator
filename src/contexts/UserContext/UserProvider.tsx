@@ -1,6 +1,7 @@
 import { FC, ReactNode, useState } from "react";
 import UserContext from "./UserContext";
 import { User } from "../../features/user/types/userTypes";
+import getUser from "../../features/user/services/getUser";
 
 type UserProviderProps = {
 	children: ReactNode;
@@ -10,11 +11,31 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 	// #region States
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
-	const [refresh, setRefresh] = useState(true);
 	// #endregion
 
+	// #region Functions
+	async function updateUserState(): Promise<void> {
+		// Check user
+		if (user == null) return;
+
+		setLoading(true);
+
+		try {
+			// Get user from DB
+			const updatedUser = await getUser(user.id);
+
+			// Update states
+			setUser(updatedUser);
+			setLoading(false);
+		} catch (err) {
+			console.log("Error fetching user from DB.", err);
+			setLoading(false);
+		}
+	}
+	//#endregion
+
 	return (
-		<UserContext.Provider value={{ user, setUser, loading, setLoading, refresh, setRefresh }}>
+		<UserContext.Provider value={{ user, setUser, loading, setLoading, updateUserState }}>
 			{children}
 		</UserContext.Provider>
 	);

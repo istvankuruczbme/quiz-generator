@@ -6,6 +6,7 @@ import ProfileDeleteSection from "../../components/layout/ProfileDeleteSection/P
 import ProfileSubscriptionSection from "../../components/layout/ProfileSubscriptionSection/ProfileSubscriptionSection";
 // CSS
 import "./Profile.css";
+import { Link } from "react-router-dom";
 
 type ProfileProps = HTMLAttributes<HTMLDivElement>;
 
@@ -13,6 +14,10 @@ const Profile: FC<ProfileProps> = () => {
 	return (
 		<div>
 			<h1>Profile</h1>
+
+			<Link to="/">
+				<button>Back</button>
+			</Link>
 
 			<ProfilePersonalSection />
 
