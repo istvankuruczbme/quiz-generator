@@ -78,6 +78,25 @@ const useAuth = () => {
 			if (event === "SIGNED_OUT") {
 				setUser(null);
 			}
+			if (event == "PASSWORD_RECOVERY") {
+				// Ask for new password
+				const newPassword = prompt("What would you like your new password to be?");
+
+				// Check new passowrd
+				if (newPassword == null) return;
+
+				try {
+					// Update password
+					const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+					// Check error
+					if (error != null) throw error;
+
+					console.log("Password updated.");
+				} catch (err) {
+					console.log("Error reseting the password of the user.", err);
+				}
+			}
 		});
 
 		return () => data.subscription.unsubscribe();

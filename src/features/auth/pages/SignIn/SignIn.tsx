@@ -1,6 +1,6 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
 // Hooks
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // Functions
 import validateSignInInputs from "../../utils/validation/validateSignInInputs";
 import signInWithPassword from "../../services/signInWithPassword";
@@ -75,6 +75,15 @@ const SignIn: FC<SignInProps> = () => {
 				<button type="submit">Sign In</button>
 			</form>
 
+			<br />
+
+			<Link to="/reset-password">
+				<button type="button" tabIndex={-1}>
+					Reset password
+				</button>
+			</Link>
+
+			<br />
 			<br />
 
 			<button onClick={handleGoogleSignInClick}>Sign In with Google</button>
