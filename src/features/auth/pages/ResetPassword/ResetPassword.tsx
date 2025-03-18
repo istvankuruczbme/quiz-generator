@@ -1,65 +1,86 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
+import useResetPasswordEmail from "../../hooks/useResetPasswordEmail";
+import { useNavigate } from "react-router-dom";
+import validateResetPasswordInputs from "../../utils/validation/validateResetPasswordInputs";
+import updateUserPassword from "../../../user/services/updateUserPassword";
 import "./ResetPassword.css";
-import validateEmail from "../../../../utils/validation/validateEmail";
-import { supabase } from "../../../../config/supabase";
 
 type ResetPasswordProps = HTMLAttributes<HTMLDivElement>;
 
 const ResetPassword: FC<ResetPasswordProps> = () => {
 	// #region Refs
-	const emailRef = useRef<HTMLInputElement>(null);
+	const passwordRef = useRef<HTMLInputElement>(null);
+	const passwordConfirmRef = useRef<HTMLInputElement>(null);
 	// #endregion
 
-	// #region Functions
-	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+	// #region Hooks
+	const { email } = useResetPasswordEmail();
+	const navigate = useNavigate();
+	// #endregion
+
+	//#region Functions
+	async function handlePasswordResetFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		// Input values
-		const email = emailRef.current?.value;
+		const password = passwordRef.current?.value;
+		const passwordConfirm = passwordConfirmRef.current?.value;
 
 		try {
 			// Validation
-			validateEmail(email, "auth/");
+			validateResetPasswordInputs(email, password, passwordConfirm);
 		} catch (err) {
 			console.log(err);
 			return;
 		}
 
 		try {
-			// Send password reset email
-			const { error } = await supabase.auth.resetPasswordForEmail(email as string, {
-				redirectTo: `${import.meta.env.VITE_CLIENT_URL}/reset-password`,
-			});
-
-			// Check error
-			if (error != null) throw error;
-
-			console.log("Email sent.");
+			// Update user password
+			await updateUserPassword(password as string);
 		} catch (err) {
-			console.log("Error sending the password reset email.", err);
+			console.log("Error updating the email of user.", err);
 			return;
 		}
+
+		navigate("/sign-in");
 	}
 	// #endregion
 
 	return (
 		<div>
-			<h1>Reset Password</h1>
+			<h1>Reset password</h1>
 
-			<p>Type your email to receive further information on reseting your password.</p>
-
-			<form onSubmit={handleFormSubmit}>
+			<form onSubmit={handlePasswordResetFormSubmit}>
 				<label htmlFor="resetPasswordEmail">Email:</label>
 				<input
 					type="email"
 					id="resetPasswordEmail"
 					placeholder="Email"
 					required
-					ref={emailRef}
+					disabled
+					value={email}
+				/>
+				<br />
+				<label htmlFor="resetPasswordPassword">Password:</label>
+				<input
+					type="password"
+					id="resetPasswordPassword"
+					placeholder="Password"
+					required
+					ref={passwordRef}
+				/>
+				<br />
+				<label htmlFor="resetPasswordPasswordConfirm">Password Confirm:</label>
+				<input
+					type="password"
+					id="resetPasswordPasswordConfirm"
+					placeholder="Password Confirm"
+					required
+					ref={passwordConfirmRef}
 				/>
 				<br />
 
-				<button type="submit">Send email</button>
+				<button type="submit">Reset password</button>
 			</form>
 		</div>
 	);

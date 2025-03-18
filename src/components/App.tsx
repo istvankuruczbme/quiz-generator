@@ -6,6 +6,7 @@ import SelectCategories from "../features/category/pages/SelectCategories/Select
 import NotSignedInRoute from "../features/auth/components/layout/NotSignedInRoute/NotSignedInRoute";
 import SignIn from "../features/auth/pages/SignIn/SignIn";
 import SignUp from "../features/auth/pages/SignUp/SignUp";
+import SendResetPasswordEmail from "../features/auth/pages/SendResetPasswordEmail/SendResetPasswordEmail";
 import ResetPassword from "../features/auth/pages/ResetPassword/ResetPassword";
 import Home from "../pages/Home/Home";
 import Profile from "../features/user/pages/Profile/Profile";
@@ -35,6 +36,7 @@ function App() {
 				<Route element={<NotSignedInRoute />}>
 					<Route path="/sign-in" element={<SignIn />} />
 					<Route path="/sign-up" element={<SignUp />} />
+					<Route path="/reset-password-email" element={<SendResetPasswordEmail />} />
 					<Route path="/reset-password" element={<ResetPassword />} />
 				</Route>
 

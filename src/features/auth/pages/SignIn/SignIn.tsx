@@ -77,7 +77,7 @@ const SignIn: FC<SignInProps> = () => {
 
 			<br />
 
-			<Link to="/reset-password">
+			<Link to="/reset-password-email">
 				<button type="button" tabIndex={-1}>
 					Reset password
 				</button>
