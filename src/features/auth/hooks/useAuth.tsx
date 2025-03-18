@@ -6,7 +6,7 @@ import isNewUser from "../utils/isNewUser";
 import getUser from "../../user/services/getUser";
 import createUser from "../../user/services/createUser";
 import getUserData from "../utils/getUserData";
-import updateEmail from "../services/updateEmail";
+import updateUserEmail from "../../user/services/updateUserEmail";
 
 const useAuth = () => {
 	// #region States
@@ -20,6 +20,7 @@ const useAuth = () => {
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
 			console.log(event);
+			console.log(session);
 
 			if (event === "SIGNED_IN" && session != null) {
 				// Check same session
@@ -54,14 +55,17 @@ const useAuth = () => {
 				if (user != null && authUser.email != undefined && user.email !== authUser.email) {
 					try {
 						// Update user email in DB
-						await updateEmail(authUser.id, authUser.email);
+						await updateUserEmail(authUser.id, authUser.email);
 
 						console.log("User email updated.");
 					} catch (err) {
 						console.log("Error updating user email in DB.", err);
 						setLoading(false);
+						return;
 					}
 				}
+
+				// console.log("first");
 
 				try {
 					// Fetch user from DB

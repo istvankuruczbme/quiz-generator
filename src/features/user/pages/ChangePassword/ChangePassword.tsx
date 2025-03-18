@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
 // Functions
 import validateChangePasswordInputs from "../../utils/validation/validateChangePasswordInputs";
-import updateUserPassword from "../../services/updateUserPassword";
+import updateUserPassword from "../../../auth/services/updateAuthPassword";
 // CSS
 import "./ChangePassword.css";
 import { useNavigate } from "react-router-dom";

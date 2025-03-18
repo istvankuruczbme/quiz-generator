@@ -2,7 +2,7 @@ import { FC, FormEvent, HTMLAttributes, useRef } from "react";
 import useResetPasswordEmail from "../../hooks/useResetPasswordEmail";
 import { useNavigate } from "react-router-dom";
 import validateResetPasswordInputs from "../../utils/validation/validateResetPasswordInputs";
-import updateUserPassword from "../../../user/services/updateUserPassword";
+import updateUserPassword from "../../services/updateAuthPassword";
 import "./ResetPassword.css";
 
 type ResetPasswordProps = HTMLAttributes<HTMLDivElement>;

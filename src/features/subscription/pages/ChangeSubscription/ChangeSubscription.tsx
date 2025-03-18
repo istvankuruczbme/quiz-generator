@@ -47,11 +47,7 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 		if (user.subscriptionId == null) {
 			try {
 				// Create checkout session
-				const { url } = await createCheckoutSession(
-					user.customerId,
-					priceId,
-					"/profile/categories"
-				);
+				const { url } = await createCheckoutSession(user.id, priceId, "/profile/categories");
 
 				// Navigate to checkout portal
 				window.location.href = url;

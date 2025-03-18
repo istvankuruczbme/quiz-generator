@@ -25,7 +25,7 @@ const useProducts = () => {
 			setLoading(true);
 
 			try {
-				const products = await getProducts(user.id);
+				const products = await getProducts();
 				setProducts(products);
 
 				setLoading(false);

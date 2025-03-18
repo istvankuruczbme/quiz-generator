@@ -1,6 +1,6 @@
 import { supabase } from "../../../config/supabase";
 
-export default async function updateUserPassword(password: string): Promise<void> {
+export default async function updateAuthPassword(password: string): Promise<void> {
 	// Update password
 	const { error } = await supabase.auth.updateUser({ password });
 

@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
 // Functions
 import validateEmail from "../../../../utils/validation/validateEmail";
-import updateUserEmail from "../../services/updateUserEmail";
+import updateAuthEmail from "../../../auth/services/updateAuthEmail";
 // CSS
 import "./ChangeEmail.css";
 
@@ -28,7 +28,7 @@ const ChangeEmail: FC<ChangeEmailProps> = () => {
 
 		try {
 			// Send confirmation email
-			await updateUserEmail(email as string);
+			await updateAuthEmail(email as string);
 		} catch (err) {
 			console.log("Error sending confirmation email.", err);
 		}

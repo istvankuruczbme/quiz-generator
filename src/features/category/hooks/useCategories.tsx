@@ -24,7 +24,7 @@ const useCategories = () => {
 			setLoading(true);
 
 			try {
-				const categories = await getCategories(user.id);
+				const categories = await getCategories();
 				setCategories(categories);
 
 				setLoading(false);
