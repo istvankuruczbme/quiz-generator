@@ -6,7 +6,7 @@ import useUser from "../../../contexts/UserContext/useUser";
 const useCategories = () => {
 	// #region States
 	const [categories, setCategories] = useState<Category[]>([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	// #endregion
 
 	//#region Hooks
@@ -17,7 +17,6 @@ const useCategories = () => {
 		// Check user
 		if (user == null) {
 			setCategories([]);
-			setLoading(false);
 			return;
 		}
 

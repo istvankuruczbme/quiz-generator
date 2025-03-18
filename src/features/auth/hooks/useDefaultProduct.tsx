@@ -5,7 +5,7 @@ import useUserSubscription from "../../user/hooks/useUserSubscription";
 const useDefaultProduct = () => {
 	// #region States
 	const [productId, setProductId] = useState("");
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	// #endregion
 
 	// #region Hooks
@@ -32,10 +32,7 @@ const useDefaultProduct = () => {
 
 	useEffect(() => {
 		// Check if there is a product
-		if (products.length === 0) {
-			setLoading(false);
-			return;
-		}
+		if (products.length === 0) return;
 
 		setLoading(true);
 

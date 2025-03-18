@@ -6,7 +6,7 @@ import getUserCategories from "../services/getUserCategories";
 const useUserCategories = () => {
 	// #region States
 	const [userCategories, setUserCategories] = useState<Category[]>([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	//#endregion
 
 	// #region Hooks
@@ -16,7 +16,6 @@ const useUserCategories = () => {
 	useEffect(() => {
 		if (user == null) {
 			setUserCategories([]);
-			setLoading(false);
 			return;
 		}
 

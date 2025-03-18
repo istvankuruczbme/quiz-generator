@@ -6,7 +6,7 @@ import { Product } from "../types/productTypes";
 const useProducts = () => {
 	// #region States
 	const [products, setProducts] = useState<Product[]>([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	// #endregion
 
 	// #region Hooks

@@ -10,7 +10,7 @@ type UserProviderProps = {
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 	// #region States
 	const [user, setUser] = useState<User | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	// #endregion
 
 	// #region Functions
