@@ -4,7 +4,6 @@ import useUser from "../../../../../contexts/UserContext/useUser";
 import { useNavigate } from "react-router-dom";
 // Functions
 import deleteUserDb from "../../../services/deleteUser";
-import deleteUserAuth from "../../../../auth/services/deleteUser";
 // CSS
 import "./ProfileDeleteSection.css";
 import signOut from "../../../../auth/services/signOut";
@@ -27,18 +26,10 @@ const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
 		if (user == null) return;
 
 		try {
-			// Delete user from DB
+			// Delete user
 			await deleteUserDb(user.id);
 		} catch (err) {
 			console.log("Error deleting the user from DB.", err);
-			return;
-		}
-
-		try {
-			// Delete user from Supabase auth
-			await deleteUserAuth(user.id);
-		} catch (err) {
-			console.log("Error deleting the user from Supabase auth.", err);
 			return;
 		}
 
