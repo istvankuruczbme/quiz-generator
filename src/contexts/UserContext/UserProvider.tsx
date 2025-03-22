@@ -2,6 +2,7 @@ import { FC, ReactNode, useState } from "react";
 import UserContext from "./UserContext";
 import { User } from "../../features/user/types/userTypes";
 import getUser from "../../features/user/services/getUser";
+import getAuthToken from "../../features/auth/services/getAuthToken";
 
 type UserProviderProps = {
 	children: ReactNode;
@@ -21,8 +22,11 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 		setLoading(true);
 
 		try {
+			// Get token
+			const token = await getAuthToken();
+
 			// Get user from DB
-			const updatedUser = await getUser(user.id);
+			const updatedUser = await getUser(user.id, token);
 
 			// Update states
 			setUser(updatedUser);

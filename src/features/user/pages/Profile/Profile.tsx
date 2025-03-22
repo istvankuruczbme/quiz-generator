@@ -16,7 +16,7 @@ const Profile: FC<ProfileProps> = () => {
 			<h1>Profile</h1>
 
 			<Link to="/">
-				<button>Back</button>
+				<button tabIndex={-1}>Home</button>
 			</Link>
 
 			<ProfilePersonalSection />

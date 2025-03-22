@@ -39,6 +39,9 @@ const Home = () => {
 					Menu:
 					<ul>
 						<li>
+							<Link to="/my-quizzes">My quizzes</Link>
+						</li>
+						<li>
 							<Link to="/profile">Profile</Link>
 						</li>
 					</ul>
