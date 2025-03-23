@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../../../config/supabase";
 import useUser from "../../../contexts/UserContext/useUser";
 import isNewUser from "../utils/isNewUser";
 import getUser from "../../user/services/getUser";
 import createUser from "../../user/services/createUser";
-import getUserData from "../utils/getUserData";
 import updateUserEmail from "../../user/services/updateUserEmail";
 
 const useAuth = () => {
@@ -16,6 +15,25 @@ const useAuth = () => {
 	// #region Hooks
 	const { user, setUser, setLoading } = useUser();
 	// #endregion
+
+	// #region Functions
+	const fetchUser = useCallback(
+		async (userId: string, token: string) => {
+			try {
+				// Fetch user from DB
+				const user = await getUser(userId, token);
+
+				// Update user state
+				setUser(user);
+				setLoading(false);
+			} catch (err) {
+				console.log("Error fetching the user from DB.", err);
+				setLoading(false);
+			}
+		},
+		[setUser, setLoading]
+	);
+	//#endregion
 
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -38,12 +56,10 @@ const useAuth = () => {
 
 				// Check if new user
 				if (isNewUser(authUser)) {
+					console.log("User created:", authUser);
 					try {
-						// Get user data
-						const { id, name, email, photoUrl } = getUserData(authUser);
-
 						// Create user in DB
-						await createUser(id, name, email, photoUrl);
+						await createUser(session.access_token);
 					} catch (err) {
 						console.log("Error creating the user.", err);
 						setLoading(false);
@@ -65,17 +81,10 @@ const useAuth = () => {
 					}
 				}
 
-				try {
-					// Fetch user from DB
-					const user = await getUser(authUser.id, session.access_token);
-
-					// Update user state
-					setUser(user);
-					setLoading(false);
-				} catch (err) {
-					console.log("Error fetching the user from DB.", err);
-					setLoading(false);
-				}
+				await fetchUser(authUser.id, session.access_token);
+			}
+			if (event === "TOKEN_REFRESHED" && session != null) {
+				await fetchUser(session.user.id, session.access_token);
 			}
 			if (event === "SIGNED_OUT") {
 				setUser(null);
@@ -83,7 +92,7 @@ const useAuth = () => {
 		});
 
 		return () => data.subscription.unsubscribe();
-	}, [previousSession, user, setUser, setLoading]);
+	}, [previousSession, user, setUser, setLoading, fetchUser]);
 };
 
 export default useAuth;

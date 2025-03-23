@@ -11,7 +11,10 @@ export default async function signUpWithPassword(
 		email,
 		password,
 		options: {
-			data: { name },
+			data: {
+				full_name: name,
+				avatar_url: "",
+			},
 		},
 	});
 
