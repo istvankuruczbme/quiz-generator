@@ -1,12 +1,18 @@
 import { FC, HTMLAttributes } from "react";
 // Components
 import { Link } from "react-router-dom";
+// Hooks
+import useUserQuizzes from "../../hooks/useUserQuizzes";
 // CSS
 import "./MyQuizzes.css";
 
 type MyQuizzesProps = HTMLAttributes<HTMLDivElement>;
 
 const MyQuizzes: FC<MyQuizzesProps> = () => {
+	//#region Hooks
+	const { quizzes } = useUserQuizzes();
+	//#endregion
+
 	return (
 		<div>
 			<h1>My quizzes</h1>
@@ -21,6 +27,13 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			</Link>
 
 			<h2>List of quizzes</h2>
+			<ul>
+				{quizzes.map((quiz) => (
+					<li key={quiz.id}>
+						<Link to={`/quizzes/${quiz.id}`}>{quiz.title}</Link>
+					</li>
+				))}
+			</ul>
 		</div>
 	);
 };
