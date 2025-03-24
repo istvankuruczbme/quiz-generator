@@ -1,19 +1,36 @@
-import { Category } from "../../category/types/categoryTypes";
+import { CategoryName } from "../../category/types/categoryTypes";
+import { Question } from "../../question/types/questionTypes";
+import { UserPublic } from "../../user/types/userTypes";
 
-export type Quiz = {
+export type QuizConfig = {
+	status: "DRAFT" | "ACTIVE" | "DELETED";
+	visibility: "PUBLIC" | "PRIVATE";
+	questionOrder: "NORMAL" | "RANDOM";
+};
+
+export type QuizSummary = {
 	id: string;
+	category: CategoryName;
 	title: string;
 	description: string;
 	photoUrl: string | null;
-	embedding: number[];
 	updatedAt: Date;
 	createdAt: Date;
-	config: {
-		id: string;
-		status: "DRAFT" | "ACTIVE" | "DELETED";
-		visibility: "PUBLIC" | "PRIVATE";
-		questionOrder: "NORMAL" | "RANDOM";
-		quizId: string;
-	};
-	category: Category;
+	config: QuizConfig;
+	user: UserPublic;
+	questionCount: number;
+	completionCount: number;
+};
+
+export type QuizFull = {
+	id: string;
+	photoUrl: string | null;
+	updatedAt: Date;
+	createdAt: Date;
+	description: string;
+	title: string;
+	config: QuizConfig;
+	category: CategoryName;
+	user: UserPublic;
+	questions: Question[];
 };

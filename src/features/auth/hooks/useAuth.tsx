@@ -38,7 +38,7 @@ const useAuth = () => {
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
 			console.log(event);
-			// console.log(session);
+			console.log(session?.access_token);
 
 			if (event === "SIGNED_IN" && session != null) {
 				// Check same session

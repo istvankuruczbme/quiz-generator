@@ -1,14 +1,14 @@
 import { axios } from "../../../config/axios";
 import getAuthToken from "../../auth/services/getAuthToken";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
-import { Quiz } from "../types/quizTypes";
+import { QuizSummary } from "../types/quizTypes";
 
-export default async function getUserQuizzes(userId: string): Promise<Quiz[]> {
+export default async function getUserQuizzes(userId: string): Promise<QuizSummary[]> {
 	// Get auth token
 	const token = await getAuthToken();
 
 	// Get user quizzes
-	const { data } = await axios.get<Quiz[]>(`/quizzes/user/${userId}`, {
+	const { data } = await axios.get<QuizSummary[]>(`/quizzes/user/${userId}`, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Quiz } from "../types/quizTypes";
+import { QuizSummary } from "../types/quizTypes";
 import useUser from "../../../contexts/UserContext/useUser";
 import getUserQuizzes from "../sevices/getUserQuizzes";
 
 const useUserQuizzes = () => {
 	// #region States
-	const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+	const [quizzes, setQuizzes] = useState<QuizSummary[]>([]);
 	const [loading, setLoading] = useState(false);
 	//#endregion
 

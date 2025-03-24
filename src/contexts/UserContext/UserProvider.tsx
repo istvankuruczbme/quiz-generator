@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import UserContext from "./UserContext";
-import { User } from "../../features/user/types/userTypes";
+import { UserProfile } from "../../features/user/types/userTypes";
 import getUser from "../../features/user/services/getUser";
 import getAuthToken from "../../features/auth/services/getAuthToken";
 
@@ -10,7 +10,7 @@ type UserProviderProps = {
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 	// #region States
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<UserProfile | null>(null);
 	const [loading, setLoading] = useState(false);
 	// #endregion
 

@@ -1,10 +1,10 @@
 import { axios } from "../../../config/axios";
-import { User } from "../types/userTypes";
+import { UserProfile } from "../types/userTypes";
 import createBearerAuthHeader from "../utils/createBearerAuthHeader";
 
-export default async function getUser(id: string, token: string): Promise<User> {
+export default async function getUser(id: string, token: string): Promise<UserProfile> {
 	// Get data from DB
-	const { data } = await axios.get<User>(`/users/${id}`, {
+	const { data } = await axios.get<UserProfile>(`/users/${id}`, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},
