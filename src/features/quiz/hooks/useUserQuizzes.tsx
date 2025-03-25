@@ -24,7 +24,7 @@ const useUserQuizzes = () => {
 
 			try {
 				// Get user quizzes
-				const quizzes = await getUserQuizzes(user.id);
+				const quizzes = await getUserQuizzes();
 
 				// Update states
 				setQuizzes(quizzes);
