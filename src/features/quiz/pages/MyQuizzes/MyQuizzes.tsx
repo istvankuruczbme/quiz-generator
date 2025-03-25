@@ -27,6 +27,7 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			</Link>
 
 			<h2>List of quizzes</h2>
+			{quizzes.length === 0 && <p>No quizzes.</p>}
 			<ul>
 				{quizzes.map((quiz) => (
 					<li key={quiz.id}>

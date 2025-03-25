@@ -1,4 +1,7 @@
-import { AnswerOption } from "../../answerOption/types/answerOptionTypes";
+import {
+	AnswerOptionPrivate,
+	AnswerOptionPublic,
+} from "../../answerOption/types/answerOptionTypes";
 
 export type QuestionPoints = {
 	correct: number;
@@ -6,11 +9,19 @@ export type QuestionPoints = {
 	empty: number;
 };
 
-export type Question = {
+export type QuestionPublic = {
 	id: string;
 	photoUrl: string | null;
 	text: string;
 	order: number;
 	points: QuestionPoints;
-	answerOptions: AnswerOption[];
+	answerOptions: AnswerOptionPublic[];
+};
+export type QuestionPrivate = {
+	id: string;
+	photoUrl: string | null;
+	text: string;
+	order: number;
+	points: QuestionPoints;
+	answerOptions: AnswerOptionPrivate[];
 };

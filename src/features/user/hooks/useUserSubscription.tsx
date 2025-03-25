@@ -14,7 +14,7 @@ const useUserSubscription = () => {
 	// #endregion
 
 	useEffect(() => {
-		if (user == null || user.subscriptionId == null) {
+		if (user == null || !user.hasSubscription) {
 			setSubscription(null);
 			return;
 		}
@@ -28,9 +28,9 @@ const useUserSubscription = () => {
 
 				// Update subscription state
 				setSubscription(subscription);
-				setLoading(false);
 			} catch (err) {
 				console.log("Error fetching the subscription of user.", err);
+			} finally {
 				setLoading(false);
 			}
 		})();

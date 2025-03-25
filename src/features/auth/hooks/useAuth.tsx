@@ -23,11 +23,11 @@ const useAuth = () => {
 				// Fetch user from DB
 				const user = await getUser(userId, token);
 
-				// Update user state
+				// Update user
 				setUser(user);
-				setLoading(false);
 			} catch (err) {
 				console.log("Error fetching the user from DB.", err);
+			} finally {
 				setLoading(false);
 			}
 		},

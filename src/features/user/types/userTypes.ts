@@ -8,6 +8,7 @@ export type UserProfile = {
 	name: string;
 	email: string;
 	photoUrl: string | null;
+	hasSubscription: boolean;
 	updatedAt: Date;
 	createdAt: Date;
 };

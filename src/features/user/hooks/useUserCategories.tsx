@@ -26,11 +26,11 @@ const useUserCategories = () => {
 				// Get user categories
 				const categories = await getUserCategories(user.id);
 
-				// Update states
+				// Update categories state
 				setUserCategories(categories);
-				setLoading(false);
 			} catch (err) {
 				console.log("Error fetching the user categories from DB.", err);
+			} finally {
 				setLoading(false);
 			}
 		})();

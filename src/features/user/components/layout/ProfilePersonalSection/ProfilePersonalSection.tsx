@@ -7,6 +7,8 @@ import useProfilePersonalData from "../../../hooks/useProfilePersonalData";
 // Functions
 import validatePersonalDataInputs from "../../../utils/validation/validatePersonalDataInputs";
 import updateUserPersonalData from "../../../services/updateUserPersonalData";
+import validateImageFile from "../../../../../utils/image/validateImageFile";
+import createImageUrl from "../../../../../utils/image/createImageUrl";
 // CSS
 import "./ProfilePersonalSection.css";
 
@@ -27,14 +29,16 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 		// Get selected file
 		const file = e.target.files?.[0];
 
-		// Check if there is a file
-		if (file == undefined) return;
-
-		// Validate image file type
-		if (!file.type.startsWith("image/")) return;
+		try {
+			// Validate image file
+			validateImageFile(file);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
 
 		// Create image URL
-		const photoUrl = URL.createObjectURL(file);
+		const photoUrl = createImageUrl(file as File);
 
 		// Update photoURL state
 		setPhotoUrl(photoUrl);

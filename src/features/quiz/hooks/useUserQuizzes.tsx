@@ -26,11 +26,11 @@ const useUserQuizzes = () => {
 				// Get user quizzes
 				const quizzes = await getUserQuizzes();
 
-				// Update states
+				// Update quizzes states
 				setQuizzes(quizzes);
-				setLoading(false);
 			} catch (err) {
 				console.log("Error fething the quizzes of the user.", err);
+			} finally {
 				setLoading(false);
 			}
 		})();

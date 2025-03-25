@@ -1,12 +1,15 @@
 import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
+// Components
+import CategorySelect from "../../../../components/form/Select/CategorySelect/CategorySelect";
 // Hooks
-import useCategories from "../../../category/hooks/useCategories";
 import { useNavigate } from "react-router-dom";
 // Functions
 import validateQuizData from "../../utils/validation/validateQuizData";
 import createQuiz from "../../sevices/createQuiz";
 // CSS
 import "./NewQuiz.css";
+import validateImageFile from "../../../../utils/image/validateImageFile";
+import createImageUrl from "../../../../utils/image/createImageUrl";
 
 type NewQuizProps = HTMLAttributes<HTMLDivElement>;
 
@@ -16,7 +19,6 @@ const NewQuiz: FC<NewQuizProps> = () => {
 	// #endregion
 
 	// #region Hooks
-	const { categories } = useCategories();
 	const navigate = useNavigate();
 	// #endregion
 
@@ -32,14 +34,16 @@ const NewQuiz: FC<NewQuizProps> = () => {
 		// Get selected file
 		const file = e.target.files?.[0];
 
-		// Check if there is a file
-		if (file == undefined) return;
-
-		// Validate image file type
-		if (!file.type.startsWith("image/")) return;
+		try {
+			// Validate image file
+			validateImageFile(file);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
 
 		// Create image URL
-		const photoUrl = URL.createObjectURL(file);
+		const photoUrl = createImageUrl(file as File);
 
 		// Update photoURL state
 		setPhotoUrl(photoUrl);
@@ -109,14 +113,7 @@ const NewQuiz: FC<NewQuizProps> = () => {
 				<img src={photoUrl || undefined} alt="New quiz cover" />
 				<br />
 
-				<label htmlFor="newQuizCategory">Category</label>
-				<select id="newQuizCategory" required ref={categoryRef}>
-					{categories.map((category) => (
-						<option key={category.id} value={category.id}>
-							{category.name}
-						</option>
-					))}
-				</select>
+				<CategorySelect ref={categoryRef} />
 				<br />
 
 				<button type="submit">Create quiz</button>

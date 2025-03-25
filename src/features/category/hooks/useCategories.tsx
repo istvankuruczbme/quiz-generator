@@ -24,12 +24,14 @@ const useCategories = () => {
 			setLoading(true);
 
 			try {
+				// Get categories
 				const categories = await getCategories();
-				setCategories(categories);
 
-				setLoading(false);
+				// Update categories
+				setCategories(categories);
 			} catch (err) {
 				console.log("Error fetching the categories.", err);
+			} finally {
 				setLoading(false);
 			}
 		})();

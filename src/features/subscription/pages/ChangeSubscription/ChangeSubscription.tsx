@@ -44,7 +44,7 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 		const priceId = product.default_price.id;
 
 		// Create subscription
-		if (user.subscriptionId == null) {
+		if (!user.hasSubscription) {
 			try {
 				// Create checkout session
 				const { url } = await createCheckoutSession(user.id, priceId, "/profile/categories");
@@ -92,7 +92,7 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 		<div>
 			<h1>Change Subscription</h1>
 
-			{user?.subscriptionId == null && (
+			{!user?.hasSubscription && (
 				<p>Your profile is not complete. Choose a subscription to continue.</p>
 			)}
 			{cancel && <p>Payment cancelled.</p>}

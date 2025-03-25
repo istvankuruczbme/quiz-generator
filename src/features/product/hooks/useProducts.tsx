@@ -25,12 +25,14 @@ const useProducts = () => {
 			setLoading(true);
 
 			try {
+				// Get products
 				const products = await getProducts();
-				setProducts(products);
 
-				setLoading(false);
+				// Update products state
+				setProducts(products);
 			} catch (err) {
 				console.log("Error fetching the products.", err);
+			} finally {
 				setLoading(false);
 			}
 		})();

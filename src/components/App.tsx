@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 // Components
 import MyQuizzes from "../features/quiz/pages/MyQuizzes/MyQuizzes";
 import NewQuiz from "../features/quiz/pages/NewQuiz/NewQuiz";
+import Quiz from "../features/quiz/pages/Quiz/Quiz";
+import EditQuiz from "../features/quiz/pages/EditQuiz/EditQuiz";
 import SignedInRoute from "../features/auth/components/layout/SignedInRoute/SignedInRoute";
 import ChangeSubscription from "../features/subscription/pages/ChangeSubscription/ChangeSubscription";
 import SelectCategories from "../features/category/pages/SelectCategories/SelectCategories";
@@ -28,8 +30,10 @@ function App() {
 		<>
 			<Routes>
 				<Route element={<SignedInRoute />}>
-					<Route path="/my-quizzes" element={<MyQuizzes />} />
+					<Route path="/quizzes/:quizId" element={<Quiz />} />
+					<Route path="/quizzes/:quizId/edit" element={<EditQuiz />} />
 					<Route path="/new-quiz" element={<NewQuiz />} />
+					<Route path="/my-quizzes" element={<MyQuizzes />} />
 
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/profile/change-email" element={<ChangeEmail />} />

@@ -28,11 +28,11 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 			// Get user from DB
 			const updatedUser = await getUser(user.id, token);
 
-			// Update states
+			// Update user
 			setUser(updatedUser);
-			setLoading(false);
 		} catch (err) {
 			console.log("Error fetching user from DB.", err);
+		} finally {
 			setLoading(false);
 		}
 	}

@@ -1,5 +1,5 @@
-import { CategoryName } from "../../category/types/categoryTypes";
-import { Question } from "../../question/types/questionTypes";
+import { Category } from "../../category/types/categoryTypes";
+import { QuestionPrivate, QuestionPublic } from "../../question/types/questionTypes";
 import { UserPublic } from "../../user/types/userTypes";
 
 export type QuizConfig = {
@@ -8,9 +8,9 @@ export type QuizConfig = {
 	questionOrder: "NORMAL" | "RANDOM";
 };
 
-export type QuizSummary = {
+export type QuizData = {
 	id: string;
-	category: CategoryName;
+	category: Category;
 	title: string;
 	description: string;
 	photoUrl: string | null;
@@ -18,19 +18,16 @@ export type QuizSummary = {
 	createdAt: Date;
 	config: QuizConfig;
 	user: UserPublic;
+};
+
+export type QuizSummary = QuizData & {
 	questionCount: number;
 	completionCount: number;
 };
 
-export type QuizFull = {
-	id: string;
-	photoUrl: string | null;
-	updatedAt: Date;
-	createdAt: Date;
-	description: string;
-	title: string;
-	config: QuizConfig;
-	category: CategoryName;
-	user: UserPublic;
-	questions: Question[];
+export type QuizFullPublic = QuizData & {
+	questions: QuestionPublic[];
+};
+export type QuizFullPrivate = QuizData & {
+	questions: QuestionPrivate[];
 };
