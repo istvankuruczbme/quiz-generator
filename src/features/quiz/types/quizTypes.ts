@@ -1,11 +1,13 @@
 import { Category } from "../../category/types/categoryTypes";
+import { QuestionOrder } from "../assets/questionOrder";
 import { QuestionPrivate, QuestionPublic } from "../../question/types/questionTypes";
 import { UserPublic } from "../../user/types/userTypes";
+import { QuizVisibility } from "../assets/quizVisibility";
 
 export type QuizConfig = {
 	status: "DRAFT" | "ACTIVE" | "DELETED";
-	visibility: "PUBLIC" | "PRIVATE";
-	questionOrder: "NORMAL" | "RANDOM";
+	visibility: QuizVisibility;
+	questionOrder: QuestionOrder;
 };
 
 export type QuizData = {

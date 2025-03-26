@@ -11,8 +11,8 @@ const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>((props
 
 	return (
 		<div>
-			<label htmlFor="categorySelect">Category</label>
-			<select id="categorySelect" required {...props} ref={ref}>
+			<label htmlFor={props.id}>Category</label>
+			<select required {...props} ref={ref}>
 				{categories.map((category) => (
 					<option key={category.id} value={category.id}>
 						{category.name}

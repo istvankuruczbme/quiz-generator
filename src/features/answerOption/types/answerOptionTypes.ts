@@ -8,3 +8,5 @@ export type AnswerOptionPrivate = {
 	text: string;
 	isCorrect: boolean;
 };
+
+export type AnswerOptionEditableProperty = keyof Omit<AnswerOptionPrivate, "id">;

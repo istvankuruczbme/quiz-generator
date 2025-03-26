@@ -36,7 +36,7 @@ const useQuiz = () => {
 		})();
 	}, [quizId]);
 
-	return { quiz, loading };
+	return { quiz, setQuiz, loading, setLoading };
 };
 
 export default useQuiz;
