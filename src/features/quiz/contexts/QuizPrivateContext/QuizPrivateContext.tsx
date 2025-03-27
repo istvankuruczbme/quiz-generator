@@ -6,6 +6,7 @@ type QuizPrivateContextType = {
 	setQuiz: Dispatch<SetStateAction<QuizFullPrivate | null>>;
 	loading: boolean;
 	setLoading: Dispatch<SetStateAction<boolean>>;
+	updateQuizState: () => Promise<void>;
 };
 
 const QuizPrivateContext = createContext<QuizPrivateContextType>({
@@ -13,6 +14,7 @@ const QuizPrivateContext = createContext<QuizPrivateContextType>({
 	setQuiz: () => {},
 	loading: false,
 	setLoading: () => {},
+	updateQuizState: async () => {},
 });
 
 export default QuizPrivateContext;

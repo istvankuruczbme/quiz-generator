@@ -7,10 +7,13 @@ import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuiz
 import validateImageFile from "../../../../../utils/image/validateImageFile";
 import createImageUrl from "../../../../../utils/image/createImageUrl";
 import createQuestion from "../../../services/createQuestion";
+import validateQuestionPointsData from "../../../utils/validation/validateQuestionPointsData";
 
-type NewQuestionFormProps = HTMLAttributes<HTMLDivElement>;
+type NewQuestionFormProps = HTMLAttributes<HTMLDivElement> & {
+	hideForm: () => void;
+};
 
-const NewQuestionForm: FC<NewQuestionFormProps> = () => {
+const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 	// #region States
 	const [photoUrl, setPhotoUrl] = useState("");
 	// #endregion
@@ -18,10 +21,13 @@ const NewQuestionForm: FC<NewQuestionFormProps> = () => {
 	// #region Refs
 	const textRef = useRef<HTMLInputElement>(null);
 	const photoRef = useRef<HTMLInputElement>(null);
+	const pointsCorrectRef = useRef<HTMLInputElement>(null);
+	const pointsWrongRef = useRef<HTMLInputElement>(null);
+	const pointsEmptyRef = useRef<HTMLInputElement>(null);
 	//#endregion
 
 	//#region Hooks
-	const { quiz } = useQuizPrivate();
+	const { quiz, updateQuizState } = useQuizPrivate();
 	const { answerOptions, addAnswerOption, updateAnswerOption, removeAnswerOption } =
 		useAnswerOptions();
 	//#endregion
@@ -34,8 +40,8 @@ const NewQuestionForm: FC<NewQuestionFormProps> = () => {
 		try {
 			// Validate image file
 			validateImageFile(file);
-		} catch (err) {
-			console.log(err);
+		} catch {
+			setPhotoUrl("");
 			return;
 		}
 
@@ -55,10 +61,14 @@ const NewQuestionForm: FC<NewQuestionFormProps> = () => {
 		// Input values
 		const text = textRef.current?.value;
 		const photo = photoRef.current?.files?.[0];
+		const pointsCorrect = parseFloat(pointsCorrectRef.current?.value || "");
+		const pointsWrong = parseFloat(pointsWrongRef.current?.value || "");
+		const pointsEmpty = parseFloat(pointsEmptyRef.current?.value || "");
 
 		try {
 			// Validation
 			validateQuestionData(text, answerOptions);
+			validateQuestionPointsData(pointsCorrect, pointsWrong, pointsEmpty);
 		} catch (err) {
 			console.log(err);
 			return;
@@ -70,11 +80,16 @@ const NewQuestionForm: FC<NewQuestionFormProps> = () => {
 				text as string,
 				photo,
 				quiz.questions.length + 1,
+				{ correct: pointsCorrect, wrong: pointsWrong, empty: pointsEmpty },
 				answerOptions,
 				quiz.id
 			);
 
 			// Update quiz questions
+			await updateQuizState();
+
+			// Hide form
+			hideForm();
 		} catch (err) {
 			console.log("Error adding the question to DB.", err);
 		}
@@ -102,9 +117,44 @@ const NewQuestionForm: FC<NewQuestionFormProps> = () => {
 					id="editQuizNewQuestionPhoto"
 					accept="image/*"
 					onChange={handleFileChange}
+					ref={photoRef}
 				/>
 				<br />
-				<img src={photoUrl} alt="New question" />
+				<img src={photoUrl || undefined} alt="New question" />
+
+				<p>Points:</p>
+				<label htmlFor="editQuizNewQuestionPointsCorrect">Correct</label>
+				<input
+					type="number"
+					id="editQuizNewQuestionPointsCorrect"
+					placeholder="Correct"
+					defaultValue={1}
+					required
+					ref={pointsCorrectRef}
+				/>
+				<br />
+
+				<label htmlFor="editQuizNewQuestionPointsWrong">Wrong</label>
+				<input
+					type="number"
+					id="editQuizNewQuestionPointsWrong"
+					placeholder="Wrong"
+					defaultValue={0}
+					required
+					ref={pointsWrongRef}
+				/>
+				<br />
+
+				<label htmlFor="editQuizNewQuestionPointsEmpty">Empty</label>
+				<input
+					type="number"
+					id="editQuizNewQuestionPointsEmpty"
+					placeholder="Empty"
+					defaultValue={0}
+					required
+					ref={pointsEmptyRef}
+				/>
+				<br />
 
 				<p>Answer options:</p>
 				{answerOptions.length === 0 && <p>No options.</p>}
@@ -123,6 +173,9 @@ const NewQuestionForm: FC<NewQuestionFormProps> = () => {
 				<br />
 
 				<br />
+				<button type="button" onClick={hideForm}>
+					Cancel
+				</button>
 				<button type="submit">Add question</button>
 			</form>
 		</div>

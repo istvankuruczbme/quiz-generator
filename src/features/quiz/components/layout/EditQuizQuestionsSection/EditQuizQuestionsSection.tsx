@@ -20,11 +20,14 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 			<h2>Questions</h2>
 
 			{quiz.questions.length === 0 && <p>No questions.</p>}
+			{quiz.questions.map((question) => (
+				<div key={question.id}>{JSON.stringify(question)}</div>
+			))}
 
-			{showNewQuestionForm && <NewQuestionForm />}
+			{showNewQuestionForm && <NewQuestionForm hideForm={() => setShowNewQuestionForm(false)} />}
 
 			<br />
-			<button>New question</button>
+			<button onClick={() => setShowNewQuestionForm(true)}>New question</button>
 		</div>
 	);
 };

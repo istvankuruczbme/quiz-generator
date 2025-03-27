@@ -2,11 +2,13 @@ import { axios } from "../../../config/axios";
 import { AnswerOptionPrivate } from "../../answerOption/types/answerOptionTypes";
 import getAuthToken from "../../auth/services/getAuthToken";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
+import { QuestionPoints } from "../types/questionTypes";
 
 export default async function createQuestion(
 	text: string,
 	photo: File | undefined,
 	order: number,
+	points: QuestionPoints,
 	answerOptions: AnswerOptionPrivate[],
 	quizId: string
 ): Promise<void> {
@@ -18,10 +20,11 @@ export default async function createQuestion(
 	questionData.append("text", text);
 	if (photo != undefined) questionData.append("file", photo);
 	questionData.append("order", order.toString());
+	questionData.append("points", JSON.stringify(points));
 	questionData.append("answerOptions", JSON.stringify(answerOptions));
 
 	// Create quiz
-	await axios.post(`/quizzes/${quizId}/quesitons/`, questionData, {
+	await axios.post(`/quizzes/${quizId}/questions/`, questionData, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},
