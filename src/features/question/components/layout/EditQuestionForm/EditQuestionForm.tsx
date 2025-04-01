@@ -1,26 +1,28 @@
 import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
-// Components
-import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
-import NewAnswerOption from "../../../../answerOption/components/ui/NewAnswerOption/NewAnswerOption";
-// Hooks
 import useAnswerOptions from "../../../../answerOption/hooks/useAnswerOptions";
-// Functions
-import validateQuestionPointsData from "../../../utils/validation/validateQuestionPointsData";
-import validateQuestionData from "../../../utils/validation/validateQuestionData";
+import useQuestion from "../../../contexts/QuestionContext/useQuestion";
 import validateImageFile from "../../../../../utils/image/validateImageFile";
 import createImageUrl from "../../../../../utils/image/createImageUrl";
-import createQuestion from "../../../services/createQuestion";
-// CSS
-import "./NewQuestionForm.css";
+import NewAnswerOption from "../../../../answerOption/components/ui/NewAnswerOption/NewAnswerOption";
+import validateQuestionData from "../../../utils/validation/validateQuestionData";
+import validateQuestionPointsData from "../../../utils/validation/validateQuestionPointsData";
+import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
+import updateQuestion from "../../../services/updateQuestion";
+import "./EditQuestionForm.css";
 
-type NewQuestionFormProps = HTMLAttributes<HTMLDivElement> & {
-	hideForm: () => void;
-};
+type EditQuestionFormProps = HTMLAttributes<HTMLDivElement>;
 
-const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
-	// #region States
-	const [photoUrl, setPhotoUrl] = useState("");
+const EditQuestionForm: FC<EditQuestionFormProps> = () => {
+	// #region Hooks
+	const { quiz, updateQuizState } = useQuizPrivate();
+	const { question, setShowEditQuestionForm } = useQuestion();
+	const { answerOptions, addAnswerOption, updateAnswerOption, removeAnswerOption } =
+		useAnswerOptions(question.answerOptions);
 	// #endregion
+
+	//#region States
+	const [photoUrl, setPhotoUrl] = useState(question.photoUrl);
+	//#endregion
 
 	// #region Refs
 	const textRef = useRef<HTMLInputElement>(null);
@@ -30,13 +32,7 @@ const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 	const pointsEmptyRef = useRef<HTMLInputElement>(null);
 	//#endregion
 
-	//#region Hooks
-	const { quiz, updateQuizState } = useQuizPrivate();
-	const { answerOptions, addAnswerOption, updateAnswerOption, removeAnswerOption } =
-		useAnswerOptions();
-	//#endregion
-
-	//#region Functions
+	// #region Functions
 	function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
 		// Get selected file
 		const file = e.target.files?.[0];
@@ -56,7 +52,11 @@ const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 		setPhotoUrl(photoUrl);
 	}
 
-	async function handleNewQuestionSubmit(e: FormEvent<HTMLFormElement>) {
+	function hideEditQuestionForm() {
+		setShowEditQuestionForm(false);
+	}
+
+	async function handleEditQuestionSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		// Check quiz
@@ -79,11 +79,12 @@ const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 		}
 
 		try {
-			// Create question
-			await createQuestion(
+			// Update question
+			await updateQuestion(
+				question.id,
 				text as string,
 				photo,
-				quiz.questions.length + 1,
+				question.order,
 				{ correct: pointsCorrect, wrong: pointsWrong, empty: pointsEmpty },
 				answerOptions,
 				quiz.id
@@ -93,32 +94,33 @@ const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 			await updateQuizState();
 
 			// Hide form
-			hideForm();
+			hideEditQuestionForm();
 		} catch (err) {
 			console.log("Error adding the question to DB.", err);
 		}
 	}
-	//#endregion
+	// #endregion
 
 	return (
 		<div>
-			<h3>New question</h3>
+			<h3>Edit question</h3>
 
-			<form onSubmit={handleNewQuestionSubmit}>
-				<label htmlFor="editQuizNewQuestionText">Text</label>
+			<form onSubmit={handleEditQuestionSubmit}>
+				<label htmlFor="editQuestionText">Text</label>
 				<input
 					type="text"
-					id="editQuizNewQuestionText"
+					id="editQuestionText"
 					placeholder="Text"
+					defaultValue={question.text}
 					required
 					ref={textRef}
 				/>
 				<br />
 
-				<label htmlFor="editQuizNewQuestionPhoto">Photo</label>
+				<label htmlFor="editQuestionPhoto">Photo</label>
 				<input
 					type="file"
-					id="editQuizNewQuestionPhoto"
+					id="editQuestionPhoto"
 					accept="image/*"
 					onChange={handleFileChange}
 					ref={photoRef}
@@ -127,34 +129,34 @@ const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 				<img src={photoUrl || undefined} alt="New question" />
 
 				<p>Points:</p>
-				<label htmlFor="editQuizNewQuestionPointsCorrect">Correct</label>
+				<label htmlFor="editQuestionPointsCorrect">Correct</label>
 				<input
 					type="number"
-					id="editQuizNewQuestionPointsCorrect"
+					id="editQuestionPointsCorrect"
 					placeholder="Correct"
-					defaultValue={1}
+					defaultValue={question.points.correct}
 					required
 					ref={pointsCorrectRef}
 				/>
 				<br />
 
-				<label htmlFor="editQuizNewQuestionPointsWrong">Wrong</label>
+				<label htmlFor="editQuestionPointsWrong">Wrong</label>
 				<input
 					type="number"
-					id="editQuizNewQuestionPointsWrong"
+					id="editQuestionPointsWrong"
 					placeholder="Wrong"
-					defaultValue={0}
+					defaultValue={question.points.wrong}
 					required
 					ref={pointsWrongRef}
 				/>
 				<br />
 
-				<label htmlFor="editQuizNewQuestionPointsEmpty">Empty</label>
+				<label htmlFor="editQuestionPointsEmpty">Empty</label>
 				<input
 					type="number"
-					id="editQuizNewQuestionPointsEmpty"
+					id="editQuestionPointsEmpty"
 					placeholder="Empty"
-					defaultValue={0}
+					defaultValue={question.points.empty}
 					required
 					ref={pointsEmptyRef}
 				/>
@@ -177,13 +179,13 @@ const NewQuestionForm: FC<NewQuestionFormProps> = ({ hideForm }) => {
 				<br />
 
 				<br />
-				<button type="button" onClick={hideForm}>
+				<button type="button" onClick={hideEditQuestionForm}>
 					Cancel
 				</button>
-				<button type="submit">Add question</button>
+				<button type="submit">Update question</button>
 			</form>
 		</div>
 	);
 };
 
-export default NewQuestionForm;
+export default EditQuestionForm;

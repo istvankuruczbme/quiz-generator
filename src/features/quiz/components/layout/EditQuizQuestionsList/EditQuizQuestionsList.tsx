@@ -17,15 +17,15 @@ import {
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 // Components
-import QuestionListItem from "../../../../question/components/ui/QuestionListItem/QuestionListItem";
+import QuestionProvider from "../../../../question/contexts/QuestionContext/QuestionProvider";
 // Hooks
+import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import { useParams } from "react-router-dom";
 // Functions
 import getElementIndexById from "../../../../../utils/array/getElementIndexById";
 import updateQuizQuestionsOrder from "../../../../question/services/updateQuizQuestionsOrder";
 // CSS
 import "./EditQuizQuestionsList.css";
-import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 
 type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 	questions: QuestionPrivate[];
@@ -59,7 +59,6 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 
 		// Create new array of questions
 		const newQuestions = arrayMove(questions, originalIndex, newIndex);
-		console.log(newQuestions);
 
 		// Create question order data
 		const newQuestionOrder = newQuestions.map((question) => question.id);
@@ -86,13 +85,14 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 	}
 	//#endregion
 
-	if (questions.length === 0) <p>No questions.</p>;
+	if (questions.length === 0) return <p>No questions.</p>;
 	return (
 		<DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
 			<SortableContext items={questions} strategy={verticalListSortingStrategy}>
 				{questions.map((question) => (
-					<QuestionListItem key={question.id} question={question} />
+					<QuestionProvider key={question.id} question={question} />
 				))}
+				<p>asdkasmkd</p>
 			</SortableContext>
 		</DndContext>
 	);

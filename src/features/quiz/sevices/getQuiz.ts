@@ -8,7 +8,7 @@ export default async function getQuiz(quizId: string): Promise<QuizFullPrivate> 
 	const token = await getAuthToken();
 
 	// Get quiz full
-	const { data } = await axios.get<QuizFullPrivate>(`/quizzes/${quizId}?type=full`, {
+	const { data } = await axios.get<QuizFullPrivate>(`/quizzes/${quizId}`, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},

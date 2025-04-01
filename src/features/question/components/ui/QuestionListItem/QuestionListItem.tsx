@@ -1,22 +1,21 @@
 import { CSSProperties, FC, HTMLAttributes } from "react";
-import { QuestionPrivate } from "../../../types/questionTypes";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 // Hooks
 import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
+import useQuestion from "../../../contexts/QuestionContext/useQuestion";
 // Functions
 import addPropClassName from "../../../../../utils/addPropClassName";
 import deleteQuestion from "../../../services/deleteQuestion";
 // CSS
 import "./QuestionListItem.css";
 
-type QuestionListItemProps = HTMLAttributes<HTMLDivElement> & {
-	question: QuestionPrivate;
-};
+type QuestionListItemProps = HTMLAttributes<HTMLDivElement>;
 
-const QuestionListItem: FC<QuestionListItemProps> = ({ question, className }) => {
+const QuestionListItem: FC<QuestionListItemProps> = ({ className }) => {
 	// #region Hooks
 	const { quiz, updateQuizState } = useQuizPrivate();
+	const { question, setShowEditQuestionForm } = useQuestion();
 	const { attributes, listeners, transform, transition, setNodeRef } = useSortable({
 		id: question.id,
 	});
@@ -61,7 +60,7 @@ const QuestionListItem: FC<QuestionListItemProps> = ({ question, className }) =>
 			<p>{JSON.stringify(question)}</p>
 
 			<div onPointerDown={(e) => e.stopPropagation()}>
-				<button>Edit</button>
+				<button onClick={() => setShowEditQuestionForm(true)}>Edit</button>
 				<button onClick={handleQuestionDelete}>Delete</button>
 			</div>
 		</div>

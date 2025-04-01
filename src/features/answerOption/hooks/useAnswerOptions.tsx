@@ -2,11 +2,9 @@ import { ChangeEvent, useState } from "react";
 import { AnswerOptionEditableProperty, AnswerOptionPrivate } from "../types/answerOptionTypes";
 import getDefaultAnswerOption from "../utils/getDefaultAnswerOption";
 
-const useAnswerOptions = () => {
+const useAnswerOptions = (defaultAnswerOptions = [getDefaultAnswerOption()]) => {
 	// #region States
-	const [answerOptions, setAnswerOptions] = useState<AnswerOptionPrivate[]>([
-		getDefaultAnswerOption(),
-	]);
+	const [answerOptions, setAnswerOptions] = useState<AnswerOptionPrivate[]>(defaultAnswerOptions);
 	//#endregion
 
 	// #region Functions
