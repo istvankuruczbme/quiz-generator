@@ -1,13 +1,14 @@
 import { FC, HTMLAttributes, useState } from "react";
 import NewQuestionForm from "../../../../question/components/layout/NewQuestionForm/NewQuestionForm";
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+import EditQuizQuestionsList from "../EditQuizQuestionsList/EditQuizQuestionsList";
 import "./EditQuizQuestionsSection.css";
 
 type EditQuizQuestionsSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 	// #region States
-	const [showNewQuestionForm, setShowNewQuestionForm] = useState(true);
+	const [showNewQuestionForm, setShowNewQuestionForm] = useState(false);
 	//#endregion
 
 	// #region Hooks
@@ -19,15 +20,14 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 		<div>
 			<h2>Questions</h2>
 
-			{quiz.questions.length === 0 && <p>No questions.</p>}
-			{quiz.questions.map((question) => (
-				<div key={question.id}>{JSON.stringify(question)}</div>
-			))}
+			<EditQuizQuestionsList questions={quiz.questions} />
 
 			{showNewQuestionForm && <NewQuestionForm hideForm={() => setShowNewQuestionForm(false)} />}
 
 			<br />
-			<button onClick={() => setShowNewQuestionForm(true)}>New question</button>
+			{!showNewQuestionForm && (
+				<button onClick={() => setShowNewQuestionForm(true)}>New question</button>
+			)}
 		</div>
 	);
 };

@@ -30,10 +30,38 @@ const QuizPrivateProvider: FC<QuizPrivateProviderProps> = ({ children }) => {
 			setLoading(false);
 		}
 	}
+
+	function updateQuestionsOrder(questionIds: string[]): void {
+		// Check quiz
+		if (quiz == null) return;
+
+		// Reorder questions
+		const newQuestions = questionIds.map((id) => {
+			// Get question with ID
+			const question = quiz.questions.find((question) => question.id === id);
+
+			// Check if question exists
+			if (question == undefined) throw new Error("question/not-found");
+
+			// Return question
+			return question;
+		});
+
+		// Update quiz state
+		setQuiz((quiz) => {
+			if (quiz == null) return null;
+			return {
+				...quiz,
+				questions: newQuestions,
+			};
+		});
+	}
 	//#endregion
 
 	return (
-		<QuizPrivateContext.Provider value={{ quiz, setQuiz, loading, setLoading, updateQuizState }}>
+		<QuizPrivateContext.Provider
+			value={{ quiz, setQuiz, loading, setLoading, updateQuizState, updateQuestionsOrder }}
+		>
 			{children}
 		</QuizPrivateContext.Provider>
 	);
