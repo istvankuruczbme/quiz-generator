@@ -5,7 +5,7 @@ import { UserPublic } from "../../user/types/userTypes";
 import { QuizVisibility } from "../assets/quizVisibility";
 
 export type QuizConfig = {
-	status: "DRAFT" | "ACTIVE" | "DELETED";
+	status: "DRAFT" | "ACTIVE";
 	visibility: QuizVisibility;
 	questionOrder: QuestionOrder;
 };

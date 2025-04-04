@@ -24,6 +24,9 @@ const EditQuiz: FC<EditQuizProps> = () => {
 			<EditQuizConfigSection />
 
 			<EditQuizQuestionsSection />
+
+			<br />
+			<button>Finalize quiz</button>
 		</QuizPrivateProvider>
 	);
 };
