@@ -1,20 +1,26 @@
-import { ChangeEvent, FC, HTMLAttributes } from "react";
+import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef } from "react";
 // Components
 import CategorySelect from "../../../../../components/form/Select/CategorySelect/CategorySelect";
 // Hooks
 import useQuizData from "../../../hooks/useQuizData";
+import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 // Functions
 import validateImageFile from "../../../../../utils/image/validateImageFile";
 import createImageUrl from "../../../../../utils/image/createImageUrl";
+import validateQuizData from "../../../utils/validation/validateQuizData";
+import updateQuizData from "../../../sevices/updateQuizData";
 // CSS
 import "./EditQuizDataSection.css";
-import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 
 type EditQuizDataSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
+	// #region Refs
+	const photoRef = useRef<HTMLInputElement>(null);
+	//#endregion
+
 	// #region Hooks
-	const { quiz } = useQuizPrivate();
+	const { quiz, updateQuizState } = useQuizPrivate();
 	const {
 		title,
 		setTitle,
@@ -46,12 +52,43 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 		// Update photoURL state
 		setPhotoUrl(photoUrl);
 	}
+
+	async function handleUpdateQuizData(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+
+		// Check quiz
+		if (quiz == null) return;
+
+		// Input values
+		const photo = photoRef.current?.files?.[0];
+
+		try {
+			// Validation
+			validateQuizData(title, description, category);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+
+		try {
+			// Update quiz data
+			await updateQuizData(quiz.id, title as string, description as string, photo, category);
+		} catch (err) {
+			console.log("Error updating quiz data.", err);
+			return;
+		}
+
+		// Update quiz state
+		await updateQuizState();
+		console.log("Quiz data upated");
+	}
 	//#endregion
 
 	return (
 		<section>
 			<h2>Quiz data</h2>
-			<form>
+
+			<form onSubmit={handleUpdateQuizData}>
 				<label htmlFor="editQuizTitle">Title</label>
 				<input
 					type="text"
@@ -74,7 +111,13 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 				<br />
 
 				<label htmlFor="editQuizPhoto">Cover photo</label>
-				<input type="file" id="editQuizPhoto" accept="image/*" onChange={handleFileChange} />
+				<input
+					type="file"
+					id="editQuizPhoto"
+					accept="image/*"
+					onChange={handleFileChange}
+					ref={photoRef}
+				/>
 				<br />
 				<img src={photoUrl || undefined} alt={title} />
 				<br />
