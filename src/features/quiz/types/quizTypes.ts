@@ -4,13 +4,13 @@ import { QuestionPrivate, QuestionPublic } from "../../question/types/questionTy
 import { UserPublic } from "../../user/types/userTypes";
 import { QuizVisibility } from "../assets/quizVisibility";
 
-export type QuizConfig = {
+export type QuizConfig = Readonly<{
 	status: "DRAFT" | "ACTIVE";
 	visibility: QuizVisibility;
 	questionOrder: QuestionOrder;
-};
+}>;
 
-export type QuizData = {
+export type QuizData = Readonly<{
 	id: string;
 	category: Category;
 	title: string;
@@ -20,16 +20,22 @@ export type QuizData = {
 	createdAt: Date;
 	config: QuizConfig;
 	user: UserPublic;
-};
+}>;
 
-export type QuizSummary = QuizData & {
-	questionCount: number;
-	completionCount: number;
-};
+export type QuizSummary = Readonly<
+	QuizData & {
+		questionCount: number;
+		completionCount: number;
+	}
+>;
 
-export type QuizFullPublic = QuizData & {
-	questions: QuestionPublic[];
-};
-export type QuizFullPrivate = QuizData & {
-	questions: QuestionPrivate[];
-};
+export type QuizFullPublic = Readonly<
+	QuizData & {
+		questions: QuestionPublic[];
+	}
+>;
+export type QuizFullPrivate = Readonly<
+	QuizData & {
+		questions: QuestionPrivate[];
+	}
+>;
