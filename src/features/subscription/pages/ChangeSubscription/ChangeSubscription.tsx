@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, FormEvent, Fragment, HTMLAttributes } from "react";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
+import useUserSubscription from "../../../user/hooks/useUserSubscription";
 import useProducts from "../../../product/hooks/useProducts";
 import useDefaultProduct from "../../../auth/hooks/useDefaultProduct";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -9,7 +10,6 @@ import createCheckoutSession from "../../../product/services/createCheckoutSessi
 import updateSubscription from "../../services/updateSubscription";
 // CSS
 import "./ChangeSubscription.css";
-import useUserSubscription from "../../../user/hooks/useUserSubscription";
 
 type ChangeSubscriptionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -41,7 +41,7 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 
 		// Find product
 		const product = products.find((product) => product.id === productId)!;
-		const priceId = product.default_price.id;
+		const priceId = product.price.id;
 
 		// Create subscription
 		if (!user.hasSubscription) {

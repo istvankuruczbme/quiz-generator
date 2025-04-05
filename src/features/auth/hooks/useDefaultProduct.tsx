@@ -17,8 +17,7 @@ const useDefaultProduct = () => {
 	const setDefaultProductId = useCallback(() => {
 		// Find the free product
 		const freeProduct = products.find(
-			(product) =>
-				product.default_price.unit_amount != null && product.default_price.unit_amount === 0
+			(product) => product.price.amount != null && product.price.amount === 0
 		)!;
 
 		// Check if product exists
