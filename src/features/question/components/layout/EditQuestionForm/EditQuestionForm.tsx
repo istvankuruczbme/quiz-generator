@@ -1,13 +1,18 @@
 import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
-import useAnswerOptions from "../../../../answerOption/hooks/useAnswerOptions";
+// Components
+import NewAnswerOption from "../../../../answerOption/components/ui/NewAnswerOption/NewAnswerOption";
+// Hooks
+import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
 import useQuestion from "../../../contexts/QuestionContext/useQuestion";
+import useAnswerOptions from "../../../../answerOption/hooks/useAnswerOptions";
+// Functions
 import validateImageFile from "../../../../../utils/image/validateImageFile";
 import createImageUrl from "../../../../../utils/image/createImageUrl";
-import NewAnswerOption from "../../../../answerOption/components/ui/NewAnswerOption/NewAnswerOption";
 import validateQuestionData from "../../../utils/validation/validateQuestionData";
 import validateQuestionPointsData from "../../../utils/validation/validateQuestionPointsData";
-import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
 import updateQuestion from "../../../services/updateQuestion";
+import removeQuestionPhoto from "../../../services/removeQuestionPhoto";
+// CSS
 import "./EditQuestionForm.css";
 
 type EditQuestionFormProps = HTMLAttributes<HTMLDivElement>;
@@ -54,6 +59,28 @@ const EditQuestionForm: FC<EditQuestionFormProps> = () => {
 
 	function hideEditQuestionForm() {
 		setShowEditQuestionForm(false);
+	}
+
+	async function handleRemoveQuestionPhoto() {
+		// Confirm
+		const confirm = window.confirm("Are you sure you want to remove the photo of question?");
+		if (!confirm) return;
+
+		// Check quiz
+		if (quiz == null) return;
+
+		try {
+			// Remove photo
+			await removeQuestionPhoto(question.id, quiz.id);
+		} catch (err) {
+			console.log("Error removing the photo of question.", err);
+			return;
+		}
+
+		// Update quiz state
+		await updateQuizState();
+		setPhotoUrl("");
+		console.log("Question photo removed.");
 	}
 
 	async function handleEditQuestionSubmit(e: FormEvent<HTMLFormElement>) {
@@ -125,6 +152,9 @@ const EditQuestionForm: FC<EditQuestionFormProps> = () => {
 					onChange={handleFileChange}
 					ref={photoRef}
 				/>
+				<button type="button" onClick={handleRemoveQuestionPhoto}>
+					Remove photo
+				</button>
 				<br />
 				<img src={photoUrl || undefined} alt="New question" />
 

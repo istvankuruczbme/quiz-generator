@@ -9,6 +9,7 @@ import validatePersonalDataInputs from "../../../utils/validation/validatePerson
 import updateUserPersonalData from "../../../services/updateUserPersonalData";
 import validateImageFile from "../../../../../utils/image/validateImageFile";
 import createImageUrl from "../../../../../utils/image/createImageUrl";
+import removeUserPhoto from "../../../services/removeUserPhoto";
 // CSS
 import "./ProfilePersonalSection.css";
 
@@ -42,6 +43,28 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 
 		// Update photoURL state
 		setPhotoUrl(photoUrl);
+	}
+
+	async function handleRemovePhoto() {
+		// Confirm
+		const confirm = window.confirm("Are you sure you want to remove your photo?");
+		if (!confirm) return;
+
+		// Check user
+		if (user == null) return;
+
+		try {
+			// Remove user photo
+			await removeUserPhoto(user.id);
+		} catch (err) {
+			console.log("Error removing the photo of user.", err);
+			return;
+		}
+
+		// Update user state
+		await updateUserState();
+		setPhotoUrl("");
+		console.log("Photo removed.");
 	}
 
 	async function handleSubmitPersonalData(e: FormEvent<HTMLFormElement>): Promise<void> {
@@ -94,7 +117,7 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 			</div>
 
 			<form onSubmit={handleSubmitPersonalData}>
-				<img src={photoUrl === "" ? undefined : photoUrl} alt={name} />
+				<img src={photoUrl || undefined} alt={name} />
 				<input
 					type="file"
 					id="profilePhoto"
@@ -102,6 +125,9 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 					onChange={handleFileChange}
 					ref={photoRef}
 				/>
+				<button type="button" onClick={handleRemovePhoto}>
+					Remove photo
+				</button>
 				<br />
 
 				<label htmlFor="profileName">Name:</label>

@@ -92,7 +92,6 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 				{questions.map((question) => (
 					<QuestionProvider key={question.id} question={question} />
 				))}
-				<p>asdkasmkd</p>
 			</SortableContext>
 		</DndContext>
 	);

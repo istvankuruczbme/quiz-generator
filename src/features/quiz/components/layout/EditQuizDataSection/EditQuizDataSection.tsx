@@ -9,6 +9,7 @@ import validateImageFile from "../../../../../utils/image/validateImageFile";
 import createImageUrl from "../../../../../utils/image/createImageUrl";
 import validateQuizData from "../../../utils/validation/validateQuizData";
 import updateQuizData from "../../../sevices/updateQuizData";
+import removeQuizPhoto from "../../../sevices/removeQuizPhoto";
 // CSS
 import "./EditQuizDataSection.css";
 
@@ -51,6 +52,28 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 
 		// Update photoURL state
 		setPhotoUrl(photoUrl);
+	}
+
+	async function handleRemoveQuizPhoto() {
+		// Confirm
+		const confirm = window.confirm("Are you sure you want to remove the cover photo of quiz?");
+		if (!confirm) return;
+
+		// Check quiz
+		if (quiz == null) return;
+
+		try {
+			// Remove quiz photo
+			await removeQuizPhoto(quiz.id);
+		} catch (err) {
+			console.log("Error removing the photo of quiz.", err);
+			return;
+		}
+
+		// Update quiz state
+		await updateQuizState();
+		setPhotoUrl("");
+		console.log("Photo removed.");
 	}
 
 	async function handleUpdateQuizData(e: FormEvent<HTMLFormElement>) {
@@ -118,6 +141,9 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 					onChange={handleFileChange}
 					ref={photoRef}
 				/>
+				<button type="button" onClick={handleRemoveQuizPhoto}>
+					Remove photo
+				</button>
 				<br />
 				<img src={photoUrl || undefined} alt={title} />
 				<br />
