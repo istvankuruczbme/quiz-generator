@@ -1,5 +1,6 @@
 import { axios } from "../../../config/axios";
 import getAuthToken from "../../auth/services/getAuthToken";
+import addIconToCategory from "../../category/utils/addIconToCategory";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
 import { QuizFullPrivate } from "../types/quizTypes";
 
@@ -14,6 +15,12 @@ export default async function getQuiz(quizId: string): Promise<QuizFullPrivate> 
 		},
 	});
 
+	// Add category icon to quiz category
+	const category = addIconToCategory(data.category);
+
 	// Return quiz full
-	return data;
+	return {
+		...data,
+		category,
+	};
 }

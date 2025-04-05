@@ -7,6 +7,7 @@ import useDefaultCategoryIds from "../../../hooks/useDefaultCategoryIds";
 import updateUserCategories from "../../../services/updateUserCategories";
 // CSS
 import "./ProfileCategoriesSection.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type ProfileCategoriesSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -64,7 +65,10 @@ const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 							checked={categoryIds.includes(category.id)}
 							onChange={(e) => handleCategoryChange(e, category.id)}
 						/>
-						<label htmlFor={category.id}>{category.name}</label>
+						<label htmlFor={category.id}>
+							<FontAwesomeIcon icon={category.icon} />
+							{category.name}
+						</label>
 						<br />
 					</Fragment>
 				))}

@@ -1,6 +1,7 @@
 import { axios } from "../../../config/axios";
 import getAuthToken from "../../auth/services/getAuthToken";
-import { Category } from "../../category/types/categoryTypes";
+import { Category, CategoryResponse } from "../../category/types/categoryTypes";
+import addIconToCategory from "../../category/utils/addIconToCategory";
 import createBearerAuthHeader from "../utils/createBearerAuthHeader";
 
 export default async function getUserCategories(userId: string): Promise<Category[]> {
@@ -8,12 +9,15 @@ export default async function getUserCategories(userId: string): Promise<Categor
 	const token = await getAuthToken();
 
 	// Get data from DB
-	const { data } = await axios.get<Category[]>(`/users/${userId}/categories`, {
+	const { data } = await axios.get<CategoryResponse[]>(`/users/${userId}/categories`, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},
 	});
 
-	// Return data
-	return data;
+	// Add icon to categories
+	const categories = data.map((cateory) => addIconToCategory(cateory));
+
+	// Return categories
+	return categories;
 }
