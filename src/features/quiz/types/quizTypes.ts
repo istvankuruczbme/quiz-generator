@@ -5,7 +5,7 @@ import { UserPublic } from "../../user/types/userTypes";
 import { QuizVisibility } from "../assets/quizVisibility";
 
 export type QuizConfig = Readonly<{
-	status: "DRAFT" | "ACTIVE";
+	state: "DRAFT" | "ACTIVE";
 	visibility: QuizVisibility;
 	questionOrder: QuestionOrder;
 }>;

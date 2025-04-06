@@ -1,7 +1,12 @@
 import { FC, HTMLAttributes } from "react";
-import useQuizSummary from "../../hooks/useQuizSummary";
-import useUser from "../../../../contexts/UserContext/useUser";
+// Components
 import { Link } from "react-router-dom";
+// Hooks
+import useUser from "../../../../contexts/UserContext/useUser";
+import useQuizSummary from "../../hooks/useQuizSummary";
+// Functions
+import checkQuizWriteAccess from "../../utils/checkQuizWriteAccess";
+// CSS
 import "./Quiz.css";
 
 type QuizProps = HTMLAttributes<HTMLDivElement>;
@@ -19,14 +24,17 @@ const Quiz: FC<QuizProps> = () => {
 			<p>{JSON.stringify(quizSummary)}</p>
 
 			<div>
-				{user.id === quizSummary.user.id && (
-					<Link to="edit">
-						<button tabIndex={-1}>Edit</button>
-					</Link>
-				)}
 				<Link to="complete">
 					<button tabIndex={-1}>Start quiz</button>
 				</Link>
+				{checkQuizWriteAccess(quizSummary, user) && (
+					<>
+						<hr />
+						<Link to="edit">
+							<button tabIndex={-1}>Edit</button>
+						</Link>
+					</>
+				)}
 			</div>
 		</div>
 	);

@@ -5,9 +5,10 @@ import QuizPrivateProvider from "../../contexts/QuizPrivateContext/QuizPrivatePr
 import EditQuizDataSection from "../../components/layout/EditQuizDataSection/EditQuizDataSection";
 import EditQuizConfigSection from "../../components/layout/EditQuizConfigSection/EditQuizConfigSection";
 import EditQuizQuestionsSection from "../../components/layout/EditQuizQuestionsSection/EditQuizQuestionsSection";
+import EditQuizDeleteSection from "../../components/layout/EditQuizDeleteSection/EditQuizDeleteSection";
+import EditQuizFinishSection from "../../components/layout/EditQuizFinishSection/EditQuizFinishSection";
 // CSS
 import "./EditQuiz.css";
-import EditQuizDeleteSection from "../../components/layout/EditQuizDeleteSection/EditQuizDeleteSection";
 
 type EditQuizProps = HTMLAttributes<HTMLDivElement>;
 
@@ -26,8 +27,7 @@ const EditQuiz: FC<EditQuizProps> = () => {
 
 			<EditQuizQuestionsSection />
 
-			<hr />
-			<button>Finalize quiz</button>
+			<EditQuizFinishSection />
 
 			<EditQuizDeleteSection />
 		</QuizPrivateProvider>
