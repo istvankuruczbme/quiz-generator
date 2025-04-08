@@ -14,10 +14,8 @@ export default async function updateQuizData(
 
 	// Create form data
 	const quizData = new FormData();
-	quizData.append("title", title);
-	quizData.append("description", description);
+	quizData.append("data", JSON.stringify({ title, description, categoryId }));
 	if (photo != null) quizData.append("file", photo);
-	quizData.append("categoryId", categoryId);
 
 	// Update quiz data
 	await axios.put(`/quizzes/${quizId}`, quizData, {

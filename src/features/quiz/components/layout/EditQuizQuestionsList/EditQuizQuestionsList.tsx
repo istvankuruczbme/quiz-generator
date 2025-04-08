@@ -87,13 +87,21 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 
 	if (questions.length === 0) return <p>No questions.</p>;
 	return (
-		<DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-			<SortableContext items={questions} strategy={verticalListSortingStrategy}>
-				{questions.map((question) => (
-					<QuestionProvider key={question.id} question={question} />
-				))}
-			</SortableContext>
-		</DndContext>
+		<div>
+			<h3>List of questions</h3>
+
+			<DndContext
+				sensors={sensors}
+				collisionDetection={closestCorners}
+				onDragEnd={handleDragEnd}
+			>
+				<SortableContext items={questions} strategy={verticalListSortingStrategy}>
+					{questions.map((question) => (
+						<QuestionProvider key={question.id} question={question} />
+					))}
+				</SortableContext>
+			</DndContext>
+		</div>
 	);
 };
 

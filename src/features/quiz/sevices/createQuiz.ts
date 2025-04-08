@@ -13,10 +13,8 @@ export default async function createQuiz(
 
 	// Create form data
 	const quizData = new FormData();
-	quizData.append("title", title);
-	quizData.append("description", description);
+	quizData.append("data", JSON.stringify({ title, description, categoryId }));
 	if (photo != undefined) quizData.append("file", photo);
-	quizData.append("categoryId", categoryId);
 
 	// Create quiz
 	const { data } = await axios.post<{ id: string }>("/quizzes", quizData, {

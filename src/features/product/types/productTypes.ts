@@ -9,5 +9,6 @@ export type Product = Readonly<{
 		currency: string;
 	};
 	maxQuizCount: number;
-	maxQuestionCountPerQuiz: number;
+	maxQuestionCount: number;
+	maxAnswerOptionCount: number;
 }>;

@@ -1,7 +1,11 @@
 import { FC, HTMLAttributes, useState } from "react";
+// Components
 import NewQuestionForm from "../../../../question/components/layout/NewQuestionForm/NewQuestionForm";
-import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+import EditQuizQuestionsFromFile from "../EditQuizQuestionsFromFile/EditQuizQuestionsFromFile";
 import EditQuizQuestionsList from "../EditQuizQuestionsList/EditQuizQuestionsList";
+// Hooks
+import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+// CSS
 import "./EditQuizQuestionsSection.css";
 
 type EditQuizQuestionsSectionProps = HTMLAttributes<HTMLDivElement>;
@@ -19,6 +23,8 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 	return (
 		<div>
 			<h2>Questions</h2>
+
+			<EditQuizQuestionsFromFile />
 
 			<EditQuizQuestionsList questions={quiz.questions} />
 

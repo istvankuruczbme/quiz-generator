@@ -12,7 +12,7 @@ export default async function updateUserPersonalData(
 
 	// Create form data
 	const userPersonalData = new FormData();
-	userPersonalData.append("name", name);
+	userPersonalData.append("data", JSON.stringify({ name }));
 	if (photo != undefined) userPersonalData.append("file", photo);
 
 	// Send request to DB

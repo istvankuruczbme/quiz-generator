@@ -25,3 +25,5 @@ export type QuestionPrivate = Readonly<{
 	points: QuestionPoints;
 	answerOptions: AnswerOptionPrivate[];
 }>;
+
+export type QuestionGenerationStrategy = "RANDOM";
