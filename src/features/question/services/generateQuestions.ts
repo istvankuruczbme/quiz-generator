@@ -7,6 +7,7 @@ export default async function generateQuestions(
 	quizId: string,
 	file: File,
 	strategy: QuestionGenerationStrategy,
+	creativity: number,
 	questionCount: number,
 	answerOptionCount: number
 ): Promise<void> {
@@ -18,7 +19,7 @@ export default async function generateQuestions(
 	questionsGenerationData.append("file", file);
 	questionsGenerationData.append(
 		"data",
-		JSON.stringify({ strategy, questionCount, answerOptionCount })
+		JSON.stringify({ strategy, creativity, questionCount, answerOptionCount })
 	);
 
 	// Generate questions
