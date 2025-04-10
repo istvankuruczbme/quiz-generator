@@ -1,4 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef } from "react";
+// Components
+import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
+import Modal from "../../../../components/layout/Modal/Modal";
 // Hooks
 import { useNavigate } from "react-router-dom";
 // Functions
@@ -57,45 +60,108 @@ const SignUp: FC<SignUpProps> = () => {
 	//#endregion
 
 	return (
-		<div>
-			<h1>Sign Up</h1>
+		<AuthLayout>
+			<Modal>
+				<Modal.Header>
+					<Modal.Title>Sign Up</Modal.Title>
+				</Modal.Header>
 
-			<form onSubmit={handleSignUpSubmit}>
-				<label htmlFor="signUpName">Name:</label>
-				<input type="text" id="signUpName" placeholder="Name" required ref={nameRef} />
-				<br />
+				<Modal.Body>
+					<form onSubmit={handleSignUpSubmit}>
+						<label htmlFor="signUpName">Name:</label>
+						<input type="text" id="signUpName" placeholder="Name" required ref={nameRef} />
+						<br />
 
-				<label htmlFor="signUpEmail">Email:</label>
-				<input type="email" id="signUpEmail" placeholder="Email" required ref={emailRef} />
-				<br />
+						<label htmlFor="signUpEmail">Email:</label>
+						<input
+							type="email"
+							id="signUpEmail"
+							placeholder="Email"
+							required
+							ref={emailRef}
+						/>
+						<br />
 
-				<label htmlFor="signUpPassword">Password:</label>
-				<input
-					type="password"
-					id="signUpPassword"
-					placeholder="Password"
-					required
-					ref={passwordRef}
-				/>
-				<br />
+						<label htmlFor="signUpPassword">Password:</label>
+						<input
+							type="password"
+							id="signUpPassword"
+							placeholder="Password"
+							required
+							ref={passwordRef}
+						/>
+						<br />
 
-				<label htmlFor="signUpPasswordConfirm">Password Confirm:</label>
-				<input
-					type="password"
-					id="signUpPasswordConfirm"
-					placeholder="Password Confirm"
-					required
-					ref={passwordConfirmRef}
-				/>
-				<br />
+						<label htmlFor="signUpPasswordConfirm">Password Confirm:</label>
+						<input
+							type="password"
+							id="signUpPasswordConfirm"
+							placeholder="Password Confirm"
+							required
+							ref={passwordConfirmRef}
+						/>
+						<br />
 
-				<button type="submit">Create account</button>
-			</form>
+						<button type="submit">Create account</button>
+					</form>
 
-			<br />
+					<br />
 
-			<button onClick={handleGoogleSignUpClick}>Sign Up with Google</button>
-		</div>
+					<button onClick={handleGoogleSignUpClick}>Sign Up with Google</button>
+
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+				</Modal.Body>
+			</Modal>
+		</AuthLayout>
 	);
 };
 

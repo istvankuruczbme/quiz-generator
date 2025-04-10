@@ -1,0 +1,17 @@
+.authLayout {
+	min-height: 100svh;
+	display: grid;
+	place-items: center;
+	position: relative;
+}
+.authLayout::after {
+	content: "";
+	background-color: var(--accent-color-200);
+	position: absolute;
+	inset: 0;
+	top: -100%;
+	bottom: 50%;
+	transform: skewY(-5deg);
+	z-index: -1;
+	isolation: isolate;
+}

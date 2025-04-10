@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+:root {
+	/* Font sizes */
+	--fs-200: 0.75rem; /* 12px */
+	--fs-300: 0.875rem; /* 14px */
+	--fs-400: 1rem; /* 16px */
+	--fs-500: 1.125rem; /* 18px */
+	--fs-900: 2rem; /* 32px */
+
+	/* Colors */
+	--primary-color: hsl(0, 0%, 96%);
+	--secondary-color: white;
+
+	--accent-color-200: hsl(14, 83%, 91%);
+	--accent-color-400: hsl(14, 81%, 64%);
+
+	--neutral-color-200: hsl(0, 0%, 94%);
+	--neutral-color-300: hsl(0, 0%, 82%);
+	--neutral-color-400: hsl(213, 6%, 71%);
+	--neutral-color-700: hsl(219, 18%, 22%);
+
+	--success-color-100: hsl(145, 46%, 91%);
+	--success-color-200: hsl(144, 64%, 78%);
+	--success-color-400: hsl(144, 100%, 42%);
+
+	--danger-color-100: hsl(0, 49%, 93%);
+	--danger-color-200: hsl(0, 69%, 90%);
+	--danger-color-400: hsl(0, 100%, 67%);
+
+	--info-color-200: hsl(218, 91%, 87%);
+
+	/* Border-radius */
+	--br-400: 1rem;
+	--br-pill: 999rem;
+}
+
+body {
+	min-height: 100svh;
+	font-family: "Poppins", sans-serif;
+	font-size: var(--fs-300);
+	font-weight: 400;
+	font-style: normal;
+	color: var(--neutral-color-700);
+	background-color: var(--secondary-color);
+}
+
+input,
+textarea,
+button {
+	font-family: inherit;
+}
