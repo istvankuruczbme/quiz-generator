@@ -1,0 +1,7 @@
+.alertCloseButton {
+	width: 2rem;
+	height: 2rem;
+	display: grid;
+	place-items: center;
+	padding: 0;
+}

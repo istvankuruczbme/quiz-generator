@@ -8,5 +8,5 @@ export default async function signInWithPassword(email: string, password: string
 	});
 
 	// Check error
-	if (error != null) throw error;
+	if (error != null) throw new Error(`auth/${error.code}`);
 }

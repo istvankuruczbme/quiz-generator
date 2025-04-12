@@ -2,8 +2,11 @@
 	min-height: 100svh;
 	display: grid;
 	place-items: center;
+	padding-top: 5rem;
+	padding-bottom: 2rem;
 	position: relative;
 }
+
 .authLayout::after {
 	content: "";
 	background-color: var(--accent-color-200);

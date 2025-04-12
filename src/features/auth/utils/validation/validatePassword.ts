@@ -3,5 +3,5 @@ export default function validatePassword(password: string | undefined, prefix?: 
 	if (password == undefined) throw new Error(`${prefix || ""}password-missing`);
 
 	// Check length
-	if (password.length < 6) throw new Error(`${prefix || ""}password-too-short`);
+	if (password.trim().length < 6) throw new Error(`${prefix || ""}password-too-short`);
 }

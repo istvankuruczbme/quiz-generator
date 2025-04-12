@@ -1,0 +1,29 @@
+.text {
+	color: var(--text-color);
+	color: var(--text-color);
+	margin-bottom: var(--mb, 1rem);
+}
+
+/* #region Variants */
+.text--primary {
+	--text-color: var(--primary-color);
+}
+.text--secondary {
+	--text-color: var(--secondary-color);
+}
+.text--accent {
+	--text-color: var(--accent-color-400);
+}
+.text--neutral {
+	--text-color: var(--neutral-color-700);
+}
+.text--success {
+	--text-color: var(--success-color-400);
+}
+.text--danger {
+	--text-color: var(--danger-color-400);
+}
+.text--info {
+	--text-color: var(--info-color-200);
+}
+/* #endregion */

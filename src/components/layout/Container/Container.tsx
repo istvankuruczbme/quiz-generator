@@ -1,5 +1,6 @@
 import { CSSProperties, FC, HTMLAttributes } from "react";
 import addPropClassName from "../../../utils/addPropClassName";
+import { CONTAINER_MAX_WIDTH } from "../../../assets/uiConstants";
 import "./Container.css";
 
 type ContainerProps = HTMLAttributes<HTMLDivElement> & {
@@ -8,7 +9,7 @@ type ContainerProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 const Container: FC<ContainerProps> = ({
-	maxWidth = "1200px",
+	maxWidth = CONTAINER_MAX_WIDTH,
 	centered = true,
 	className,
 	children,

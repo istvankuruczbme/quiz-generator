@@ -1,0 +1,7 @@
+.alertHeader {
+	display: flex;
+	gap: 3rem;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--alert-py) var(--alert-px);
+}

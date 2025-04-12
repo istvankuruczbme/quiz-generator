@@ -1,32 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import useProducts from "../../product/hooks/useProducts";
-import useUserSubscription from "../../user/hooks/useUserSubscription";
+import { Product } from "../../product/types/productTypes";
+import Stripe from "stripe";
 
-const useDefaultProduct = () => {
+const useDefaultProduct = (products: Product[], subscription: Stripe.Subscription | null) => {
 	// #region States
-	const [productId, setProductId] = useState("");
+	const [productId, setProductId] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
-	// #endregion
-
-	// #region Hooks
-	const { subscription } = useUserSubscription();
-	const { products } = useProducts();
 	// #endregion
 
 	// #region Functions
 	const setDefaultProductId = useCallback(() => {
-		// Find the free product
-		const freeProduct = products.find(
-			(product) => product.price.amount != null && product.price.amount === 0
-		)!;
-
-		// Check if product exists
-		if (freeProduct == undefined) return;
-
-		// Update default product ID
-		setProductId(freeProduct.id);
+		setProductId(null);
 		setLoading(false);
-	}, [products]);
+	}, []);
 	//#endregion
 
 	useEffect(() => {

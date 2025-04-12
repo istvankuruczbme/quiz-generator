@@ -1,0 +1,6 @@
+.page__main {
+	--page-px: 0.75rem;
+	--page-py: 1rem;
+
+	padding-block: var(--page-py);
+}

@@ -25,7 +25,7 @@
 
 	--neutral-color-200: hsl(0, 0%, 94%);
 	--neutral-color-300: hsl(0, 0%, 82%);
-	--neutral-color-400: hsl(213, 6%, 71%);
+	--neutral-color-400: hsl(214, 7%, 60%);
 	--neutral-color-700: hsl(219, 18%, 22%);
 
 	--success-color-100: hsl(145, 46%, 91%);
@@ -37,8 +37,10 @@
 	--danger-color-400: hsl(0, 100%, 67%);
 
 	--info-color-200: hsl(218, 91%, 87%);
+	--info-color-400: hsl(218, 93%, 50%);
 
 	/* Border-radius */
+	--br-200: 0.25rem;
 	--br-400: 1rem;
 	--br-pill: 999rem;
 }
@@ -50,11 +52,13 @@ body {
 	font-weight: 400;
 	font-style: normal;
 	color: var(--neutral-color-700);
-	background-color: var(--secondary-color);
+	background-color: var(--primary-color);
 }
 
 input,
 textarea,
 button {
 	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
 }

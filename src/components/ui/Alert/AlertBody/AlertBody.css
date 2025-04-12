@@ -1,0 +1,4 @@
+.alertBody {
+	border-top: 0.125rem solid hsl(from var(--alert-color) h s l / 0.5);
+	padding: var(--alert-py) var(--alert-px);
+}

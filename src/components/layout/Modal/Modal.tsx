@@ -13,9 +13,9 @@ type ModalChildren = {
 	Body: typeof ModalBody;
 	Footer: typeof ModalFooter;
 };
-type ModalC = FC<ModalProps> & ModalChildren;
+type ModalComponent = FC<ModalProps> & ModalChildren;
 
-const Modal: ModalC = ({ className, children }) => {
+const Modal: ModalComponent = ({ className, children }) => {
 	return <div className={`modal${addPropClassName(className)}`}>{children}</div>;
 };
 

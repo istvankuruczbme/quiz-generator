@@ -1,0 +1,66 @@
+.feedback {
+	--px: 0.75rem;
+	--py: 0.75rem;
+
+	max-width: 95%;
+	background-color: var(--secondary-color);
+	border-radius: var(--br-400);
+	box-shadow: 0 0.5rem 1rem var(--neutral-color-200);
+	padding-left: 0.5rem;
+	overflow: hidden;
+	position: fixed;
+	top: 1rem;
+	right: 0;
+	translate: 100% 0;
+	z-index: 20;
+	isolation: isolate;
+	transition: translate 200ms linear;
+}
+.feedback::before {
+	content: "";
+	width: 0.5rem;
+	background-color: var(--feedback-color);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+}
+
+.feedback--open {
+	translate: -1rem 0;
+}
+
+/* #region Variants */
+.feedback--error {
+	--feedback-color: var(--danger-color-400);
+}
+.feedback--success {
+	--feedback-color: var(--success-color-400);
+}
+/* #endregion */
+
+.feedback__header {
+	display: flex;
+	gap: 2rem;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--py) var(--px);
+}
+
+.feedback__message {
+	font-weight: 500;
+}
+
+.feedback__close {
+	width: 1.5rem;
+	height: 1.5rem;
+	flex-shrink: 0;
+	padding: 0;
+}
+
+.feedback__details {
+	font-size: var(--fs-200);
+	border-top: 0.125rem solid var(--neutral-color-200);
+	padding: var(--py) var(--px);
+}

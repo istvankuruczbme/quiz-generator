@@ -1,0 +1,42 @@
+.input {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	position: relative;
+}
+
+.input__input {
+	background-color: var(--secondary-color);
+	border: 0.125rem solid var(--neutral-color-300);
+	border-radius: var(--br-400);
+	padding: 0.75rem;
+}
+.input__input--password {
+	padding-right: 3rem;
+}
+.input__input:focus-visible,
+.input__input:not(:placeholder-shown) {
+	border-color: var(--info-color-200);
+	outline: none;
+}
+.input__input:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.input__password {
+	width: 1.5rem;
+	height: 1.5rem;
+	display: inline-block;
+	color: var(--neutral-color-300);
+	background-color: transparent;
+	border: none;
+	position: absolute;
+	bottom: 0.75rem;
+	right: 0.75rem;
+	transition: color 200ms ease;
+	cursor: pointer;
+}
+.input__password--show {
+	color: var(--neutral-color-700);
+}

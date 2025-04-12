@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 // Components
+import Page from "../../components/layout/Page/Page";
 import NotSignedIn from "../../features/auth/components/layout/NotSignedIn/NotSignedIn";
 import SignedIn from "../../features/auth/components/layout/SignedIn/SignedIn";
 // Hooks
@@ -15,7 +16,7 @@ const Home = () => {
 	//#endregion
 
 	return (
-		<div>
+		<Page>
 			<h1>Quiz generator</h1>
 
 			<NotSignedIn>
@@ -49,7 +50,7 @@ const Home = () => {
 
 				<button onClick={signOut}>Sign Out</button>
 			</SignedIn>
-		</div>
+		</Page>
 	);
 };
 

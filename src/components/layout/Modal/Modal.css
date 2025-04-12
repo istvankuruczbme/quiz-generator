@@ -3,8 +3,6 @@
 	--py: 2rem;
 
 	max-width: 95%;
-	max-height: 80svh;
-	overflow-y: auto;
 	background-color: var(--secondary-color);
 	border-radius: var(--br-400);
 	box-shadow: 0 1rem 1rem var(--neutral-color-200);

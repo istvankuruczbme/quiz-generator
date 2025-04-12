@@ -4,5 +4,5 @@ export default function validateEmail(email: string | undefined, prefix?: string
 
 	// Test email
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	if (!emailRegex.test(email)) throw new Error(`${prefix || ""}invalid-email`);
+	if (!emailRegex.test(email)) throw new Error(`${prefix || ""}email-invalid`);
 }

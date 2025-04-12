@@ -1,0 +1,9 @@
+.authHeder {
+	background-color: hsl(from var(--accent-color-200) h s l / 0.75);
+	backdrop-filter: blur(0.25rem);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}

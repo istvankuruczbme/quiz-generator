@@ -16,10 +16,13 @@ import Home from "../pages/Home/Home";
 import Profile from "../features/user/pages/Profile/Profile";
 import ChangeEmail from "../features/user/pages/ChangeEmail/ChangeEmail";
 import ChangePassword from "../features/user/pages/ChangePassword/ChangePassword";
+import SignUpConfirmed from "../features/auth/pages/SignUpConfirmed/SignUpConfirmed";
+import GoogleSignInConfirmed from "../features/auth/pages/GoogleSignInConfirmed/GoogleSignInConfirmed";
 // Hooks
 import useAuth from "../features/auth/hooks/useAuth";
 // CSS
 import "./App.css";
+import ProductsProvider from "../features/product/contexts/ProductsProvider";
 
 function App() {
 	//#region Hooks
@@ -38,15 +41,25 @@ function App() {
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/profile/change-email" element={<ChangeEmail />} />
 					<Route path="/profile/change-password" element={<ChangePassword />} />
-					<Route path="/profile/subscription" element={<ChangeSubscription />} />
+					<Route
+						path="/profile/subscription"
+						element={
+							<ProductsProvider>
+								<ChangeSubscription />
+							</ProductsProvider>
+						}
+					/>
 					<Route path="/profile/categories" element={<SelectCategories />} />
 				</Route>
+
+				<Route path="/email-verified" element={<SignUpConfirmed />} />
+				<Route path="/google-sign-in" element={<GoogleSignInConfirmed />} />
+				<Route path="/reset-password" element={<ResetPassword />} />
 
 				<Route element={<NotSignedInRoute />}>
 					<Route path="/sign-in" element={<SignIn />} />
 					<Route path="/sign-up" element={<SignUp />} />
 					<Route path="/reset-password-email" element={<SendResetPasswordEmail />} />
-					<Route path="/reset-password" element={<ResetPassword />} />
 				</Route>
 
 				<Route path="/" element={<Home />} />

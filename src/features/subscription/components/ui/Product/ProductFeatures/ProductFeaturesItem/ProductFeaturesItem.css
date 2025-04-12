@@ -1,0 +1,9 @@
+.productFeaturesItem {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.productFeaturesItem__icon {
+	color: var(--accent-color-400);
+	margin-top: 0.125rem;
+}

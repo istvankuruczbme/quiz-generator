@@ -1,11 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../../../config/supabase";
 import useUser from "../../../contexts/UserContext/useUser";
-import isNewUser from "../utils/isNewUser";
 import getUser from "../../user/services/getUser";
-import createUser from "../../user/services/createUser";
 import updateUserEmail from "../../user/services/updateUserEmail";
+import getPasswordResetFlag from "../utils/getPasswordResetFlag";
+import createUser from "../../user/services/createUser";
+import removeNewUserFlag from "../utils/removeNewUserFlag";
+import { useNavigate } from "react-router-dom";
+import checkAxiosError from "../../../utils/axios/checkAxiosError";
+import getAxiosErrorMessage from "../../../utils/axios/getAxiosErrorMessage";
 
 const useAuth = () => {
 	// #region States
@@ -14,58 +18,43 @@ const useAuth = () => {
 
 	// #region Hooks
 	const { user, setUser, setLoading } = useUser();
+	const navigate = useNavigate();
 	// #endregion
-
-	// #region Functions
-	const fetchUser = useCallback(
-		async (userId: string, token: string) => {
-			try {
-				// Fetch user from DB
-				const user = await getUser(userId, token);
-
-				// Update user
-				setUser(user);
-			} catch (err) {
-				console.log("Error fetching the user from DB.", err);
-			} finally {
-				setLoading(false);
-			}
-		},
-		[setUser, setLoading]
-	);
-	//#endregion
 
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
 			console.log(event);
 			// console.log(session?.access_token);
 
-			if (event === "SIGNED_IN" && session != null) {
-				// Check same session
-				if (previousSession != null && previousSession.access_token == session.access_token) {
-					return;
-				}
+			// Ignore password recovery event -> user must not be fetched
+			if (event === "PASSWORD_RECOVERY" || getPasswordResetFlag()) return;
 
-				setLoading(true);
+			// Check if there is a session
+			if (session == null) {
+				setUser(null);
+				setPreviousSession(null);
+				return;
+			}
 
-				// Update previous session
-				setPreviousSession(session);
+			// Check same session
+			if (previousSession != null && previousSession.access_token == session.access_token) {
+				return;
+			}
 
-				// Get user from session
-				const authUser = session.user;
+			setLoading(true);
 
-				// Check if new user
-				if (isNewUser(authUser)) {
-					console.log("User created:", authUser);
-					try {
-						// Create user in DB
-						await createUser(session.access_token);
-					} catch (err) {
-						console.log("Error creating the user.", err);
-						setLoading(false);
-						return;
-					}
-				}
+			// Update previous session
+			setPreviousSession(session);
+
+			// Get user from session
+			const authUser = session.user;
+
+			try {
+				// Get user from DB
+				const user = await getUser(authUser.id, session.access_token);
+
+				// Update user
+				setUser(user);
 
 				// Check different email
 				if (user != null && authUser.email != undefined && user.email !== authUser.email) {
@@ -76,23 +65,38 @@ const useAuth = () => {
 						console.log("User email updated.");
 					} catch (err) {
 						console.log("Error updating user email in DB.", err);
+					} finally {
 						setLoading(false);
-						return;
 					}
 				}
+			} catch (err) {
+				if (checkAxiosError(err) && getAxiosErrorMessage(err) === "user/not-found") {
+					try {
+						// Create user
+						const user = await createUser(session.access_token);
+						console.log(user);
+						setUser(user);
 
-				await fetchUser(authUser.id, session.access_token);
-			}
-			if (event === "TOKEN_REFRESHED" && session != null) {
-				await fetchUser(session.user.id, session.access_token);
-			}
-			if (event === "SIGNED_OUT") {
-				setUser(null);
+						// Remove new user flag
+						removeNewUserFlag();
+
+						// Navigate to create subscription page
+						navigate("/profile/subscription");
+
+						setLoading(false);
+					} catch (e) {
+						console.log("Error creating user.", e);
+					}
+				} else {
+					console.log("Error fetching user from DB.", err);
+				}
+			} finally {
+				setLoading(false);
 			}
 		});
 
 		return () => data.subscription.unsubscribe();
-	}, [previousSession, user, setUser, setLoading, fetchUser]);
+	}, [previousSession, user, setUser, setLoading, navigate]);
 };
 
 export default useAuth;

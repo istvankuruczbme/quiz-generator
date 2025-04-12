@@ -1,0 +1,39 @@
+.product {
+	min-width: 250px;
+	background-color: var(--secondary-color);
+	border-radius: var(--br-400);
+	box-shadow: 0 0.5rem 0.5rem var(--neutral-color-300);
+	padding: 1rem;
+	transition: box-shadow 300ms ease;
+}
+.product--current {
+	opacity: 0.5;
+}
+.product:hover {
+	box-shadow: 0 1rem 1rem var(--neutral-color-300);
+}
+
+.product__img {
+	width: 3rem;
+	height: 3rem;
+	display: grid;
+	place-items: center;
+	background-color: var(--neutral-color-300);
+	border-radius: var(--br-400);
+	margin-bottom: 1rem;
+	margin-inline: auto;
+}
+
+.product__img__icon {
+	font-size: 1.25rem;
+}
+
+.product__name {
+	font-size: var(--fs-500);
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.product__features {
+	margin-bottom: 1rem;
+}

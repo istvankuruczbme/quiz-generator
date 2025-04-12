@@ -11,6 +11,7 @@ export default async function signUpWithPassword(
 		email,
 		password,
 		options: {
+			emailRedirectTo: `${import.meta.env.VITE_CLIENT_URL}/email-verified`,
 			data: {
 				full_name: name,
 				avatar_url: "",
