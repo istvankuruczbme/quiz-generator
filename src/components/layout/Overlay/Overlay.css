@@ -1,0 +1,16 @@
+.overlay {
+	display: grid;
+	place-items: center;
+	background-color: rgba(0 0 0 / 0.5);
+	backdrop-filter: blur(0.25rem);
+	position: fixed;
+	top: -100%;
+	left: 0;
+	right: 0;
+	z-index: 20;
+	transition: top 200ms linear;
+}
+.overlay--show {
+	top: 0;
+	bottom: 0;
+}

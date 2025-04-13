@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useUser from "../../../contexts/UserContext/useUser";
-import defaultUserPhotoUrl from "../assets/defaultUserPhotoUrl";
 
 const useProfilePersonalData = () => {
 	// #region States
@@ -17,10 +16,10 @@ const useProfilePersonalData = () => {
 		if (loading) return;
 
 		if (user == null) {
-			setPhotoUrl(defaultUserPhotoUrl);
+			setPhotoUrl("");
 			setName("");
 		} else {
-			setPhotoUrl(user.photoUrl || defaultUserPhotoUrl);
+			setPhotoUrl(user.photoUrl || "");
 			setName(user.name);
 		}
 	}, [user, loading]);

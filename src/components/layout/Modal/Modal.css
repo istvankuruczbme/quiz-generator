@@ -5,6 +5,6 @@
 	max-width: 95%;
 	background-color: var(--secondary-color);
 	border-radius: var(--br-400);
-	box-shadow: 0 1rem 1rem var(--neutral-color-200);
+	/* box-shadow: 0 1rem 1rem var(--neutral-color-200); */
 	margin-inline: auto;
 }

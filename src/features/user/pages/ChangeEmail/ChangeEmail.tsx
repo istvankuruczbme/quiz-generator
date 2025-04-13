@@ -1,4 +1,16 @@
-import { FC, FormEvent, HTMLAttributes, useRef } from "react";
+import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
+// Components
+import AuthLayout from "../../../auth/components/layout/AuthLayout/AuthLayout";
+import AuthModal from "../../../auth/components/layout/AuthModal/AuthModal";
+import Modal from "../../../../components/layout/Modal/Modal";
+import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
+import FormText from "../../../../components/form/FormText/FormText";
+import Input from "../../../../components/form/Input/Input";
+import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
+import ProfileBackButton from "../../components/ui/ProfileBackButton/ProfileBackButton";
+// Hooks
+import useError from "../../../error/hooks/useError";
+import useFeedback from "../../../feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import validateEmail from "../../../../utils/validation/validateEmail";
 import updateAuthEmail from "../../../auth/services/updateAuthEmail";
@@ -8,6 +20,15 @@ import "./ChangeEmail.css";
 type ChangeEmailProps = HTMLAttributes<HTMLDivElement>;
 
 const ChangeEmail: FC<ChangeEmailProps> = () => {
+	// #region States
+	const [loading, setLoading] = useState(false);
+	// #endregion
+
+	// #region Hooks
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
+	// #endregion
+
 	// #region Refs
 	const emailRef = useRef<HTMLInputElement>(null);
 	// #endregion
@@ -16,6 +37,8 @@ const ChangeEmail: FC<ChangeEmailProps> = () => {
 	async function handleNewEmailSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
+		setLoading(true);
+
 		// Input value
 		const email = emailRef.current?.value;
 
@@ -23,35 +46,63 @@ const ChangeEmail: FC<ChangeEmailProps> = () => {
 			// Validate the email
 			validateEmail(email);
 		} catch (err) {
-			console.log("Error vaidating the email.", err);
+			setError(err);
+			setLoading(false);
+			return;
 		}
 
 		try {
 			// Send confirmation email
 			await updateAuthEmail(email as string);
+
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Email sent.",
+				details: "Check your inbox to verify it.",
+			});
 		} catch (err) {
 			console.log("Error sending confirmation email.", err);
+			setError(err);
+		} finally {
+			setLoading(false);
 		}
 	}
 	// #endregion
 
 	return (
-		<div>
-			<h2>Change email</h2>
+		<AuthLayout>
+			<AuthModal>
+				<Modal.Header className="changeEmail__modal__header">
+					<ProfileBackButton variant="secondary" />
+					<Modal.Title>Change email</Modal.Title>
+				</Modal.Header>
 
-			<p>
-				Type your new email address. After you hit submit a confirmation email will be sent to
-				your inbox.
-			</p>
+				<Modal.Body>
+					<FormText>
+						Type your new email address. After you hit submit a confirmation email will be
+						sent to your inbox.
+					</FormText>
 
-			<form onSubmit={handleNewEmailSubmit}>
-				<label htmlFor="changeEmail">Email:</label>
-				<input type="email" id="changeEmail" placeholder="Email" required ref={emailRef} />
-				<br />
+					<form onSubmit={handleNewEmailSubmit}>
+						<FormInputsContainer>
+							<Input
+								type="email"
+								label="Email"
+								id="changeEmail"
+								placeholder="Email"
+								required
+								ref={emailRef}
+							/>
+						</FormInputsContainer>
 
-				<button type="submit">Submit</button>
-			</form>
-		</div>
+						<LoadingButton type="submit" variant="accent" full loading={loading}>
+							Send email
+						</LoadingButton>
+					</form>
+				</Modal.Body>
+			</AuthModal>
+		</AuthLayout>
 	);
 };
 

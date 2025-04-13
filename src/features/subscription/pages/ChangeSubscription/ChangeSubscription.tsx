@@ -1,14 +1,15 @@
 import { FC, HTMLAttributes } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 // Components
 import Page from "../../../../components/layout/Page/Page";
+import Section from "../../../../components/layout/Section/Section";
 import SubscriptionMissingAlert from "../../components/ui/SubscriptionMissingAlert/SubscriptionMissingAlert";
-import Product from "../../components/ui/Product/Product";
-import ProductContainer from "../../components/layout/ProductContainer/ProductContainer";
 import Text from "../../../../components/ui/Text/Text";
+import ProductsProvider from "../../../product/contexts/ProductsContext/ProductsProvider";
+import SubscriptionProductsSection from "../../components/layout/SubscriptionProductsSection/SubscriptionProductsSection";
+import ProfileBackButton from "../../../user/components/ui/ProfileBackButton/ProfileBackButton";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
-import useProducts from "../../../product/contexts/useProducts";
-import { useSearchParams } from "react-router-dom";
 // CSS
 import "./ChangeSubscription.css";
 
@@ -17,7 +18,6 @@ type ChangeSubscriptionProps = HTMLAttributes<HTMLDivElement>;
 const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 	// #region Hooks
 	const { user } = useUser();
-	const { products } = useProducts();
 	const [searchParams] = useSearchParams();
 	//#endregion
 
@@ -28,29 +28,43 @@ const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 
 	return (
 		<Page>
-			<Page.Section>
+			<Section>
+				<ProfileBackButton />
 				<Page.Title>{user?.hasSubscription ? "Change" : "Select"} Subscription</Page.Title>
-			</Page.Section>
+
+				<Text variant="neutral-400" mb="0">
+					Select the subscription you like. Subscription can be changed in the future on this
+					page.
+				</Text>
+			</Section>
 
 			{(!user?.hasSubscription || success || cancel) && (
-				<Page.Section>
+				<Section>
 					{!user?.hasSubscription && <SubscriptionMissingAlert />}
 					{cancel && <p>Payment cancelled.</p>}
 					{success && <p>Payment was successful.</p>}
-				</Page.Section>
+				</Section>
 			)}
 
-			<Page.Section>
-				<ProductContainer>
-					{products.map((product) => (
-						<Product key={product.id} product={product} />
-					))}
-				</ProductContainer>
-			</Page.Section>
+			<ProductsProvider>
+				<SubscriptionProductsSection />
+			</ProductsProvider>
 
-			<Page.Section>
-				<Text>After you click on Subscribe you will be redirected to the payment page.</Text>
-			</Page.Section>
+			<Section>
+				<Section.Title>Payment information</Section.Title>
+
+				<Text>
+					Payment actions are handled by <Link to="https://stripe.com/">Stripe</Link>.
+				</Text>
+				<Text>
+					After you click on Subscribe you will be redirected to the payment page where you can
+					add your card details.
+				</Text>
+				<Text mb="0">
+					Don't be afraid Stripe is a secure payment provider used by many big companies like
+					Amazon and Google.
+				</Text>
+			</Section>
 		</Page>
 	);
 };

@@ -10,6 +10,7 @@ import removeNewUserFlag from "../utils/removeNewUserFlag";
 import { useNavigate } from "react-router-dom";
 import checkAxiosError from "../../../utils/axios/checkAxiosError";
 import getAxiosErrorMessage from "../../../utils/axios/getAxiosErrorMessage";
+import useFeedback from "../../feedback/contexts/FeedbackContext/useFeedback";
 
 const useAuth = () => {
 	// #region States
@@ -18,6 +19,7 @@ const useAuth = () => {
 
 	// #region Hooks
 	const { user, setUser, setLoading } = useUser();
+	const { setFeedback } = useFeedback();
 	const navigate = useNavigate();
 	// #endregion
 
@@ -62,7 +64,14 @@ const useAuth = () => {
 						// Update user email in DB
 						await updateUserEmail(authUser.id, authUser.email);
 
-						console.log("User email updated.");
+						// Show feedback
+						setFeedback({
+							type: "success",
+							message: "Email upadted.",
+						});
+
+						// Navigate to profile page
+						navigate("/profile");
 					} catch (err) {
 						console.log("Error updating user email in DB.", err);
 					} finally {
@@ -96,7 +105,7 @@ const useAuth = () => {
 		});
 
 		return () => data.subscription.unsubscribe();
-	}, [previousSession, user, setUser, setLoading, navigate]);
+	}, [previousSession, user, setUser, setLoading, setFeedback, navigate]);
 };
 
 export default useAuth;

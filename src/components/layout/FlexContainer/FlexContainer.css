@@ -1,0 +1,26 @@
+.flexContainer {
+	display: flex;
+	flex-direction: var(--direction, row);
+	gap: var(--gap, 1rem);
+}
+
+@media screen and (max-width: 1200px) {
+	.flexContainer--wrap-1200px {
+		flex-wrap: wrap;
+	}
+}
+@media screen and (max-width: 992px) {
+	.flexContainer--wrap-992px {
+		flex-wrap: wrap;
+	}
+}
+@media screen and (max-width: 768px) {
+	.flexContainer--wrap-768px {
+		flex-wrap: wrap;
+	}
+}
+@media screen and (max-width: 576px) {
+	.flexContainer--wrap-576px {
+		flex-wrap: wrap;
+	}
+}

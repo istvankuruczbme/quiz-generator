@@ -5,5 +5,5 @@ export default async function updateAuthPassword(password: string): Promise<void
 	const { error } = await supabase.auth.updateUser({ password });
 
 	// Check error
-	if (error != null) throw error;
+	if (error != null) throw new Error(`auth/${error.code}`);
 }

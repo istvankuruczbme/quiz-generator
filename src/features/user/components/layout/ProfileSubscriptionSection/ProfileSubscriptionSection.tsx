@@ -1,6 +1,9 @@
 import { FC, HTMLAttributes } from "react";
 // Components
-import { Link } from "react-router-dom";
+import Section from "../../../../../components/layout/Section/Section";
+import Text from "../../../../../components/ui/Text/Text";
+import Button from "../../../../../components/ui/Button/Button";
+import ProfileLinkButton from "../../ui/ProfileLinkButton/ProfileLinkButton";
 // Function
 import createCustomerPortal from "../../../services/createCustomerPortal";
 import useUser from "../../../../../contexts/UserContext/useUser";
@@ -32,15 +35,26 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 	//#endregion
 
 	return (
-		<div>
-			<h2>Subscription</h2>
+		<Section>
+			<Section.Title>Your subscription</Section.Title>
 
-			<button onClick={handleCustomerPortalClick}>My subscription</button>
+			<Text variant="neutral-400">
+				Click on My subscription button to manage everything related to your subscription. You
+				will be redirected to Stripe's page.
+			</Text>
+			<Button
+				variant="accent"
+				className="profileSubscription__my"
+				onClick={handleCustomerPortalClick}
+			>
+				My subscription
+			</Button>
 
-			<Link to="/profile/subscription">
-				<button>Change subscription</button>
-			</Link>
-		</div>
+			<Text variant="neutral-400">
+				Click on Change subscription button to change your subscription.
+			</Text>
+			<ProfileLinkButton to="/profile/subscription">Change subscription</ProfileLinkButton>
+		</Section>
 	);
 };
 

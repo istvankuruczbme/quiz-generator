@@ -1,16 +1,35 @@
-import { FC, FormEvent, HTMLAttributes, useRef } from "react";
+import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
+// Components
+import AuthLayout from "../../../auth/components/layout/AuthLayout/AuthLayout";
+import AuthModal from "../../../auth/components/layout/AuthModal/AuthModal";
+import Modal from "../../../../components/layout/Modal/Modal";
+import Input from "../../../../components/form/Input/Input";
+import Text from "../../../../components/ui/Text/Text";
+import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
+import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
+import ProfileBackButton from "../../components/ui/ProfileBackButton/ProfileBackButton";
+// Hooks
+import useError from "../../../error/hooks/useError";
+import useFeedback from "../../../feedback/contexts/FeedbackContext/useFeedback";
+import { useNavigate } from "react-router-dom";
 // Functions
 import validateChangePasswordInputs from "../../utils/validation/validateChangePasswordInputs";
 import updateUserPassword from "../../../auth/services/updateAuthPassword";
+import signOut from "../../../auth/services/signOut";
 // CSS
 import "./ChangePassword.css";
-import { useNavigate } from "react-router-dom";
 
 type ChangePasswordProps = HTMLAttributes<HTMLDivElement>;
 
 const ChangePassword: FC<ChangePasswordProps> = () => {
+	// #region States
+	const [loading, setLoading] = useState(false);
+	// #endregion
+
 	// #region Hooks
 	const navigate = useNavigate();
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
 	//#endregion
 
 	// #region Refs
@@ -22,6 +41,8 @@ const ChangePassword: FC<ChangePasswordProps> = () => {
 	async function handleNewPasswordSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
+		setLoading(true);
+
 		// Input values
 		const password = passwordRef.current?.value;
 		const passwordConfirm = passwordConfirmRef.current?.value;
@@ -30,50 +51,75 @@ const ChangePassword: FC<ChangePasswordProps> = () => {
 			// Validation
 			validateChangePasswordInputs(password, passwordConfirm);
 		} catch (err) {
-			console.log("Error during valdiation of input values.", err);
+			setError(err);
+			setLoading(false);
 			return;
 		}
 
 		try {
 			// Change password in Supabase
 			await updateUserPassword(password as string);
-		} catch (err) {
-			console.log("Error updating user password.", err);
-			return;
-		}
 
-		navigate("/profile");
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Password updated.",
+			});
+
+			// Sign out user
+			await signOut();
+
+			// Navigate to sign in page
+			navigate("/sign-in");
+		} catch (err) {
+			// console.log("Error updating user password.", err);
+			setError(err);
+		} finally {
+			setLoading(false);
+		}
 	}
 	// #endregion
 
 	return (
-		<div>
-			<h1>Change password</h1>
+		<AuthLayout>
+			<AuthModal>
+				<Modal.Header className="changePassword__modal__header">
+					<ProfileBackButton variant="secondary" />
+					<Modal.Title>Change password</Modal.Title>
+				</Modal.Header>
 
-			<form onSubmit={handleNewPasswordSubmit}>
-				<label htmlFor="changePassword">Password:</label>
-				<input
-					type="password"
-					id="changePassword"
-					placeholder="Password"
-					required
-					ref={passwordRef}
-				/>
-				<br />
+				<Modal.Body>
+					<Text variant="neutral-400">
+						After you password was updated you have to sign in with it.
+					</Text>
 
-				<label htmlFor="changePasswordConfirm">Password Confirm:</label>
-				<input
-					type="password"
-					id="changePasswordConfirm"
-					placeholder="Password Confirm"
-					required
-					ref={passwordConfirmRef}
-				/>
-				<br />
+					<form onSubmit={handleNewPasswordSubmit}>
+						<FormInputsContainer>
+							<Input
+								type="password"
+								label="Password"
+								placeholder="Password"
+								id="changePassword"
+								required
+								ref={passwordRef}
+							/>
+							<Input
+								type="password"
+								label="Password Confirm"
+								placeholder="Password Confirm"
+								id="changePasswordConfirm"
+								required
+								ref={passwordConfirmRef}
+							/>
+						</FormInputsContainer>
 
-				<button type="submit">Change password</button>
-			</form>
-		</div>
+						<LoadingButton type="submit" variant="accent" full loading={loading}>
+							Change password
+						</LoadingButton>
+					</form>
+				</Modal.Body>
+			</AuthModal>
+		</AuthLayout>
 	);
 };
 

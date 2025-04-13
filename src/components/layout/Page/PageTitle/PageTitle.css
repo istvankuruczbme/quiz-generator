@@ -1,3 +1,4 @@
 .pageTitle {
 	font-size: var(--fs-900);
+	margin-bottom: var(--mb, 1rem);
 }

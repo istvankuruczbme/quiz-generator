@@ -1,6 +1,7 @@
 .productContainer {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 2rem;
+	gap: 3rem;
 	justify-content: center;
+	margin-top: 2rem;
 }

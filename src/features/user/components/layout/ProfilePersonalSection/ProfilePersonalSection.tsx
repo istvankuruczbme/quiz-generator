@@ -1,77 +1,56 @@
-import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef } from "react";
+import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
-import { Link } from "react-router-dom";
+import Section from "../../../../../components/layout/Section/Section";
+import Text from "../../../../../components/ui/Text/Text";
+import Input from "../../../../../components/form/Input/Input";
+import FormInputsContainer from "../../../../../components/form/FormInputsContainer/FormInputsContainer";
+import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
+import FileUpload from "../../../../../components/layout/FileUpload/FileUpload";
+import DeletePhotoModal from "../DeletePhotoModal/DeletePhotoModal";
+import Button from "../../../../../components/ui/Button/Button";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
 import useProfilePersonalData from "../../../hooks/useProfilePersonalData";
+import useError from "../../../../error/hooks/useError";
+import useFeedback from "../../../../feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import validatePersonalDataInputs from "../../../utils/validation/validatePersonalDataInputs";
 import updateUserPersonalData from "../../../services/updateUserPersonalData";
-import validateImageFile from "../../../../../utils/image/validateImageFile";
-import createImageUrl from "../../../../../utils/image/createImageUrl";
-import removeUserPhoto from "../../../services/removeUserPhoto";
 // CSS
 import "./ProfilePersonalSection.css";
 
 type ProfilePersonalSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
+	// #region States
+	const [showDeletePhotoModal, setShowDeletePhotoModal] = useState(false);
+	const [loading, setLoading] = useState(false);
+	// #endregion
+
 	// #region Hooks
-	const { user, updateUserState } = useUser();
+	const { user, loading: loadingUser, updateUserState } = useUser();
 	const { photoUrl, setPhotoUrl, name, setName } = useProfilePersonalData();
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
 	// #endregion
 
 	// #region Refs
 	const photoRef = useRef<HTMLInputElement>(null);
 	// #endregion
 
+	// #region Variables
+	const hasUserPhoto = user?.photoUrl !== null;
+	//#endregion
+
 	// #region Functions
-	function handleFileChange(e: ChangeEvent<HTMLInputElement>): void {
-		// Get selected file
-		const file = e.target.files?.[0];
-
-		try {
-			// Validate image file
-			validateImageFile(file);
-		} catch (err) {
-			console.log(err);
-			return;
-		}
-
-		// Create image URL
-		const photoUrl = createImageUrl(file as File);
-
-		// Update photoURL state
-		setPhotoUrl(photoUrl);
-	}
-
-	async function handleRemovePhoto() {
-		// Confirm
-		const confirm = window.confirm("Are you sure you want to remove your photo?");
-		if (!confirm) return;
-
-		// Check user
-		if (user == null) return;
-
-		try {
-			// Remove user photo
-			await removeUserPhoto(user.id);
-		} catch (err) {
-			console.log("Error removing the photo of user.", err);
-			return;
-		}
-
-		// Update user state
-		await updateUserState();
-		setPhotoUrl("");
-		console.log("Photo removed.");
-	}
-
 	async function handleSubmitPersonalData(e: FormEvent<HTMLFormElement>): Promise<void> {
 		e.preventDefault();
 
 		// Check user
 		if (user == null) return;
+
+		setLoading(true);
 
 		// Input values
 		const photo = photoRef.current?.files?.[0];
@@ -80,70 +59,87 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 			// Check input values
 			validatePersonalDataInputs(name);
 		} catch (err) {
-			console.log("Error validating sign up data.\n", err);
+			setError(err);
+			setLoading(false);
 			return;
 		}
 
 		try {
 			// Update user name and photo in DB
 			await updateUserPersonalData(user.id, name, photo);
+
+			// Update user state
+			await updateUserState();
+
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Personal data saved.",
+			});
 		} catch (err) {
 			console.log("Error updating the personal data of user.", err);
+			setError(err);
 			return;
+		} finally {
+			setLoading(false);
 		}
-
-		// Update user state
-		await updateUserState();
-
-		console.log("Successful update.");
 	}
 	//#endregion
 
 	return (
-		<div>
-			<h2>Personal data</h2>
+		<Section>
+			{hasUserPhoto && (
+				<DeletePhotoModal
+					show={showDeletePhotoModal}
+					setShow={setShowDeletePhotoModal}
+					setPhotoUrl={setPhotoUrl}
+				/>
+			)}
 
-			<div>
-				<Link to="/profile/change-email">
-					<button type="button" tabIndex={-1}>
-						Change email
-					</button>
-				</Link>
-				<Link to="/profile/change-password">
-					<button type="button" tabIndex={-1}>
-						Change password
-					</button>
-				</Link>
-			</div>
+			<Section.Title>Personal data</Section.Title>
 
 			<form onSubmit={handleSubmitPersonalData}>
-				<img src={photoUrl || undefined} alt={name} />
-				<input
-					type="file"
-					id="profilePhoto"
-					accept="image/*"
-					onChange={handleFileChange}
-					ref={photoRef}
-				/>
-				<button type="button" onClick={handleRemovePhoto}>
-					Remove photo
-				</button>
-				<br />
+				<FormInputsContainer>
+					<Text mb="-1rem">Photo</Text>
+					<FileUpload
+						uploadType="photo"
+						defaultPhotoUrl={photoUrl}
+						deleteFileButton={
+							hasUserPhoto ? (
+								<Button variant="danger" onClick={() => setShowDeletePhotoModal(true)}>
+									Delete photo
+								</Button>
+							) : null
+						}
+						ref={photoRef}
+					/>
 
-				<label htmlFor="profileName">Name:</label>
-				<input
-					type="text"
-					id="profileName"
-					placeholder="Name"
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-					required
-				/>
-				<br />
+					{!loadingUser ? (
+						<Input
+							type="text"
+							label="Name"
+							id="profileName"
+							placeholder="Name"
+							value={name}
+							full
+							onChange={(e) => setName(e.target.value)}
+							required
+						/>
+					) : (
+						<Skeleton type="rect" width="100%" height="40px" />
+					)}
 
-				<button type="submit">Submit</button>
+					<LoadingButton
+						type="submit"
+						variant="accent"
+						className="profilePersonal__save"
+						loading={loading}
+					>
+						Save personal data
+					</LoadingButton>
+				</FormInputsContainer>
 			</form>
-		</div>
+		</Section>
 	);
 };
 

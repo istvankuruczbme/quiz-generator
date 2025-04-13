@@ -36,8 +36,33 @@ const errors = {
 		message: "Email or password is wrong.",
 		details: "",
 	},
+	"auth/same_password": {
+		message: "Same password as currently.",
+		details: "Please enter a different password.",
+	},
 	//#endregion
 
+	// #region User
+	"user/name-missing": {
+		message: "Name missing.",
+		details: "Please fill the name field.",
+	},
+	"user/categories-missing": {
+		message: "No categories selected.",
+		details: "Select at least 1 category.",
+	},
+	//#endregion
+
+	// #region File
+	"file/missing": {
+		message: "There is no file.",
+		details: "Select a file by clicking on the button.",
+	},
+	"file/not-an-image": {
+		message: "The selected file is not an image.",
+		details: "Please select an image file.",
+	},
+	// #endregion
 	default: {
 		message: "An unknown error occured.",
 		details: "Please try again later.",

@@ -6,17 +6,18 @@ import {
 	useState,
 } from "react";
 import addPropClassName from "../../../utils/addPropClassName";
-import "./Input.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "./Input.css";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 	type?: HTMLInputTypeAttribute;
 	label?: string | ReactNode;
+	full?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-	({ type = "text", label, className, ...rest }, ref) => {
+	({ type = "text", label, full = false, className, ...rest }, ref) => {
 		// #region States
 		const [showPassword, setShowPassword] = useState(false);
 		//#endregion
@@ -28,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 		// #endregion
 
 		return (
-			<div className={`input${addPropClassName(className)}`}>
+			<div className={`input${full ? " input--full" : ""}${addPropClassName(className)}`}>
 				{label != undefined && (
 					<label htmlFor={rest.id} className="input__label">
 						{label}

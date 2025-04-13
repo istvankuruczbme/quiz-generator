@@ -1,0 +1,42 @@
+.box {
+	color: var(--box-color);
+	background-color: var(--box-bg-color);
+	border-radius: var(--br-400);
+	box-shadow: 0 0.5rem 1rem var(--neutral-color-300);
+	padding: 1rem;
+}
+
+/* #region Variants */
+.box--primary {
+	--box-color: var(--neutral-color-700);
+	--box-bg-color: var(--primary-color);
+}
+.box--secondary {
+	--box-color: var(--neutral-color-700);
+	--box-bg-color: var(--secondary-color);
+}
+.box--accent {
+	--box-color: var(--secondary-color);
+	--box-bg-color: var(--accent-color-400);
+}
+.box--neutral {
+	--box-color: var(--secondary-color);
+	--box-bg-color: var(--neutral-color-300);
+}
+.box--success {
+	--box-color: var(--secondary-color);
+	--box-bg-color: var(--success-color-400);
+}
+.box--danger {
+	--box-color: var(--secondary-color);
+	--box-bg-color: var(--danger-color-400);
+}
+.box--info {
+	--box-color: var(--secondary-color);
+	--box-bg-color: var(--info-color-200);
+}
+/* #endregion */
+
+.box--full {
+	width: 100%;
+}

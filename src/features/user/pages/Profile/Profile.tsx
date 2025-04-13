@@ -4,20 +4,26 @@ import ProfileCategoriesSection from "../../components/layout/ProfileCategoriesS
 import ProfilePersonalSection from "../../components/layout/ProfilePersonalSection/ProfilePersonalSection";
 import ProfileDeleteSection from "../../components/layout/ProfileDeleteSection/ProfileDeleteSection";
 import ProfileSubscriptionSection from "../../components/layout/ProfileSubscriptionSection/ProfileSubscriptionSection";
+import Page from "../../../../components/layout/Page/Page";
+import Section from "../../../../components/layout/Section/Section";
+import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
 // CSS
 import "./Profile.css";
-import { Link } from "react-router-dom";
+import ProfileEmailPasswordSection from "../../components/layout/ProfileEmailPasswordSection/ProfileEmailPasswordSection";
 
 type ProfileProps = HTMLAttributes<HTMLDivElement>;
 
 const Profile: FC<ProfileProps> = () => {
 	return (
-		<div>
-			<h1>Profile</h1>
+		<Page>
+			<Section>
+				<BackButton to="/" variant="primary">
+					Home
+				</BackButton>
+				<Page.Title>Profile</Page.Title>
+			</Section>
 
-			<Link to="/">
-				<button tabIndex={-1}>Home</button>
-			</Link>
+			<ProfileEmailPasswordSection />
 
 			<ProfilePersonalSection />
 
@@ -26,7 +32,7 @@ const Profile: FC<ProfileProps> = () => {
 			<ProfileCategoriesSection />
 
 			<ProfileDeleteSection />
-		</div>
+		</Page>
 	);
 };
 

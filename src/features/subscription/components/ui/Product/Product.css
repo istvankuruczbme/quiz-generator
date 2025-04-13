@@ -4,6 +4,7 @@
 	border-radius: var(--br-400);
 	box-shadow: 0 0.5rem 0.5rem var(--neutral-color-300);
 	padding: 1rem;
+	position: relative;
 	transition: box-shadow 300ms ease;
 }
 .product--current {
@@ -11,6 +12,19 @@
 }
 .product:hover {
 	box-shadow: 0 1rem 1rem var(--neutral-color-300);
+}
+
+.product__current {
+	font-weight: 500;
+	text-wrap: nowrap;
+	color: var(--secondary-color);
+	background-color: var(--accent-color-400);
+	border-radius: var(--br-pill);
+	padding: 0.5rem 2rem;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	translate: -50% -75%;
 }
 
 .product__img {
@@ -35,5 +49,17 @@
 }
 
 .product__features {
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
+}
+
+.product__price {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.product__price__amount {
+	display: inline-block;
+	font-size: var(--fs-900);
+	font-weight: 700;
+	margin-right: 0.5rem;
 }

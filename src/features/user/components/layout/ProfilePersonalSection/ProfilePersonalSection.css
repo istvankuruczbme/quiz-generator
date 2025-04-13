@@ -1,0 +1,17 @@
+.profile__personal__row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+}
+
+.profilePersonal__filename {
+	flex-grow: 1;
+}
+
+.profilePersonal__photo__remove {
+	align-self: flex-end;
+}
+
+.profilePersonal__save {
+	width: fit-content;
+}

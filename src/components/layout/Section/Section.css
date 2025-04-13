@@ -1,0 +1,6 @@
+.section {
+	--section-py: 1rem;
+	--section-px: var(--page-px);
+
+	padding: var(--section-py) var(--section-px);
+}

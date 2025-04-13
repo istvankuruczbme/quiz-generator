@@ -14,6 +14,12 @@
 .text--accent {
 	--text-color: var(--accent-color-400);
 }
+.text--neutral-400 {
+	--text-color: var(--neutral-color-400);
+}
+.text--neutral-700 {
+	--text-color: var(--neutral-color-700);
+}
 .text--neutral {
 	--text-color: var(--neutral-color-700);
 }

@@ -7,6 +7,9 @@ import deleteUserDb from "../../../services/deleteUser";
 // CSS
 import "./ProfileDeleteSection.css";
 import signOut from "../../../../auth/services/signOut";
+import Section from "../../../../../components/layout/Section/Section";
+import Button from "../../../../../components/ui/Button/Button";
+import Text from "../../../../../components/ui/Text/Text";
 
 type ProfileDeleteSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -47,14 +50,18 @@ const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
 	//#endregion
 
 	return (
-		<div>
-			<h2>Delete profile</h2>
+		<Section>
+			<Section.Title>Delete profile</Section.Title>
 
-			<p>Click on the button below to delete your account.</p>
-			<p>By deleting your account your subscription will be lost.</p>
+			<Text variant="neutral-400">
+				Click on the button below to delete your account. By deleting your account your
+				subscription will be lost.
+			</Text>
 
-			<button onClick={handleDeleteUserClick}>Delete</button>
-		</div>
+			<Button variant="danger" onClick={handleDeleteUserClick}>
+				Delete profile
+			</Button>
+		</Section>
 	);
 };
 

@@ -4,6 +4,9 @@
 	gap: 0.25rem;
 	position: relative;
 }
+.input--full {
+	display: flex;
+}
 
 .input__input {
 	background-color: var(--secondary-color);
@@ -22,6 +25,9 @@
 .input__input:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
+}
+.input--full .input__input {
+	width: 100%;
 }
 
 .input__password {

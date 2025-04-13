@@ -1,0 +1,7 @@
+.modalClose {
+	width: 2.5rem;
+	height: 2.5rem;
+	display: grid;
+	place-items: center;
+	padding: 0;
+}

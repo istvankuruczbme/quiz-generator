@@ -8,11 +8,12 @@ import ProductFeatures from "./ProductFeatures/ProductFeatures";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
-import useProducts from "../../../../product/contexts/useProducts";
+import useProducts from "../../../../product/contexts/ProductsContext/useProducts";
 import { useNavigate } from "react-router-dom";
 // Functions
 import createCheckoutSession from "../../../../product/services/createCheckoutSession";
 import updateSubscription from "../../../services/updateSubscription";
+import formatCurrency from "../../../../../utils/formatting/formatCurrency";
 // CSS
 import "./Product.css";
 
@@ -36,8 +37,6 @@ const Product: ProductComponent = ({ product }) => {
 	const { userProductId } = useProducts();
 	const navigate = useNavigate();
 	// #endregion
-
-	// console.log("User:", userProductId);
 
 	// #region Functions
 	async function handleSubscriptionClick() {
@@ -92,6 +91,10 @@ const Product: ProductComponent = ({ product }) => {
 
 	return (
 		<div className={`product${product.id === userProductId ? " product--current" : ""}`}>
+			{product.id === userProductId && (
+				<div className="product__current">Current subscription</div>
+			)}
+
 			{product.photoUrl != null ? (
 				<img src={product.photoUrl} alt={product.name} className="product__img" />
 			) : (
@@ -104,7 +107,14 @@ const Product: ProductComponent = ({ product }) => {
 			<Text mb="2rem">{product.description}</Text>
 
 			<Product.Features className="product__features">
-				<Product.Features.Item text={<>Max quizzes: {product.maxQuizCount}</>} />
+				<Product.Features.Item
+					text={
+						<>
+							Max quizzes:{" "}
+							{Number.isFinite(product.maxQuizCount) ? product.maxQuizCount : "No limit"}
+						</>
+					}
+				/>
 				<Product.Features.Item
 					text={<>Max questions (per quiz): {product.maxQuestionCount}</>}
 				/>
@@ -112,6 +122,13 @@ const Product: ProductComponent = ({ product }) => {
 					text={<>Max answer options (per question): {product.maxAnswerOptionCount}</>}
 				/>
 			</Product.Features>
+
+			<div className="product__price">
+				<span className="product__price__amount">
+					{formatCurrency(product.price.amount / 100, product.price.currency)}
+				</span>
+				/month
+			</div>
 
 			<LoadingButton
 				variant="accent"

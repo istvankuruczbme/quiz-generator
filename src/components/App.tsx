@@ -6,7 +6,7 @@ import Quiz from "../features/quiz/pages/Quiz/Quiz";
 import EditQuiz from "../features/quiz/pages/EditQuiz/EditQuiz";
 import SignedInRoute from "../features/auth/components/layout/SignedInRoute/SignedInRoute";
 import ChangeSubscription from "../features/subscription/pages/ChangeSubscription/ChangeSubscription";
-import SelectCategories from "../features/category/pages/SelectCategories/SelectCategories";
+import ChangeCategories from "../features/category/pages/ChangeCategories/ChangeCategories";
 import NotSignedInRoute from "../features/auth/components/layout/NotSignedInRoute/NotSignedInRoute";
 import SignIn from "../features/auth/pages/SignIn/SignIn";
 import SignUp from "../features/auth/pages/SignUp/SignUp";
@@ -22,7 +22,6 @@ import GoogleSignInConfirmed from "../features/auth/pages/GoogleSignInConfirmed/
 import useAuth from "../features/auth/hooks/useAuth";
 // CSS
 import "./App.css";
-import ProductsProvider from "../features/product/contexts/ProductsProvider";
 
 function App() {
 	//#region Hooks
@@ -41,15 +40,8 @@ function App() {
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/profile/change-email" element={<ChangeEmail />} />
 					<Route path="/profile/change-password" element={<ChangePassword />} />
-					<Route
-						path="/profile/subscription"
-						element={
-							<ProductsProvider>
-								<ChangeSubscription />
-							</ProductsProvider>
-						}
-					/>
-					<Route path="/profile/categories" element={<SelectCategories />} />
+					<Route path="/profile/subscription" element={<ChangeSubscription />} />
+					<Route path="/profile/categories" element={<ChangeCategories />} />
 				</Route>
 
 				<Route path="/email-verified" element={<SignUpConfirmed />} />

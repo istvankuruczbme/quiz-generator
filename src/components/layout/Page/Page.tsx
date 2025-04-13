@@ -2,7 +2,6 @@ import { FC, HTMLAttributes } from "react";
 // Components
 import Header from "../Header/Header";
 import PageTitle from "./PageTitle/PageTitle";
-import PageSection from "./PageSection/PageSection";
 // Functions
 import addPropClassName from "../../../utils/addPropClassName";
 // CSS
@@ -14,7 +13,6 @@ type PageProps = HTMLAttributes<HTMLDivElement> & {
 };
 type PageChildren = {
 	Title: typeof PageTitle;
-	Section: typeof PageSection;
 };
 type PageComponent = FC<PageProps> & PageChildren;
 
@@ -29,6 +27,5 @@ const Page: PageComponent = ({ hasHeader = true, hasFooter = true, className, ch
 };
 
 Page.Title = PageTitle;
-Page.Section = PageSection;
 
 export default Page;
