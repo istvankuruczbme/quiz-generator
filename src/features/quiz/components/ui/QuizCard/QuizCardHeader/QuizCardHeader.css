@@ -1,0 +1,17 @@
+.quizCardHeader {
+	display: flex;
+	gap: 1.25rem;
+	align-items: flex-end;
+	padding-inline: var(--quiz-card-px);
+	position: relative;
+}
+.quizCardHeader::before {
+	content: "";
+	height: 1rem;
+	background: linear-gradient(to top, var(--neutral-color-300), transparent);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	translate: 0 calc(-100% - var(--quiz-card-gap));
+}

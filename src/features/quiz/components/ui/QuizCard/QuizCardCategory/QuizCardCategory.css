@@ -1,0 +1,15 @@
+.quizCardCategory {
+	width: fit-content;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	font-size: var(--fs-200);
+	color: var(--secondary-color);
+	background-color: var(--accent-color-400);
+	border-radius: var(--br-pill);
+	padding: 0.25rem 0.5rem;
+}
+
+.quizCardCategory__name {
+	text-transform: capitalize;
+}

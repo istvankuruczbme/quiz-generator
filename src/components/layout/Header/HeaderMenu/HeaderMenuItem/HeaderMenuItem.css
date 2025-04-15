@@ -4,6 +4,10 @@
 	text-wrap: nowrap;
 	color: var(--neutral-color-700);
 	position: relative;
+	transition: color 200ms ease;
+}
+.headerMenuItem__link:hover {
+	color: var(--accent-color-400);
 }
 .headerMenuItem__link--active::after {
 	content: "";

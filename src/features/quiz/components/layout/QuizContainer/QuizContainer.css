@@ -1,0 +1,11 @@
+.quizContainer {
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: repeat(auto-fill, 18rem);
+}
+
+@media screen and (max-width: 576px) {
+	.quizContainer {
+		justify-content: center;
+	}
+}

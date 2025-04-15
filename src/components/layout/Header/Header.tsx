@@ -35,7 +35,7 @@ const Header: HeaderComponent = () => {
 					{loading && (
 						<>
 							<Skeleton type="rect" width="80px" height="30px" />
-							<Skeleton type="rect" width="80px" height="30px" />
+							<Skeleton type="circle" width="30px" height="30px" />
 						</>
 					)}
 					{!loading && (

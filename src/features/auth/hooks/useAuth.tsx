@@ -29,17 +29,22 @@ const useAuth = () => {
 			// console.log(session?.access_token);
 
 			// Ignore password recovery event -> user must not be fetched
-			if (event === "PASSWORD_RECOVERY" || getPasswordResetFlag()) return;
+			if (event === "PASSWORD_RECOVERY" || getPasswordResetFlag()) {
+				setLoading(false);
+				return;
+			}
 
 			// Check if there is a session
 			if (session == null) {
 				setUser(null);
 				setPreviousSession(null);
+				setLoading(false);
 				return;
 			}
 
 			// Check same session
 			if (previousSession != null && previousSession.access_token == session.access_token) {
+				setLoading(false);
 				return;
 			}
 

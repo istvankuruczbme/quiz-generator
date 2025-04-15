@@ -6,7 +6,7 @@ import getUserQuizzes from "../sevices/getUserQuizzes";
 const useUserQuizzes = () => {
 	// #region States
 	const [quizzes, setQuizzes] = useState<QuizSummary[]>([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	//#endregion
 
 	//#region Hooks
