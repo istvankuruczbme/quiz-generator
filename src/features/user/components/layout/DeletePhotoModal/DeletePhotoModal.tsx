@@ -1,9 +1,10 @@
-import { Dispatch, FC, HTMLAttributes, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
+import { ModalProps } from "../../../../modal/types/modalTypes";
 // Components
 import Overlay from "../../../../../components/layout/Overlay/Overlay";
-import Modal from "../../../../../components/layout/Modal/Modal";
+import Modal from "../../../../modal/components/layout/Modal/Modal";
 import Text from "../../../../../components/ui/Text/Text";
-import ModalProvider from "../../../../../contexts/ModalContext/ModalProvider";
+import ModalProvider from "../../../../modal/contexts/ModalContext/ModalProvider";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
@@ -14,9 +15,7 @@ import useFeedback from "../../../../feedback/contexts/FeedbackContext/useFeedba
 // CSS
 import "./DeletePhotoModal.css";
 
-type DeletePhotoModalProps = HTMLAttributes<HTMLDivElement> & {
-	show: boolean;
-	setShow: Dispatch<SetStateAction<boolean>>;
+type DeletePhotoModalProps = ModalProps & {
 	setPhotoUrl: Dispatch<SetStateAction<string>>;
 };
 

@@ -22,7 +22,7 @@
 	background-color: var(--secondary-color);
 	border: 0.125rem solid var(--neutral-color-300);
 	border-radius: var(--br-200);
-	margin-top: 0.25rem;
+	margin-top: 0.125rem;
 	position: relative;
 }
 .checkbox__input:checked + .checkbox__marker {

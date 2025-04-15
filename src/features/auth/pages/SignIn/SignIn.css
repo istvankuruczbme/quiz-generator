@@ -1,0 +1,9 @@
+.signin__password__reset {
+	align-self: flex-end;
+	font-size: var(--fs-200);
+	text-decoration: none;
+	margin-top: -1rem;
+}
+.signin__password__reset:hover {
+	text-decoration: underline;
+}

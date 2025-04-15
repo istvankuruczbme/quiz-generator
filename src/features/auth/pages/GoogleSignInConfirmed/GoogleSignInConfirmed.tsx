@@ -1,8 +1,8 @@
 import { FC, HTMLAttributes } from "react";
 // Components
+import Modal from "../../../modal/components/layout/Modal/Modal";
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";
-import Modal from "../../../../components/layout/Modal/Modal";
 import Text from "../../../../components/ui/Text/Text";
 // CSS
 import "./GoogleSignInConfirmed.css";

@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 // Components
+import SubscriptionRequiredRoute from "../features/user/components/layout/SubscriptionRequiredRoute/SubscriptionRequiredRoute";
 import MyQuizzes from "../features/quiz/pages/MyQuizzes/MyQuizzes";
 import NewQuiz from "../features/quiz/pages/NewQuiz/NewQuiz";
 import Quiz from "../features/quiz/pages/Quiz/Quiz";
@@ -18,10 +19,12 @@ import ChangeEmail from "../features/user/pages/ChangeEmail/ChangeEmail";
 import ChangePassword from "../features/user/pages/ChangePassword/ChangePassword";
 import SignUpConfirmed from "../features/auth/pages/SignUpConfirmed/SignUpConfirmed";
 import GoogleSignInConfirmed from "../features/auth/pages/GoogleSignInConfirmed/GoogleSignInConfirmed";
+import Unauthorized from "../features/error/pages/Unauthorized/Unauthorized";
 // Hooks
 import useAuth from "../features/auth/hooks/useAuth";
 // CSS
 import "./App.css";
+import SubscriptionRequired from "../features/error/pages/SubscriptionRequired/SubscriptionRequired";
 
 function App() {
 	//#region Hooks
@@ -32,11 +35,15 @@ function App() {
 		<>
 			<Routes>
 				<Route element={<SignedInRoute />}>
-					<Route path="/quizzes/:quizId" element={<Quiz />} />
-					<Route path="/quizzes/:quizId/edit" element={<EditQuiz />} />
-					<Route path="/new-quiz" element={<NewQuiz />} />
-					<Route path="/my-quizzes" element={<MyQuizzes />} />
+					<Route element={<SubscriptionRequiredRoute />}>
+						{/* Quiz */}
+						<Route path="/quizzes/:quizId" element={<Quiz />} />
+						<Route path="/quizzes/:quizId/edit" element={<EditQuiz />} />
+						<Route path="/new-quiz" element={<NewQuiz />} />
+						<Route path="/my-quizzes" element={<MyQuizzes />} />
+					</Route>
 
+					{/* Profile */}
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/profile/change-email" element={<ChangeEmail />} />
 					<Route path="/profile/change-password" element={<ChangePassword />} />
@@ -44,6 +51,7 @@ function App() {
 					<Route path="/profile/categories" element={<ChangeCategories />} />
 				</Route>
 
+				{/* Auth */}
 				<Route path="/email-verified" element={<SignUpConfirmed />} />
 				<Route path="/google-sign-in" element={<GoogleSignInConfirmed />} />
 				<Route path="/reset-password" element={<ResetPassword />} />
@@ -55,6 +63,10 @@ function App() {
 				</Route>
 
 				<Route path="/" element={<Home />} />
+
+				{/* Error */}
+				<Route path="/subscription-required" element={<SubscriptionRequired />} />
+				<Route path="/unauthorized" element={<Unauthorized />} />
 				<Route path="*" element={<h1>Page not found</h1>} />
 			</Routes>
 		</>

@@ -1,8 +1,8 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../../auth/components/layout/AuthLayout/AuthLayout";
+import Modal from "../../../modal/components/layout/Modal/Modal";
 import AuthModal from "../../../auth/components/layout/AuthModal/AuthModal";
-import Modal from "../../../../components/layout/Modal/Modal";
 import Input from "../../../../components/form/Input/Input";
 import Text from "../../../../components/ui/Text/Text";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
@@ -83,10 +83,10 @@ const ChangePassword: FC<ChangePasswordProps> = () => {
 	return (
 		<AuthLayout>
 			<AuthModal>
-				<Modal.Header className="changePassword__modal__header">
+				<AuthModal.Header>
 					<ProfileBackButton variant="secondary" />
 					<Modal.Title>Change password</Modal.Title>
-				</Modal.Header>
+				</AuthModal.Header>
 
 				<Modal.Body>
 					<Text variant="neutral-400">

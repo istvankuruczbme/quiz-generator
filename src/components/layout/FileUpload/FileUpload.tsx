@@ -177,6 +177,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 						id={rest.id}
 						accept={uploadType === "photo" ? "image/*" : undefined}
 						className="fileUpload__input"
+						tabIndex={-1}
 						onChange={(e) => handleFileChange(e.target.files?.[0])}
 						{...rest}
 						ref={ref}

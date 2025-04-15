@@ -1,17 +1,16 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
+import Modal from "../../../modal/components/layout/Modal/Modal";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";
-import Modal from "../../../../components/layout/Modal/Modal";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import Input from "../../../../components/form/Input/Input";
 import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 import Divider from "../../../../components/ui/Divider/Divider";
 import AuthHeader from "../../components/layout/AuthHeader/AuthHeader";
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton/GoogleSignInButton";
-import LinkButton from "../../../../components/ui/Button/LinkButton/LinkButton";
 // Hooks
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useError from "../../../error/hooks/useError";
 // Functions
 import validateSignInInputs from "../../utils/validation/validateSignInInputs";
@@ -99,18 +98,15 @@ const SignIn: FC<SignInProps> = () => {
 								required
 								ref={passwordRef}
 							/>
+							<Link to="/reset-password-email" className="signin__password__reset">
+								Forgot your password?
+							</Link>
 						</FormInputsContainer>
 
 						<LoadingButton type="submit" variant="accent" full loading={loading}>
 							Sign In
 						</LoadingButton>
 					</form>
-
-					<Divider text="Forgot your password?" my="2rem" />
-
-					<LinkButton to="/reset-password-email" variant="primary" full>
-						New password
-					</LinkButton>
 
 					<Divider text="Or" my="2rem" />
 

@@ -2,12 +2,13 @@ import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
 import AuthHeader from "../../components/layout/AuthHeader/AuthHeader";
-import Modal from "../../../../components/layout/Modal/Modal";
+import Modal from "../../../modal/components/layout/Modal/Modal";
 import Input from "../../../../components/form/Input/Input";
 import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import FormText from "../../../../components/form/FormText/FormText";
+import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
 // Hooks
 import useError from "../../../error/hooks/useError";
 import useFeedback from "../../../feedback/contexts/FeedbackContext/useFeedback";
@@ -79,9 +80,12 @@ const SendResetPasswordEmail: FC<SendResetPasswordEmailProps> = () => {
 			<AuthHeader />
 
 			<AuthModal>
-				<Modal.Header>
+				<AuthModal.Header>
+					<BackButton to="/sign-in" variant="secondary">
+						Sign In
+					</BackButton>
 					<Modal.Title>Send password reset email</Modal.Title>
-				</Modal.Header>
+				</AuthModal.Header>
 
 				<Modal.Body>
 					<FormText>

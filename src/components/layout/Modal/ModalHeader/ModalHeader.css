@@ -1,6 +1,0 @@
-.modalHeader {
-	display: flex;
-	gap: 3rem;
-	justify-content: space-between;
-	padding: var(--py) var(--px);
-}

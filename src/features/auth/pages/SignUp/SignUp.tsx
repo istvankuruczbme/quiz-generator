@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
-import Modal from "../../../../components/layout/Modal/Modal";
+import Modal from "../../../modal/components/layout/Modal/Modal";
 import Input from "../../../../components/form/Input/Input";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";

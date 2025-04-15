@@ -1,8 +1,9 @@
 .overlay {
-	display: grid;
-	place-items: center;
+	height: 100svh;
 	background-color: rgba(0 0 0 / 0.5);
 	backdrop-filter: blur(0.25rem);
+	padding: 2rem;
+	overflow-y: auto;
 	position: fixed;
 	top: -100%;
 	left: 0;
@@ -12,5 +13,4 @@
 }
 .overlay--show {
 	top: 0;
-	bottom: 0;
 }

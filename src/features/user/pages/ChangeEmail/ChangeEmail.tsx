@@ -1,8 +1,8 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../../auth/components/layout/AuthLayout/AuthLayout";
+import Modal from "../../../modal/components/layout/Modal/Modal";
 import AuthModal from "../../../auth/components/layout/AuthModal/AuthModal";
-import Modal from "../../../../components/layout/Modal/Modal";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import FormText from "../../../../components/form/FormText/FormText";
 import Input from "../../../../components/form/Input/Input";
@@ -73,10 +73,10 @@ const ChangeEmail: FC<ChangeEmailProps> = () => {
 	return (
 		<AuthLayout>
 			<AuthModal>
-				<Modal.Header className="changeEmail__modal__header">
+				<AuthModal.Header>
 					<ProfileBackButton variant="secondary" />
 					<Modal.Title>Change email</Modal.Title>
-				</Modal.Header>
+				</AuthModal.Header>
 
 				<Modal.Body>
 					<FormText>

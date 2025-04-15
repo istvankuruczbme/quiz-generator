@@ -1,0 +1,17 @@
+.modal {
+	--modal-px: 2rem;
+	--modal-py: 2rem;
+
+	width: 30rem;
+	background-color: var(--secondary-color);
+	border-radius: var(--br-400);
+	margin-inline: auto;
+	overflow-y: auto;
+}
+
+@media screen and (max-width: 576px) {
+	.modal {
+		width: auto;
+		max-width: 95%;
+	}
+}

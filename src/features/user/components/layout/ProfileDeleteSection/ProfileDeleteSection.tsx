@@ -1,56 +1,23 @@
-import { FC, HTMLAttributes } from "react";
-// Hooks
-import useUser from "../../../../../contexts/UserContext/useUser";
-import { useNavigate } from "react-router-dom";
-// Functions
-import deleteUserDb from "../../../services/deleteUser";
-// CSS
-import "./ProfileDeleteSection.css";
-import signOut from "../../../../auth/services/signOut";
+import { FC, HTMLAttributes, useState } from "react";
+// Components
 import Section from "../../../../../components/layout/Section/Section";
+import DeleteUserModal from "../DeleteUserModal/DeleteUserModal";
 import Button from "../../../../../components/ui/Button/Button";
 import Text from "../../../../../components/ui/Text/Text";
+// CSS
+import "./ProfileDeleteSection.css";
 
 type ProfileDeleteSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
-	//#region Hooks
-	const { user } = useUser();
-	const navigate = useNavigate();
-	//#endregion
-
-	// #region Functions
-	async function handleDeleteUserClick(): Promise<void> {
-		// Confirmation
-		const confirm = window.confirm("Are you sure you want to delete your account?");
-		if (!confirm) return;
-
-		// Check user
-		if (user == null) return;
-
-		try {
-			// Delete user
-			await deleteUserDb(user.id);
-		} catch (err) {
-			console.log("Error deleting the user from DB.", err);
-			return;
-		}
-
-		try {
-			// Sign out user
-			await signOut();
-		} catch (err) {
-			console.log("Error signing out the user.", err);
-			return;
-		}
-
-		// Navigate to home page
-		navigate("/");
-	}
+	//#region States
+	const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
 	//#endregion
 
 	return (
 		<Section>
+			<DeleteUserModal show={showDeleteUserModal} setShow={setShowDeleteUserModal} />
+
 			<Section.Title>Delete profile</Section.Title>
 
 			<Text variant="neutral-400">
@@ -58,7 +25,7 @@ const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
 				subscription will be lost.
 			</Text>
 
-			<Button variant="danger" onClick={handleDeleteUserClick}>
+			<Button variant="danger" onClick={() => setShowDeleteUserModal(true)}>
 				Delete profile
 			</Button>
 		</Section>

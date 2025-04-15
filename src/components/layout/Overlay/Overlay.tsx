@@ -1,5 +1,5 @@
 import { FC, HTMLAttributes } from "react";
-import useModal from "../../../contexts/ModalContext/useModal";
+import useModal from "../../../features/modal/contexts/ModalContext/useModal";
 import addPropClassName from "../../../utils/addPropClassName";
 import "./Overlay.css";
 

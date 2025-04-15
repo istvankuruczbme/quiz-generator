@@ -54,6 +54,10 @@ body {
 	color: var(--neutral-color-700);
 	background-color: var(--primary-color);
 }
+body.body--modal {
+	overflow: hidden;
+	padding-right: 15px;
+}
 
 input,
 textarea,
@@ -61,4 +65,8 @@ button {
 	font-family: inherit;
 	font-size: inherit;
 	color: inherit;
+}
+
+a {
+	color: var(--accent-color-400);
 }
