@@ -1,5 +1,6 @@
 import { FC, HTMLAttributes } from "react";
 // Components
+import ProfileSection from "../ProfileSection/ProfileSection";
 import Section from "../../../../../components/layout/Section/Section";
 import CategoriesContainer from "../../../../category/components/layout/CategoriesContainer/CategoriesContainer";
 import CategoryCheckbox from "../../../../category/components/form/CategoryCheckbox/CategoryCheckbox";
@@ -19,7 +20,7 @@ const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 	// #endregion
 
 	return (
-		<Section>
+		<ProfileSection>
 			<Section.Title>Your categories</Section.Title>
 
 			<Text variant="neutral-400">
@@ -48,7 +49,7 @@ const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 			</CategoriesContainer>
 
 			<ProfileLinkButton to="categories">Change categories</ProfileLinkButton>
-		</Section>
+		</ProfileSection>
 	);
 };
 

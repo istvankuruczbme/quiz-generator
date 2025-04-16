@@ -1,0 +1,30 @@
+.textarea {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	position: relative;
+}
+.textarea--full {
+	display: flex;
+}
+
+.textarea__textarea {
+	min-height: 6rem;
+	background-color: var(--secondary-color);
+	border: 0.125rem solid var(--neutral-color-300);
+	border-radius: var(--br-400);
+	padding: 0.75rem;
+	resize: vertical;
+}
+.textarea__textarea:focus-visible,
+.textarea__textarea:not(:placeholder-shown) {
+	border-color: var(--info-color-200);
+	outline: none;
+}
+.textarea__textarea:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+.textarea--full .textarea__textarea {
+	width: 100%;
+}

@@ -1,19 +1,33 @@
 import { FC, HTMLAttributes } from "react";
-import addPropClassName from "../../../utils/addPropClassName";
+// Components
 import Container from "../Container/Container";
-import "./Section.css";
 import SectionTitle from "./SectionTitle/SectionTitle";
+// Functions
+import addPropClassName from "../../../utils/addPropClassName";
+// Variables
+import { CONTAINER_MAX_WIDTH } from "../../../assets/uiConstants";
+// CSS
+import "./Section.css";
 
-type SectionProps = HTMLAttributes<HTMLDivElement>;
+type SectionProps = HTMLAttributes<HTMLDivElement> & {
+	maxWidth?: string;
+};
 type SectionChildren = {
 	Title: typeof SectionTitle;
 };
 type SectionComponent = FC<SectionProps> & SectionChildren;
 
-const Section: SectionComponent = ({ className, children, ...rest }) => {
+const Section: SectionComponent = ({
+	maxWidth = CONTAINER_MAX_WIDTH,
+	className,
+	children,
+	...rest
+}) => {
 	return (
 		<div className={`section${addPropClassName(className)}`} {...rest}>
-			<Container className="section__container">{children}</Container>
+			<Container maxWidth={maxWidth} className="section__container">
+				{children}
+			</Container>
 		</div>
 	);
 };

@@ -63,6 +63,22 @@ const errors = {
 		details: "Please select an image file.",
 	},
 	// #endregion
+
+	// #region Quiz
+	"quiz/title-missing": {
+		message: "Title missing.",
+		details: "Please fill the title field.",
+	},
+	"quiz/description-missing": {
+		message: "Description missing.",
+		details: "Please fill the description field.",
+	},
+	"quiz/category-missing": {
+		message: "Category missing.",
+		details: "Please fill the category field.",
+	},
+	// #endregion
+
 	default: {
 		message: "An unknown error occured.",
 		details: "Please try again later.",

@@ -1,16 +1,19 @@
 import { FC, HTMLAttributes } from "react";
+// Components
 import Section from "../../../../../components/layout/Section/Section";
 import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
 import Box from "../../../../../components/layout/Box/Box";
 import ProfileLinkButton from "../../ui/ProfileLinkButton/ProfileLinkButton";
 import Text from "../../../../../components/ui/Text/Text";
+import ProfileSection from "../ProfileSection/ProfileSection";
+// CSS
 import "./ProfileEmailPasswordSection.css";
 
 type ProfileEmailPasswordSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const ProfileEmailPasswordSection: FC<ProfileEmailPasswordSectionProps> = () => {
 	return (
-		<Section>
+		<ProfileSection>
 			<Section.Title>Email & password</Section.Title>
 
 			<FlexContainer gap="3rem" wrap="576px">
@@ -24,7 +27,7 @@ const ProfileEmailPasswordSection: FC<ProfileEmailPasswordSectionProps> = () => 
 					<ProfileLinkButton to="change-password">Change password</ProfileLinkButton>
 				</Box>
 			</FlexContainer>
-		</Section>
+		</ProfileSection>
 	);
 };
 

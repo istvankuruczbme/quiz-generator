@@ -6,6 +6,6 @@ export default function validateQuizData(
 	categoryId: string | undefined
 ): void {
 	validateNonEmptyString(title, "quiz/title-");
-	validateNonEmptyString(description, "quiz/desctiption-");
+	validateNonEmptyString(description, "quiz/description-");
 	validateNonEmptyString(categoryId, "quiz/catagory-");
 }

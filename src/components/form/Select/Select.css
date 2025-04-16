@@ -1,0 +1,33 @@
+.select {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	position: relative;
+}
+.select--full {
+	display: flex;
+}
+
+.select__select {
+	background-color: var(--secondary-color);
+	border: 0.125rem solid var(--neutral-color-300);
+	border-radius: var(--br-400);
+	padding: 0.75rem;
+	cursor: pointer;
+}
+.select__select:focus-visible,
+.select__select:not(:placeholder-shown) {
+	border-color: var(--info-color-200);
+	outline: none;
+}
+.select__select:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+.select--full .select__select {
+	width: 100%;
+}
+
+.select__select__option {
+	background-color: var(--secondary-color);
+}

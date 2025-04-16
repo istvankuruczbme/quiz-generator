@@ -1,6 +1,15 @@
-import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
+import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
+import Page from "../../../../components/layout/Page/Page";
+import NewQuizSection from "../../components/layout/NewQuizSection/NewQuizSection";
+import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
+import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
+import Input from "../../../../components/form/Input/Input";
+import Textarea from "../../../../components/form/Textarea/Textarea";
+import Text from "../../../../components/ui/Text/Text";
+import FileUpload from "../../../../components/layout/FileUpload/FileUpload";
 import CategorySelect from "../../../../components/form/Select/CategorySelect/CategorySelect";
+import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import { useNavigate } from "react-router-dom";
 // Functions
@@ -8,18 +17,18 @@ import validateQuizData from "../../utils/validation/validateQuizData";
 import createQuiz from "../../sevices/createQuiz";
 // CSS
 import "./NewQuiz.css";
-import validateImageFile from "../../../../utils/image/validateImageFile";
-import createImageUrl from "../../../../utils/image/createImageUrl";
+import useError from "../../../error/hooks/useError";
 
 type NewQuizProps = HTMLAttributes<HTMLDivElement>;
 
 const NewQuiz: FC<NewQuizProps> = () => {
 	// #region States
-	const [photoUrl, setPhotoUrl] = useState("");
+	const [loading, setLoading] = useState(false);
 	// #endregion
 
 	// #region Hooks
 	const navigate = useNavigate();
+	const { setError } = useError();
 	// #endregion
 
 	// #region Refs
@@ -30,27 +39,10 @@ const NewQuiz: FC<NewQuizProps> = () => {
 	//#endregion
 
 	// #region Functions
-	function handleFileChange(e: ChangeEvent<HTMLInputElement>): void {
-		// Get selected file
-		const file = e.target.files?.[0];
-
-		try {
-			// Validate image file
-			validateImageFile(file);
-		} catch (err) {
-			console.log(err);
-			return;
-		}
-
-		// Create image URL
-		const photoUrl = createImageUrl(file as File);
-
-		// Update photoURL state
-		setPhotoUrl(photoUrl);
-	}
-
 	async function handleCreateQuizSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
+		setLoading(true);
 
 		// Input values
 		const title = titleRef.current?.value;
@@ -62,7 +54,8 @@ const NewQuiz: FC<NewQuizProps> = () => {
 			// Validation
 			validateQuizData(title, description, categoryId);
 		} catch (err) {
-			console.log(err);
+			setError(err);
+			setLoading(false);
 			return;
 		}
 
@@ -78,47 +71,54 @@ const NewQuiz: FC<NewQuizProps> = () => {
 			// Navigation
 			navigate(`/quizzes/${quiz.id}/edit`);
 		} catch (err) {
-			console.log("Error creating the quiz.", err);
+			// console.log("Error creating the quiz.", err);
+			setError(err);
+		} finally {
+			setLoading(false);
 		}
 	}
 	//#endregion
 
 	return (
-		<div>
-			<h1>New quiz</h1>
+		<Page>
+			<NewQuizSection>
+				<BackButton to="/my-quizzes" variant="primary">
+					My quizzes
+				</BackButton>
+				<Page.Title mb="0">New quiz</Page.Title>
+			</NewQuizSection>
 
-			<form onSubmit={handleCreateQuizSubmit}>
-				<label htmlFor="newQuizTitle">Title</label>
-				<input type="text" id="newQuizTitle" placeholder="Title" required ref={titleRef} />
-				<br />
+			<NewQuizSection>
+				<form onSubmit={handleCreateQuizSubmit}>
+					<FormInputsContainer>
+						<Input
+							type="text"
+							label="Title"
+							id="newQuizTitle"
+							placeholder="Title"
+							required
+							ref={titleRef}
+						/>
+						<Textarea
+							label="Description"
+							id="newQuizDescription"
+							placeholder="Description"
+							required
+							ref={descriptionRef}
+						/>
 
-				<label htmlFor="newQuizDescription">Description</label>
-				<textarea
-					id="newQuizDescription"
-					placeholder="Description"
-					required
-					ref={descriptionRef}
-				></textarea>
-				<br />
+						<Text mb="-1rem">Photo</Text>
+						<FileUpload uploadType="photo" ref={photoRef} />
 
-				<label htmlFor="newQuizPhoto">Cover photo</label>
-				<input
-					type="file"
-					id="newQuizPhoto"
-					accept="image/*"
-					onChange={handleFileChange}
-					ref={photoRef}
-				/>
-				<br />
-				<img src={photoUrl || undefined} alt="New quiz cover" />
-				<br />
+						<CategorySelect ref={categoryRef} />
+					</FormInputsContainer>
 
-				<CategorySelect ref={categoryRef} />
-				<br />
-
-				<button type="submit">Create quiz</button>
-			</form>
-		</div>
+					<LoadingButton type="submit" full loading={loading}>
+						Create quiz
+					</LoadingButton>
+				</form>
+			</NewQuizSection>
+		</Page>
 	);
 };
 

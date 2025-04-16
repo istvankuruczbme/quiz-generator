@@ -189,7 +189,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
 					{photoUrl === "" && filename === "" && (
 						<Text variant="neutral-400" mb="0">
-							Drop the file here.
+							Drop the {uploadType === "photo" ? "photo" : "file"} here.
 						</Text>
 					)}
 					{filename !== "" && (

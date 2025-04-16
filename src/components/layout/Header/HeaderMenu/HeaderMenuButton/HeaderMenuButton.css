@@ -1,0 +1,11 @@
+.headerMenuButton {
+	display: none;
+	border-radius: var(--br-200);
+	padding: 0.5rem;
+}
+
+@media screen and (max-width: 576px) {
+	.headerMenuButton {
+		display: inline-flex;
+	}
+}

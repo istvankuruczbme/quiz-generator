@@ -1,5 +1,7 @@
 import { FC, HTMLAttributes } from "react";
 // Components
+import HeaderSidebar from "./HeaderSidebar/HeaderSidebar";
+import HeaderSidebarProvider from "../../../contexts/HeaderSidebarContext/HeaderSidebarProvider";
 import HeaderLayout from "./HeaderLayout/HeaderLayout";
 import HeaderHome from "./HeaderHome/HeaderHome";
 import HeaderMenu from "./HeaderMenu/HeaderMenu";
@@ -27,41 +29,50 @@ const Header: HeaderComponent = () => {
 	// #endregion
 
 	return (
-		<Header.Layout className="header">
-			<Header.Home />
+		<HeaderSidebarProvider>
+			<HeaderSidebar />
 
-			<nav className="header__nav">
-				<Header.Menu>
-					{loading && (
-						<>
-							<Skeleton type="rect" width="80px" height="30px" />
-							<Skeleton type="circle" width="30px" height="30px" />
-						</>
-					)}
-					{!loading && (
-						<>
-							<SignedIn>
-								<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
-								<Header.Menu.Item
-									to="/profile"
-									label={
-										<img
-											src={user?.photoUrl || defaultUserPhotoUrl}
-											alt={user?.name}
-											className="header__user__photo"
+			<Header.Layout className="header">
+				<Header.Home />
+
+				<nav className="header__nav">
+					<Header.Menu>
+						{loading && (
+							<Header.Menu className="header__menu">
+								<Skeleton type="rect" width="80px" height="30px" />
+								<Skeleton type="circle" width="30px" height="30px" />
+							</Header.Menu>
+						)}
+						{!loading && (
+							<>
+								<SignedIn>
+									<Header.Menu className="header__menu">
+										<Header.Menu.Item to="/browse" label="Browse" />
+										<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
+										<Header.Menu.Item
+											to="/profile"
+											label={
+												<img
+													src={user?.photoUrl || defaultUserPhotoUrl}
+													alt={user?.name}
+													className="header__user__photo"
+												/>
+											}
 										/>
-									}
-								/>
-							</SignedIn>
+									</Header.Menu>
 
-							<NotSignedIn>
-								<Header.Menu.Item to="/sign-in" label="Sign In" />
-							</NotSignedIn>
-						</>
-					)}
-				</Header.Menu>
-			</nav>
-		</Header.Layout>
+									<Header.Menu.Button />
+								</SignedIn>
+
+								<NotSignedIn>
+									<Header.Menu.Item to="/sign-in" label="Sign In" />
+								</NotSignedIn>
+							</>
+						)}
+					</Header.Menu>
+				</nav>
+			</Header.Layout>
+		</HeaderSidebarProvider>
 	);
 };
 

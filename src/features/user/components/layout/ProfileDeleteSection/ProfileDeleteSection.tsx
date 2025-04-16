@@ -1,5 +1,6 @@
 import { FC, HTMLAttributes, useState } from "react";
 // Components
+import ProfileSection from "../ProfileSection/ProfileSection";
 import Section from "../../../../../components/layout/Section/Section";
 import DeleteUserModal from "../DeleteUserModal/DeleteUserModal";
 import Button from "../../../../../components/ui/Button/Button";
@@ -15,7 +16,7 @@ const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
 	//#endregion
 
 	return (
-		<Section>
+		<ProfileSection>
 			<DeleteUserModal show={showDeleteUserModal} setShow={setShowDeleteUserModal} />
 
 			<Section.Title>Delete profile</Section.Title>
@@ -28,7 +29,7 @@ const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
 			<Button variant="danger" onClick={() => setShowDeleteUserModal(true)}>
 				Delete profile
 			</Button>
-		</Section>
+		</ProfileSection>
 	);
 };
 

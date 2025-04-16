@@ -1,0 +1,15 @@
+.headerSidebar {
+	background-color: var(--primary-color);
+	padding: 2rem;
+	box-shadow: 0 0 1rem var(--neutral-color-300);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 20;
+	translate: calc(-100% - 1rem) 0;
+	transition: translate 200ms linear;
+}
+.headerSidebar--show {
+	translate: 0 0;
+}

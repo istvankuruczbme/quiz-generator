@@ -1,5 +1,6 @@
 import { FC, HTMLAttributes } from "react";
 // Components
+import ProfileSection from "../ProfileSection/ProfileSection";
 import Section from "../../../../../components/layout/Section/Section";
 import Text from "../../../../../components/ui/Text/Text";
 import Button from "../../../../../components/ui/Button/Button";
@@ -35,7 +36,7 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 	//#endregion
 
 	return (
-		<Section>
+		<ProfileSection>
 			<Section.Title>Your subscription</Section.Title>
 
 			<Text variant="neutral-400">
@@ -54,7 +55,7 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 				Click on Change subscription button to change your subscription.
 			</Text>
 			<ProfileLinkButton to="/profile/subscription">Change subscription</ProfileLinkButton>
-		</Section>
+		</ProfileSection>
 	);
 };
 

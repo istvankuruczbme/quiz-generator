@@ -1,5 +1,6 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
+import ProfileSection from "../ProfileSection/ProfileSection";
 import Section from "../../../../../components/layout/Section/Section";
 import Text from "../../../../../components/ui/Text/Text";
 import Input from "../../../../../components/form/Input/Input";
@@ -87,7 +88,7 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 	//#endregion
 
 	return (
-		<Section>
+		<ProfileSection>
 			{hasUserPhoto && (
 				<DeletePhotoModal
 					show={showDeletePhotoModal}
@@ -139,7 +140,7 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 					</LoadingButton>
 				</FormInputsContainer>
 			</form>
-		</Section>
+		</ProfileSection>
 	);
 };
 
