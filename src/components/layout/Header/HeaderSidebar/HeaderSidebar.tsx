@@ -1,58 +1,52 @@
-import { FC, HTMLAttributes, MouseEvent, useLayoutEffect } from "react";
-import { Link } from "react-router-dom";
+import { FC, HTMLAttributes } from "react";
+// Components
+import HeaderSidebarMenu from "./HeaderSidebarMenu/HeaderSidebarMenu";
+import Header from "../Header";
+// Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
-import defaultUserPhotoUrl from "../../../../features/user/assets/defaultUserPhotoUrl";
 import useHeaderSidebar from "../../../../contexts/HeaderSidebarContext/useHeaderSidebar";
+import useCloseHeaderSidebar from "../../../../hooks/headerSidebar/useCloseHeaderSidebar";
+// Variables
+import defaultUserPhotoUrl from "../../../../features/user/assets/defaultUserPhotoUrl";
+// CSS
 import "./HeaderSidebar.css";
 
 type HeaderSidebarProps = HTMLAttributes<HTMLDivElement>;
+type HeaderSidebarChildren = {
+	Menu: typeof HeaderSidebarMenu;
+};
+type HeaderSidebarComponent = FC<HeaderSidebarProps> & HeaderSidebarChildren;
 
-const HeaderSidebar: FC<HeaderSidebarProps> = () => {
+const HeaderSidebar: HeaderSidebarComponent = () => {
 	// #region Hooks
 	const { user } = useUser();
-	const { show, setShow } = useHeaderSidebar();
-
-	// useLayoutEffect(() => {
-	// 	if (!show) return;
-
-	// 	// Add click event listener
-	// 	document.addEventListener("click", handleClick);
-
-	// 	// Remove event listener
-	// 	return () => document.removeEventListener("click", handleClick);
-	// }, [show]);
-	// #endregion
-
-	// #region Functions
-	function handleClick(e: globalThis.MouseEvent): void {
-		const target = e.target as Element;
-		console.log(target);
-		if (!target.matches(".headerSidebar")) setShow(false);
-	}
+	const { show } = useHeaderSidebar();
+	useCloseHeaderSidebar();
 	// #endregion
 
 	return (
 		<div className={`headerSidebar${show ? " headerSidebar--show" : ""}`}>
-			<ul className="headerSidebar__menu">
-				<li className="headerSidebar__menu__item">
-					<Link to="/browse" className="headerSidebar__menu__item__link">
-						Browse
-					</Link>
-				</li>
-				<li className="headerSidebar__menu__item">
-					<Link to="/my-quizzes" className="headerSidebar__menu__item__link">
-						My quizzes
-					</Link>
-				</li>
-				<li className="headerSidebar__menu__item">
-					<Link to="/Profile" className="headerSidebar__menu__item__link">
-						<img src={user?.photoUrl || defaultUserPhotoUrl} alt={user?.name} />
-						Profile
-					</Link>
-				</li>
-			</ul>
+			<HeaderSidebar.Menu>
+				<Header.Menu.Item
+					to="/profile"
+					label={
+						<div className="headerSidebar__user">
+							<img
+								src={user?.photoUrl || defaultUserPhotoUrl}
+								alt={user?.name}
+								className="headerSidebar__user__photo"
+							/>
+							<span className="headerSidebar__user__profile">Profile</span>{" "}
+						</div>
+					}
+				/>
+				<Header.Menu.Item to="/browse" label="Browse" />
+				<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
+			</HeaderSidebar.Menu>
 		</div>
 	);
 };
+
+HeaderSidebar.Menu = HeaderSidebarMenu;
 
 export default HeaderSidebar;

@@ -1,7 +1,7 @@
 .headerSidebar {
 	background-color: var(--primary-color);
-	padding: 2rem;
 	box-shadow: 0 0 1rem var(--neutral-color-300);
+	padding: 2rem;
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -12,4 +12,18 @@
 }
 .headerSidebar--show {
 	translate: 0 0;
+}
+
+.headerSidebar__user {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.headerSidebar__user__photo {
+	width: 2rem;
+	height: 2rem;
+	background-color: var(--neutral-color-300);
+	border-radius: var(--br-pill);
 }
