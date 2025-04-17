@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../../../config/supabase";
+// Hooks
 import useUser from "../../../contexts/UserContext/useUser";
+import useFeedback from "../../ui/feedback/contexts/FeedbackContext/useFeedback";
+import { useNavigate } from "react-router-dom";
+// Functions
 import getUser from "../../user/services/getUser";
 import updateUserEmail from "../../user/services/updateUserEmail";
 import getPasswordResetFlag from "../utils/getPasswordResetFlag";
 import createUser from "../../user/services/createUser";
 import removeNewUserFlag from "../utils/removeNewUserFlag";
-import { useNavigate } from "react-router-dom";
 import checkAxiosError from "../../../utils/axios/checkAxiosError";
 import getAxiosErrorMessage from "../../../utils/axios/getAxiosErrorMessage";
-import useFeedback from "../../feedback/contexts/FeedbackContext/useFeedback";
 
 const useAuth = () => {
 	// #region States

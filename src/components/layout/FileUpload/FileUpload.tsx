@@ -12,7 +12,7 @@ import Text from "../../ui/Text/Text";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import Button from "../../ui/Button/Button";
 // Hooks
-import useError from "../../../features/error/hooks/useError";
+import useError from "../../../features/ui/error/hooks/useError";
 // Functions
 import addPropClassName from "../../../utils/addPropClassName";
 import validateImageFile from "../../../utils/image/validateImageFile";

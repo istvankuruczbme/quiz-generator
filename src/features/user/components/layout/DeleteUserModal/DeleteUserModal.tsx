@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
-import { ModalProps } from "../../../../modal/types/modalTypes";
+import { ModalProps } from "../../../../ui/modal/types/modalTypes";
 // Components
-import ModalProvider from "../../../../modal/contexts/ModalContext/ModalProvider";
 import Overlay from "../../../../../components/layout/Overlay/Overlay";
-import Modal from "../../../../modal/components/layout/Modal/Modal";
+import ModalProvider from "../../../../ui/modal/contexts/ModalContext/ModalProvider";
+import Modal from "../../../../ui/modal/components/layout/Modal/Modal";
 import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
-import useError from "../../../../error/hooks/useError";
-import useFeedback from "../../../../feedback/contexts/FeedbackContext/useFeedback";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 import { useNavigate } from "react-router-dom";
 // Functions
 import deleteUser from "../../../services/deleteUser";

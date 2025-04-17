@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../../auth/components/layout/AuthLayout/AuthLayout";
-import Modal from "../../../modal/components/layout/Modal/Modal";
+import Modal from "../../../ui/modal/components/layout/Modal/Modal";
 import AuthModal from "../../../auth/components/layout/AuthModal/AuthModal";
 import Input from "../../../../components/form/Input/Input";
 import Text from "../../../../components/ui/Text/Text";
@@ -9,8 +9,8 @@ import FormInputsContainer from "../../../../components/form/FormInputsContainer
 import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 import ProfileBackButton from "../../components/ui/ProfileBackButton/ProfileBackButton";
 // Hooks
-import useError from "../../../error/hooks/useError";
-import useFeedback from "../../../feedback/contexts/FeedbackContext/useFeedback";
+import useError from "../../../ui/error/hooks/useError";
+import useFeedback from "../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 import { useNavigate } from "react-router-dom";
 // Functions
 import validateChangePasswordInputs from "../../utils/validation/validateChangePasswordInputs";

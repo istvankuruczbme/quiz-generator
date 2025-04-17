@@ -1,0 +1,9 @@
+.quiz__back {
+	margin-bottom: 0;
+}
+
+@media screen and (max-width: 576px) {
+	.quiz {
+		padding-bottom: 5rem;
+	}
+}

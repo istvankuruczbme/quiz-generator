@@ -11,13 +11,13 @@ import FileUpload from "../../../../components/layout/FileUpload/FileUpload";
 import CategorySelect from "../../../../components/form/Select/CategorySelect/CategorySelect";
 import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
+import useError from "../../../ui/error/hooks/useError";
 import { useNavigate } from "react-router-dom";
 // Functions
 import validateQuizData from "../../utils/validation/validateQuizData";
 import createQuiz from "../../sevices/createQuiz";
 // CSS
 import "./NewQuiz.css";
-import useError from "../../../error/hooks/useError";
 
 type NewQuizProps = HTMLAttributes<HTMLDivElement>;
 

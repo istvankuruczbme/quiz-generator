@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes } from "react";
 // Components
-import Modal from "../../../modal/components/layout/Modal/Modal";
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
+import Modal from "../../../ui/modal/components/layout/Modal/Modal";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";
 import Text from "../../../../components/ui/Text/Text";
 // CSS

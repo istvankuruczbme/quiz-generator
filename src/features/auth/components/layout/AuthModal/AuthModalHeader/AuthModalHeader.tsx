@@ -1,5 +1,5 @@
 import { FC, HTMLAttributes } from "react";
-import ModalHeader from "../../../../../modal/components/layout/ModalHeader/ModalHeader";
+import ModalHeader from "../../../../../ui/modal/components/layout/ModalHeader/ModalHeader";
 import addPropClassName from "../../../../../../utils/addPropClassName";
 import "./AuthModalHeader.css";
 

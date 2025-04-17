@@ -6,7 +6,7 @@ import getQuizSummary from "../sevices/getQuizSummary";
 const useQuizSummary = () => {
 	// #region States
 	const [quizSummary, setQuizSummary] = useState<QuizSummary | null>(null);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	// #endregion
 
 	// #region Hooks

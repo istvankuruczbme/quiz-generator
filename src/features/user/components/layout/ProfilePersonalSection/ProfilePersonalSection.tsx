@@ -12,9 +12,9 @@ import Button from "../../../../../components/ui/Button/Button";
 import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 import useProfilePersonalData from "../../../hooks/useProfilePersonalData";
-import useError from "../../../../error/hooks/useError";
-import useFeedback from "../../../../feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import validatePersonalDataInputs from "../../../utils/validation/validatePersonalDataInputs";
 import updateUserPersonalData from "../../../services/updateUserPersonalData";

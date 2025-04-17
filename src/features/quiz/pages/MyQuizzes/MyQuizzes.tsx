@@ -53,7 +53,7 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 						</>
 					)}
 					{draftQuizzes.length > 0 &&
-						draftQuizzes.map((quiz) => <QuizCard key={quiz.id} quizSummary={quiz} />)}
+						draftQuizzes.map((quiz) => <QuizCard key={quiz.id} quiz={quiz} />)}
 				</QuizContainer>
 			</Section>
 
@@ -62,7 +62,7 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 					<Section.Title>Active quizzes</Section.Title>
 					<QuizContainer>
 						{activeQuizzes.map((quiz) => (
-							<QuizCard key={quiz.id} quizSummary={quiz} />
+							<QuizCard key={quiz.id} quiz={quiz} />
 						))}
 					</QuizContainer>
 				</Section>

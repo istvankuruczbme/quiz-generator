@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes } from "react";
-import useModal from "../../../features/modal/contexts/ModalContext/useModal";
 import addPropClassName from "../../../utils/addPropClassName";
 import "./Overlay.css";
+import useModal from "../../../features/ui/modal/contexts/ModalContext/useModal";
 
 type OverlayProps = HTMLAttributes<HTMLDivElement>;
 

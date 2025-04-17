@@ -19,7 +19,7 @@ import defaultQuizPhotoUrl from "../../../assets/defaultQuizPhotoUrl";
 import "./QuizCard.css";
 
 type QuizCardProps = HTMLAttributes<HTMLDivElement> & {
-	quizSummary: QuizSummary;
+	quiz: QuizSummary;
 };
 type QuizCardChildren = {
 	Header: typeof QuizCardHeader;
@@ -30,34 +30,34 @@ type QuizCardChildren = {
 };
 type QuizCardComponent = FC<QuizCardProps> & QuizCardChildren;
 
-const QuizCard: QuizCardComponent = ({ quizSummary, className }) => {
+const QuizCard: QuizCardComponent = ({ quiz, className }) => {
 	return (
-		<Link to={`/quizzes/${quizSummary.id}`} className={`quizCard${addPropClassName(className)}`}>
+		<Link to={`/quizzes/${quiz.id}`} className={`quizCard${addPropClassName(className)}`}>
 			<img
-				src={quizSummary.photoUrl || defaultQuizPhotoUrl}
-				alt={quizSummary.title}
+				src={quiz.photoUrl || defaultQuizPhotoUrl}
+				alt={quiz.title}
 				className="quizCard__img"
 			/>
 
 			<QuizCard.Header>
-				<QuizCard.Title>{quizSummary.title}</QuizCard.Title>
-				<QuizCard.Category category={quizSummary.category} />
+				<QuizCard.Title>{quiz.title}</QuizCard.Title>
+				<QuizCard.Category category={quiz.category} />
 			</QuizCard.Header>
 
 			<QuizCard.Body className="quizCard__body">
 				<Text variant="neutral-400" mb="0" className="quizCard__description">
-					{quizSummary.description}
+					{quiz.description}
 				</Text>
 
 				<div className="quizCard__counts">
 					<QuizCard.Count
 						icon={faQuestion}
-						count={quizSummary.questionCount}
+						count={quiz.questionCount}
 						title="Number of questions"
 					/>
 					<QuizCard.Count
 						icon={faCheckDouble}
-						count={quizSummary.completionCount}
+						count={quiz.completionCount}
 						title="Number of completions"
 					/>
 				</div>

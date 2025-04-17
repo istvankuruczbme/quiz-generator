@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../../auth/components/layout/AuthLayout/AuthLayout";
-import Modal from "../../../modal/components/layout/Modal/Modal";
+import Modal from "../../../ui/modal/components/layout/Modal/Modal";
 import AuthModal from "../../../auth/components/layout/AuthModal/AuthModal";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import FormText from "../../../../components/form/FormText/FormText";
@@ -9,8 +9,8 @@ import Input from "../../../../components/form/Input/Input";
 import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 import ProfileBackButton from "../../components/ui/ProfileBackButton/ProfileBackButton";
 // Hooks
-import useError from "../../../error/hooks/useError";
-import useFeedback from "../../../feedback/contexts/FeedbackContext/useFeedback";
+import useError from "../../../ui/error/hooks/useError";
+import useFeedback from "../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import validateEmail from "../../../../utils/validation/validateEmail";
 import updateAuthEmail from "../../../auth/services/updateAuthEmail";

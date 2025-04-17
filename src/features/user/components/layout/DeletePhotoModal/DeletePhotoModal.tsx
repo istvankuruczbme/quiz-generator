@@ -1,17 +1,17 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import { ModalProps } from "../../../../modal/types/modalTypes";
+import { ModalProps } from "../../../../ui/modal/types/modalTypes";
 // Components
 import Overlay from "../../../../../components/layout/Overlay/Overlay";
-import Modal from "../../../../modal/components/layout/Modal/Modal";
+import ModalProvider from "../../../../ui/modal/contexts/ModalContext/ModalProvider";
+import Modal from "../../../../ui/modal/components/layout/Modal/Modal";
 import Text from "../../../../../components/ui/Text/Text";
-import ModalProvider from "../../../../modal/contexts/ModalContext/ModalProvider";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
-import useError from "../../../../error/hooks/useError";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import removeUserPhoto from "../../../services/removeUserPhoto";
-import useFeedback from "../../../../feedback/contexts/FeedbackContext/useFeedback";
 // CSS
 import "./DeletePhotoModal.css";
 

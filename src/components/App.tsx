@@ -19,12 +19,12 @@ import ChangeEmail from "../features/user/pages/ChangeEmail/ChangeEmail";
 import ChangePassword from "../features/user/pages/ChangePassword/ChangePassword";
 import SignUpConfirmed from "../features/auth/pages/SignUpConfirmed/SignUpConfirmed";
 import GoogleSignInConfirmed from "../features/auth/pages/GoogleSignInConfirmed/GoogleSignInConfirmed";
-import Unauthorized from "../features/error/pages/Unauthorized/Unauthorized";
+import SubscriptionRequired from "../features/ui/error/pages/SubscriptionRequired/SubscriptionRequired";
+import Unauthorized from "../features/ui/error/pages/Unauthorized/Unauthorized";
 // Hooks
 import useAuth from "../features/auth/hooks/useAuth";
 // CSS
 import "./App.css";
-import SubscriptionRequired from "../features/error/pages/SubscriptionRequired/SubscriptionRequired";
 
 function App() {
 	//#region Hooks

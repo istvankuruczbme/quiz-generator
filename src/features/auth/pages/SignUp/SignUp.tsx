@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
-import Modal from "../../../modal/components/layout/Modal/Modal";
+import Modal from "../../../ui/modal/components/layout/Modal/Modal";
 import Input from "../../../../components/form/Input/Input";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";
@@ -11,8 +11,8 @@ import Divider from "../../../../components/ui/Divider/Divider";
 import AuthHeader from "../../components/layout/AuthHeader/AuthHeader";
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton/GoogleSignInButton";
 // Hooks
-import useError from "../../../error/hooks/useError";
-import useFeedback from "../../../feedback/contexts/FeedbackContext/useFeedback";
+import useFeedback from "../../../ui/feedback/contexts/FeedbackContext/useFeedback";
+import useError from "../../../ui/error/hooks/useError";
 // Functions
 import validateSignUpInputs from "../../utils/validation/validateSignUpInputs";
 import signUpWithPassword from "../../services/signUpWithPassword";

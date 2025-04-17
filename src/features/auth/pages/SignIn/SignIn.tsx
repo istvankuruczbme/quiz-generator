@@ -1,7 +1,7 @@
 import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
+import Modal from "../../../ui/modal/components/layout/Modal/Modal";
 import AuthLayout from "../../components/layout/AuthLayout/AuthLayout";
-import Modal from "../../../modal/components/layout/Modal/Modal";
 import AuthModal from "../../components/layout/AuthModal/AuthModal";
 import FormInputsContainer from "../../../../components/form/FormInputsContainer/FormInputsContainer";
 import Input from "../../../../components/form/Input/Input";
@@ -10,8 +10,8 @@ import Divider from "../../../../components/ui/Divider/Divider";
 import AuthHeader from "../../components/layout/AuthHeader/AuthHeader";
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton/GoogleSignInButton";
 // Hooks
+import useError from "../../../ui/error/hooks/useError";
 import { Link, useNavigate } from "react-router-dom";
-import useError from "../../../error/hooks/useError";
 // Functions
 import validateSignInInputs from "../../utils/validation/validateSignInInputs";
 import signInWithPassword from "../../services/signInWithPassword";
