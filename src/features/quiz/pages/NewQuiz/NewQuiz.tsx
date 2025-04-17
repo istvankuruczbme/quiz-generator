@@ -1,4 +1,4 @@
-import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
+import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
 import Page from "../../../../components/layout/Page/Page";
 import NewQuizSection from "../../components/layout/NewQuizSection/NewQuizSection";
@@ -24,6 +24,7 @@ type NewQuizProps = HTMLAttributes<HTMLDivElement>;
 const NewQuiz: FC<NewQuizProps> = () => {
 	// #region States
 	const [loading, setLoading] = useState(false);
+	const [description, setDescription] = useState("");
 	// #endregion
 
 	// #region Hooks
@@ -33,12 +34,26 @@ const NewQuiz: FC<NewQuizProps> = () => {
 
 	// #region Refs
 	const titleRef = useRef<HTMLInputElement>(null);
-	const descriptionRef = useRef<HTMLTextAreaElement>(null);
 	const photoRef = useRef<HTMLInputElement>(null);
 	const categoryRef = useRef<HTMLSelectElement>(null);
 	//#endregion
 
+	// #region Variables
+	const MAX_DESCRIPTION_LENGTH = 500;
+	//#endregion
+
 	// #region Functions
+	function handleDescriptionChange(e: ChangeEvent<HTMLTextAreaElement>) {
+		// Get description length
+		const descriptionLength = e.target.value.length;
+
+		// Check if description length is below limit
+		if (descriptionLength > MAX_DESCRIPTION_LENGTH) return;
+
+		// Update description
+		setDescription(e.target.value);
+	}
+
 	async function handleCreateQuizSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
@@ -46,7 +61,6 @@ const NewQuiz: FC<NewQuizProps> = () => {
 
 		// Input values
 		const title = titleRef.current?.value;
-		const description = descriptionRef.current?.value;
 		const photo = photoRef.current?.files?.[0];
 		const categoryId = categoryRef.current?.value;
 
@@ -104,8 +118,12 @@ const NewQuiz: FC<NewQuizProps> = () => {
 							id="newQuizDescription"
 							placeholder="Description"
 							required
-							ref={descriptionRef}
+							value={description}
+							onChange={handleDescriptionChange}
 						/>
+						<Text variant="neutral-400" mb="0" className="newQuiz__description__length">
+							{description.length}/{MAX_DESCRIPTION_LENGTH}
+						</Text>
 
 						<Text mb="-1rem">Photo</Text>
 						<FileUpload uploadType="photo" ref={photoRef} />
