@@ -3,7 +3,3 @@
 	flex-direction: column;
 	gap: 2rem;
 }
-
-.quizSummaryLoading__img {
-	margin-inline: auto;
-}

@@ -1,98 +1,102 @@
 import { FC, HTMLAttributes } from "react";
 import { QuizSummary as QuizSummaryType } from "../../../types/quizTypes";
 // Components
-import QuizSummaryCategory from "./QuizSummaryCategory/QuizSummaryCategory";
-import QuizSummaryTitle from "./QuizSummaryTitle/QuizSummaryTitle";
-import QuizSummarySubtitle from "./QuizSummarySubtitle/QuizSummarySubtitle";
 import Text from "../../../../../components/ui/Text/Text";
+import QuizCategory from "../QuizCard/QuizCategory/QuizCategory";
 import LinkButton from "../../../../../components/ui/Button/LinkButton/LinkButton";
+import { faCheckDouble, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import QuizCount from "../QuizCount/QuizCount";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
 // Functions
 import checkQuizWriteAccess from "../../../utils/checkQuizWriteAccess";
+import defaultUserPhotoUrl from "../../../../user/assets/defaultUserPhotoUrl";
+import formatQuizDate from "../../../utils/fornatting/formatQuizDate";
 // Variables
 import defaultQuizPhotoUrl from "../../../assets/defaultQuizPhotoUrl";
 // CSS
 import "./QuizSummary.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckDouble, faQuestion } from "@fortawesome/free-solid-svg-icons";
 
 type QuizSummaryProps = HTMLAttributes<HTMLDivElement> & {
 	quiz: QuizSummaryType;
 };
-type QuizSummaryChildren = {
-	Title: typeof QuizSummaryTitle;
-	Subtitle: typeof QuizSummarySubtitle;
-	Category: typeof QuizSummaryCategory;
-};
-type QuizSummaryComponent = FC<QuizSummaryProps> & QuizSummaryChildren;
 
-const QuizSummary: QuizSummaryComponent = ({ quiz }) => {
+const QuizSummary: FC<QuizSummaryProps> = ({ quiz }) => {
 	// #region Hooks
 	const { user } = useUser();
 	//#endregion
 
 	// #region Variables
-	const isQuizzWritable = checkQuizWriteAccess(quiz, user);
+	const isQuizDraft = quiz.config.state === "DRAFT";
+	const isQuizWritable = checkQuizWriteAccess(quiz, user);
 	// #endregion
 
 	return (
 		<div className="quizSummary">
-			<section>
+			<header className="quizSummary__header">
+				{isQuizDraft && <span className="quizSummary__draft">DRAFT</span>}
+
 				<img
 					src={quiz.photoUrl || defaultQuizPhotoUrl}
 					alt={quiz.title}
 					className="quizSummary__img"
 				/>
 
-				<header className="quizSummary__header">
-					<QuizSummary.Title>{quiz.title}</QuizSummary.Title>
-					<QuizSummary.Category category={quiz.category} />
-				</header>
-			</section>
-
-			<section>
-				<QuizSummary.Subtitle>Description</QuizSummary.Subtitle>
-				<Text mb="0">{quiz.description}</Text>
-			</section>
-
-			<section>
-				<QuizSummary.Subtitle>Stats</QuizSummary.Subtitle>
-
-				<div className="quizSummary__stat__container">
-					<div className="quizSummary__stat">
-						<FontAwesomeIcon icon={faQuestion} className="quizSummary__stat__icon" />
-						<span className="quizSummary__stat__label">Questions:</span>
-						<span className="quizSummary__stat__value">{quiz.questionCount}</span>
-					</div>
-
-					<div className="quizSummary__stat">
-						<FontAwesomeIcon icon={faCheckDouble} className="quizSummary__stat__icon" />
-						<span className="quizSummary__stat__label">Completions:</span>
-						<span className="quizSummary__stat__value">{quiz.completionCount}</span>
-					</div>
+				<div className="quizSummary__header__text">
+					<h1 className="quizSummary__title">{quiz.title}</h1>
+					<QuizCategory category={quiz.category} className="quizSummary__category" />
 				</div>
-			</section>
+			</header>
 
-			<section className="quizSummary__section quizSummary__section--button">
-				{!isQuizzWritable && (
-					<LinkButton to="complete" full className="quizSummary__button">
+			<div className="quizSummary__body">
+				<Text variant="neutral-400" mb="2rem">
+					{quiz.description}
+				</Text>
+
+				<div className="quizSummary__counts">
+					<QuizCount
+						icon={faQuestion}
+						title="Number of questions"
+						count={quiz.questionCount}
+					/>
+					<QuizCount
+						icon={faCheckDouble}
+						title="Number of completions"
+						count={quiz.questionCount}
+					/>
+				</div>
+
+				<div className="quizSummary__user">
+					<img
+						src={quiz.user.photoUrl || defaultUserPhotoUrl}
+						alt={user?.name}
+						className="quizSummary__user__photo"
+					/>
+					<span className="quizSummary__user__name">{quiz.user.name}</span>
+
+					<span className="quizSummary__user__divider"></span>
+
+					<span className="quizSummary__user__date">
+						{formatQuizDate(new Date(quiz.updatedAt))}
+					</span>
+				</div>
+			</div>
+
+			<div className="quizSummary__button">
+				{!isQuizWritable && (
+					<LinkButton to="complete" full>
 						Start quiz
 					</LinkButton>
 				)}
 
-				{isQuizzWritable && (
-					<LinkButton to="edit" full className="quizSummary__button">
+				{isQuizWritable && (
+					<LinkButton to="edit" full>
 						Edit quiz
 					</LinkButton>
 				)}
-			</section>
+			</div>
 		</div>
 	);
 };
-
-QuizSummary.Title = QuizSummaryTitle;
-QuizSummary.Subtitle = QuizSummarySubtitle;
-QuizSummary.Category = QuizSummaryCategory;
 
 export default QuizSummary;

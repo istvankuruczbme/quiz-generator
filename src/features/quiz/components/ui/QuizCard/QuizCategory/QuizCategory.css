@@ -1,4 +1,4 @@
-.quizCardCategory {
+.quizCategory {
 	width: fit-content;
 	display: flex;
 	gap: 0.5rem;
@@ -10,6 +10,6 @@
 	padding: 0.25rem 0.5rem;
 }
 
-.quizCardCategory__name {
+.quizCategory__name {
 	text-transform: capitalize;
 }

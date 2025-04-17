@@ -41,7 +41,6 @@
 	display: flex;
 	gap: 2rem;
 	align-items: center;
-	color: var(--neutral-color-400);
 }
 
 .quizCard__button {

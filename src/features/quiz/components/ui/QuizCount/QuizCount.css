@@ -1,5 +1,6 @@
-.quizCardCount {
+.quizCount {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
+	color: var(--neutral-color-400);
 }

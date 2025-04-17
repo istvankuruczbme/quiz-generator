@@ -4,11 +4,11 @@ import { QuizSummary } from "../../../types/quizTypes";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheckDouble, faQuestion } from "@fortawesome/free-solid-svg-icons";
-import QuizCardCategory from "./QuizCardCategory/QuizCardCategory";
+import QuizCategory from "./QuizCategory/QuizCategory";
 import QuizCardHeader from "./QuizCardHeader/QuizCardHeader";
 import QuizCardTitle from "./QuizCardTitle/QuizCardTitle";
 import QuizCardBody from "./QuizCardBody/QuizCardBody";
-import QuizCardCount from "./QuizCardCount/QuizCardCount";
+import QuizCount from "../QuizCount/QuizCount";
 import Text from "../../../../../components/ui/Text/Text";
 import Button from "../../../../../components/ui/Button/Button";
 // Functions
@@ -24,9 +24,9 @@ type QuizCardProps = HTMLAttributes<HTMLDivElement> & {
 type QuizCardChildren = {
 	Header: typeof QuizCardHeader;
 	Title: typeof QuizCardTitle;
-	Category: typeof QuizCardCategory;
+	Category: typeof QuizCategory;
 	Body: typeof QuizCardBody;
-	Count: typeof QuizCardCount;
+	Count: typeof QuizCount;
 };
 type QuizCardComponent = FC<QuizCardProps> & QuizCardChildren;
 
@@ -73,8 +73,8 @@ const QuizCard: QuizCardComponent = ({ quiz, className }) => {
 
 QuizCard.Header = QuizCardHeader;
 QuizCard.Title = QuizCardTitle;
-QuizCard.Category = QuizCardCategory;
+QuizCard.Category = QuizCategory;
 QuizCard.Body = QuizCardBody;
-QuizCard.Count = QuizCardCount;
+QuizCard.Count = QuizCount;
 
 export default QuizCard;
