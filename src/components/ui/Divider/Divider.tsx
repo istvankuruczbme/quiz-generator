@@ -3,7 +3,7 @@ import addPropClassName from "../../../utils/addPropClassName";
 import "./Divider.css";
 
 type DividerProps = HTMLAttributes<HTMLDivElement> & {
-	text?: string | ReactNode;
+	text?: ReactNode;
 	my?: string;
 };
 

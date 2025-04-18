@@ -7,7 +7,7 @@ type SelectOption = {
 	text: string;
 };
 type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
-	label?: string | ReactNode;
+	label?: ReactNode;
 	full?: boolean;
 	options: SelectOption[];
 };

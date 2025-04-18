@@ -1,0 +1,26 @@
+.quizCreativityRange__label {
+	display: block;
+	margin-bottom: 0.5rem;
+}
+
+.quizCreativityRange__input__container {
+	position: relative;
+	margin-bottom: 1rem;
+}
+
+.quizCreativityRange__input {
+	width: 100%;
+}
+
+.quizCreativityRange__limit {
+	font-size: var(--fs-200);
+	color: var(--neutral-color-400);
+	position: absolute;
+	top: 100%;
+}
+.quizCreativityRange__limit--min {
+	left: 0;
+}
+.quizCreativityRange__limit--max {
+	right: 0;
+}

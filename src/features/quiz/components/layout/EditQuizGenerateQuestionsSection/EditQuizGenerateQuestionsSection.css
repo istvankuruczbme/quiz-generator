@@ -1,0 +1,8 @@
+.editQuizGenerateQuestionsSection__form__inputs {
+	display: flex;
+	gap: 3rem;
+}
+
+.editQuizGenerateQuestionsSection__form__inputs__left {
+	flex-grow: 1;
+}

@@ -1,8 +1,10 @@
 import { FC, HTMLAttributes, useState } from "react";
 // Components
+import Section from "../../../../../components/layout/Section/Section";
 import NewQuestionForm from "../../../../question/components/layout/NewQuestionForm/NewQuestionForm";
-import EditQuizQuestionsFromFile from "../EditQuizQuestionsFromFile/EditQuizQuestionsFromFile";
 import EditQuizQuestionsList from "../EditQuizQuestionsList/EditQuizQuestionsList";
+import EditQuizSection from "../EditQuizSection/EditQuizSection";
+import Accordion from "../../../../../components/layout/Accordion/Accordion";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 // CSS
@@ -21,20 +23,26 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 
 	if (quiz == null) return null;
 	return (
-		<div>
-			<h2>Questions</h2>
+		<EditQuizSection>
+			<Accordion defaultOpen>
+				<Accordion.Header>
+					<Section.Title mb="0">Questions</Section.Title>
+				</Accordion.Header>
 
-			<EditQuizQuestionsFromFile />
+				<Accordion.Body>
+					<EditQuizQuestionsList questions={quiz.questions} />
 
-			<EditQuizQuestionsList questions={quiz.questions} />
+					{showNewQuestionForm && (
+						<NewQuestionForm hideForm={() => setShowNewQuestionForm(false)} />
+					)}
 
-			{showNewQuestionForm && <NewQuestionForm hideForm={() => setShowNewQuestionForm(false)} />}
-
-			<br />
-			{!showNewQuestionForm && (
-				<button onClick={() => setShowNewQuestionForm(true)}>New question</button>
-			)}
-		</div>
+					<br />
+					{!showNewQuestionForm && (
+						<button onClick={() => setShowNewQuestionForm(true)}>New question</button>
+					)}
+				</Accordion.Body>
+			</Accordion>
+		</EditQuizSection>
 	);
 };
 

@@ -13,13 +13,13 @@ import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFee
 // Functions
 import removeUserPhoto from "../../../services/removeUserPhoto";
 // CSS
-import "./DeletePhotoModal.css";
+import "./DeleteUserPhotoModal.css";
 
-type DeletePhotoModalProps = ModalProps & {
+type DeleteUserPhotoModalProps = ModalProps & {
 	setPhotoUrl: Dispatch<SetStateAction<string>>;
 };
 
-const DeletePhotoModal: FC<DeletePhotoModalProps> = ({ show, setShow, setPhotoUrl }) => {
+const DeleteUserPhotoModal: FC<DeleteUserPhotoModalProps> = ({ show, setShow, setPhotoUrl }) => {
 	// #region States
 	const [loading, setLoading] = useState(false);
 	//#endregion
@@ -31,7 +31,7 @@ const DeletePhotoModal: FC<DeletePhotoModalProps> = ({ show, setShow, setPhotoUr
 	// #endregion
 
 	// #region Functions
-	async function handleDeletePhoto() {
+	async function handleDeleteUserPhoto() {
 		// Check user
 		if (user == null) return;
 
@@ -76,7 +76,7 @@ const DeletePhotoModal: FC<DeletePhotoModalProps> = ({ show, setShow, setPhotoUr
 
 					<Modal.Footer>
 						<Modal.Cancel />
-						<LoadingButton variant="danger" onClick={handleDeletePhoto} loading={loading}>
+						<LoadingButton variant="danger" onClick={handleDeleteUserPhoto} loading={loading}>
 							Delete
 						</LoadingButton>
 					</Modal.Footer>
@@ -86,4 +86,4 @@ const DeletePhotoModal: FC<DeletePhotoModalProps> = ({ show, setShow, setPhotoUr
 	);
 };
 
-export default DeletePhotoModal;
+export default DeleteUserPhotoModal;

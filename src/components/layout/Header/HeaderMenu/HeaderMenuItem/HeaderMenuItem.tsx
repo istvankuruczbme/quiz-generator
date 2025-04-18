@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 type HeaderMenuItemProps = HTMLAttributes<HTMLLIElement> & {
 	to: string;
-	label: string | ReactNode;
+	label: ReactNode;
 };
 
 const HeaderMenuItem: FC<HeaderMenuItemProps> = ({ to, label, className }) => {

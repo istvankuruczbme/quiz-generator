@@ -1,21 +1,37 @@
-import { ChangeEvent, FC, FormEvent, HTMLAttributes, useRef } from "react";
+import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
 // Components
-import CategorySelect from "../../../../../components/form/Select/CategorySelect/CategorySelect";
+import EditQuizSection from "../EditQuizSection/EditQuizSection";
+import Section from "../../../../../components/layout/Section/Section";
+import FormInputsContainer from "../../../../../components/form/FormInputsContainer/FormInputsContainer";
+import Input from "../../../../../components/form/Input/Input";
+import QuizDescriptionTextarea from "../../form/QuizDescriptionTextarea/QuizDescriptionTextarea";
+import Text from "../../../../../components/ui/Text/Text";
+import CategorySelect from "../../../../category/components/form/CategorySelect/CategorySelect";
+import FileUpload from "../../../../../components/layout/FileUpload/FileUpload";
+import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
+import Button from "../../../../../components/ui/Button/Button";
+import DeleteQuizPhotoModal from "../DeleteQuizPhotoModal/DeleteQuizPhotoModal";
+import FormButtonsContainer from "../../../../../components/form/FormButtonsContainer/FormButtonsContainer";
 // Hooks
 import useQuizData from "../../../hooks/useQuizData";
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
-import validateImageFile from "../../../../../utils/image/validateImageFile";
-import createImageUrl from "../../../../../utils/image/createImageUrl";
 import validateQuizData from "../../../utils/validation/validateQuizData";
 import updateQuizData from "../../../sevices/updateQuizData";
-import removeQuizPhoto from "../../../sevices/removeQuizPhoto";
 // CSS
 import "./EditQuizDataSection.css";
+import Accordion from "../../../../../components/layout/Accordion/Accordion";
 
 type EditQuizDataSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
+	// #region States
+	const [showDeletePhotoModal, setShowDeletePhotoModal] = useState(false);
+	const [loading, setLoading] = useState(false);
+	// #endregion
+
 	// #region Refs
 	const photoRef = useRef<HTMLInputElement>(null);
 	//#endregion
@@ -32,55 +48,22 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 		category,
 		setCategory,
 	} = useQuizData(quiz);
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
+	// #endregion
+
+	// #region Variables
+	const hasQuizPhoto = quiz?.photoUrl !== null;
 	// #endregion
 
 	//#region Functions
-	function handleFileChange(e: ChangeEvent<HTMLInputElement>): void {
-		// Get selected file
-		const file = e.target.files?.[0];
-
-		try {
-			// Validate image file
-			validateImageFile(file);
-		} catch (err) {
-			console.log(err);
-			return;
-		}
-
-		// Create image URL
-		const photoUrl = createImageUrl(file as File);
-
-		// Update photoURL state
-		setPhotoUrl(photoUrl);
-	}
-
-	async function handleRemoveQuizPhoto() {
-		// Confirm
-		const confirm = window.confirm("Are you sure you want to remove the cover photo of quiz?");
-		if (!confirm) return;
-
-		// Check quiz
-		if (quiz == null) return;
-
-		try {
-			// Remove quiz photo
-			await removeQuizPhoto(quiz.id);
-		} catch (err) {
-			console.log("Error removing the photo of quiz.", err);
-			return;
-		}
-
-		// Update quiz state
-		await updateQuizState();
-		setPhotoUrl("");
-		console.log("Photo removed.");
-	}
-
 	async function handleUpdateQuizData(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		// Check quiz
 		if (quiz == null) return;
+
+		setLoading(true);
 
 		// Input values
 		const photo = photoRef.current?.files?.[0];
@@ -89,70 +72,98 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 			// Validation
 			validateQuizData(title, description, category);
 		} catch (err) {
-			console.log(err);
+			setError(err);
+			setLoading(false);
 			return;
 		}
 
 		try {
 			// Update quiz data
 			await updateQuizData(quiz.id, title as string, description as string, photo, category);
-		} catch (err) {
-			console.log("Error updating quiz data.", err);
-			return;
-		}
 
-		// Update quiz state
-		await updateQuizState();
-		console.log("Quiz data upated");
+			// Update quiz state
+			await updateQuizState();
+
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Quiz updated.",
+			});
+		} catch (err) {
+			// console.log("Error updating quiz data.", err);
+			setError(err);
+		} finally {
+			setLoading(false);
+		}
 	}
 	//#endregion
 
 	return (
-		<section>
-			<h2>Quiz data</h2>
+		<EditQuizSection>
+			<Accordion defaultOpen>
+				<Accordion.Header>
+					<Section.Title mb="0">Quiz data</Section.Title>
+				</Accordion.Header>
 
-			<form onSubmit={handleUpdateQuizData}>
-				<label htmlFor="editQuizTitle">Title</label>
-				<input
-					type="text"
-					id="editQuizTitle"
-					placeholder="Title"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-					required
-				/>
-				<br />
+				<Accordion.Body>
+					{hasQuizPhoto && (
+						<DeleteQuizPhotoModal
+							show={showDeletePhotoModal}
+							setShow={setShowDeletePhotoModal}
+							setPhotoUrl={setPhotoUrl}
+						/>
+					)}
 
-				<label htmlFor="editQuizDescription">Description</label>
-				<textarea
-					id="editQuizDescription"
-					placeholder="Description"
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-					required
-				></textarea>
-				<br />
+					<form onSubmit={handleUpdateQuizData}>
+						<FormInputsContainer>
+							<Input
+								type="text"
+								id="editQuizTitle"
+								label="Title"
+								placeholder="Title"
+								required
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+							/>
 
-				<label htmlFor="editQuizPhoto">Cover photo</label>
-				<input
-					type="file"
-					id="editQuizPhoto"
-					accept="image/*"
-					onChange={handleFileChange}
-					ref={photoRef}
-				/>
-				<button type="button" onClick={handleRemoveQuizPhoto}>
-					Remove photo
-				</button>
-				<br />
-				<img src={photoUrl || undefined} alt={title} />
-				<br />
+							<QuizDescriptionTextarea
+								description={description}
+								setDescription={setDescription}
+							/>
 
-				<CategorySelect value={category} onChange={(e) => setCategory(e.target.value)} />
+							<CategorySelect
+								value={category}
+								onChange={(e) => setCategory(e.target.value)}
+							/>
 
-				<button type="submit">Save</button>
-			</form>
-		</section>
+							<Text mb="-1rem">Photo</Text>
+							<FileUpload
+								uploadType="photo"
+								defaultPhotoUrl={photoUrl || undefined}
+								deleteFileButton={
+									hasQuizPhoto ? (
+										<Button
+											variant="danger"
+											onClick={() => setShowDeletePhotoModal(true)}
+										>
+											Delete photo
+										</Button>
+									) : null
+								}
+								ref={photoRef}
+							/>
+						</FormInputsContainer>
+
+						<FormButtonsContainer>
+							<Button variant="neutral">Preview</Button>
+							<LoadingButton type="submit" full loading={loading}>
+								Save
+							</LoadingButton>
+						</FormButtonsContainer>
+					</form>
+				</Accordion.Body>
+			</Accordion>
+		</EditQuizSection>
 	);
 };
 

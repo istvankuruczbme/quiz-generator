@@ -5,7 +5,7 @@ import addPropClassName from "../../../../../../../utils/addPropClassName";
 import "./ProductFeaturesItem.css";
 
 type ProductFeaturesItemProps = HTMLAttributes<HTMLLIElement> & {
-	text: string | ReactNode;
+	text: ReactNode;
 };
 
 const ProductFeaturesItem: FC<ProductFeaturesItemProps> = ({ text, className }) => {

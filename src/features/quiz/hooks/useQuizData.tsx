@@ -7,7 +7,7 @@ const useQuizData = (quiz: QuizFullPrivate | null) => {
 	// #region States
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+	const [photoUrl, setPhotoUrl] = useState<string>("");
 	const [category, setCategory] = useState("");
 	const [visibility, setVisibility] = useState<QuizVisibility>(quizVisibilityOptions[0].value);
 	const [questionOrder, setQuestionOrder] = useState<QuestionOrder>(questionOrderOptions[0].value);
@@ -18,7 +18,7 @@ const useQuizData = (quiz: QuizFullPrivate | null) => {
 
 		setTitle(quiz.title);
 		setDescription(quiz.description);
-		setPhotoUrl(quiz.photoUrl);
+		setPhotoUrl(quiz.photoUrl || "");
 		setCategory(quiz.category.id);
 		setVisibility(quiz.config.visibility);
 		setQuestionOrder(quiz.config.questionOrder);

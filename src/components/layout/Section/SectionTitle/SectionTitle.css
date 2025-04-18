@@ -1,4 +1,4 @@
 .sectionTitle {
 	font-size: var(--fs-500);
-	margin-bottom: 1rem;
+	margin-bottom: var(--mb, 1rem);
 }

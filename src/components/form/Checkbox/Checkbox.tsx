@@ -3,7 +3,7 @@ import addPropClassName from "../../../utils/addPropClassName";
 import "./Checkbox.css";
 
 type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
-	label: string | ReactNode;
+	label: ReactNode;
 };
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(

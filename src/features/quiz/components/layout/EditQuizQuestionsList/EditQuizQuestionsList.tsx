@@ -20,12 +20,14 @@ import {
 import QuestionProvider from "../../../../question/contexts/QuestionContext/QuestionProvider";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
 import { useParams } from "react-router-dom";
 // Functions
 import getElementIndexById from "../../../../../utils/array/getElementIndexById";
 import updateQuizQuestionsOrder from "../../../../question/services/updateQuizQuestionsOrder";
 // CSS
 import "./EditQuizQuestionsList.css";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 
 type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 	questions: QuestionPrivate[];
@@ -34,6 +36,7 @@ type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) => {
 	// #region Hooks
 	const { updateQuestionsOrder } = useQuizPrivate();
+	const { loadingGeneration } = useEditQuiz();
 	const { quizId } = useParams();
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -85,10 +88,9 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 	}
 	//#endregion
 
-	if (questions.length === 0) return <p>No questions.</p>;
 	return (
 		<div>
-			<h3>List of questions</h3>
+			{questions.length === 0 && <p>No questions.</p>}
 
 			<DndContext
 				sensors={sensors}
@@ -96,6 +98,12 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 				onDragEnd={handleDragEnd}
 			>
 				<SortableContext items={questions} strategy={verticalListSortingStrategy}>
+					{loadingGeneration && (
+						<>
+							<Skeleton type="rect" width="100%" height="250px" />
+							<Skeleton type="rect" width="100%" height="250px" />
+						</>
+					)}
 					{questions.map((question) => (
 						<QuestionProvider key={question.id} question={question} />
 					))}

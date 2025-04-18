@@ -7,7 +7,7 @@ import Input from "../../../../../components/form/Input/Input";
 import FormInputsContainer from "../../../../../components/form/FormInputsContainer/FormInputsContainer";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import FileUpload from "../../../../../components/layout/FileUpload/FileUpload";
-import DeletePhotoModal from "../DeletePhotoModal/DeletePhotoModal";
+import DeleteUserPhotoModal from "../DeleteUserPhotoModal/DeleteUserPhotoModal";
 import Button from "../../../../../components/ui/Button/Button";
 import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 // Hooks
@@ -90,7 +90,7 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 	return (
 		<ProfileSection>
 			{hasUserPhoto && (
-				<DeletePhotoModal
+				<DeleteUserPhotoModal
 					show={showDeletePhotoModal}
 					setShow={setShowDeletePhotoModal}
 					setPhotoUrl={setPhotoUrl}

@@ -12,7 +12,7 @@ import "./Input.css";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 	type?: HTMLInputTypeAttribute;
-	label?: string | ReactNode;
+	label?: ReactNode;
 	full?: boolean;
 };
 

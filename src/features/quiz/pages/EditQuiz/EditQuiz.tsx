@@ -1,7 +1,11 @@
 import { FC, HTMLAttributes } from "react";
 // Components
-import { Link } from "react-router-dom";
+import EditQuizProvider from "../../contexts/EditQuizContext/EditQuizProvider";
 import QuizPrivateProvider from "../../contexts/QuizPrivateContext/QuizPrivateProvider";
+import Page from "../../../../components/layout/Page/Page";
+import EditQuizGenerateQuestionsSection from "../../components/layout/EditQuizGenerateQuestionsSection/EditQuizGenerateQuestionsSection";
+import EditQuizSection from "../../components/layout/EditQuizSection/EditQuizSection";
+import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
 import EditQuizDataSection from "../../components/layout/EditQuizDataSection/EditQuizDataSection";
 import EditQuizConfigSection from "../../components/layout/EditQuizConfigSection/EditQuizConfigSection";
 import EditQuizQuestionsSection from "../../components/layout/EditQuizQuestionsSection/EditQuizQuestionsSection";
@@ -14,23 +18,30 @@ type EditQuizProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuiz: FC<EditQuizProps> = () => {
 	return (
-		<QuizPrivateProvider>
-			<h1>Edit quiz</h1>
+		<EditQuizProvider>
+			<QuizPrivateProvider>
+				<Page>
+					<EditQuizSection>
+						<BackButton to="/my-quizzes" variant="primary">
+							My quizzes
+						</BackButton>
+						<Page.Title mb="0">Edit quiz</Page.Title>
+					</EditQuizSection>
 
-			<Link to="/my-quizzes">
-				<button tabIndex={-1}>My quizzes</button>
-			</Link>
+					<EditQuizDataSection />
 
-			<EditQuizDataSection />
+					<EditQuizConfigSection />
 
-			<EditQuizConfigSection />
+					<EditQuizGenerateQuestionsSection />
 
-			<EditQuizQuestionsSection />
+					<EditQuizQuestionsSection />
 
-			<EditQuizFinishSection />
+					<EditQuizFinishSection />
 
-			<EditQuizDeleteSection />
-		</QuizPrivateProvider>
+					<EditQuizDeleteSection />
+				</Page>
+			</QuizPrivateProvider>
+		</EditQuizProvider>
 	);
 };
 

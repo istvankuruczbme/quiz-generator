@@ -1,0 +1,48 @@
+.radio {
+	display: inline-flex;
+	gap: 0.5rem;
+	position: relative;
+	cursor: pointer;
+}
+
+.radio__input {
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 0.125rem;
+	translate: 0 -50%;
+}
+
+.radio__marker {
+	--size: 1rem;
+
+	display: inline-block;
+	width: var(--size);
+	height: var(--size);
+	background-color: var(--secondary-color);
+	border: 0.125rem solid var(--neutral-color-300);
+	border-radius: var(--br-pill);
+	margin-top: 0.125rem;
+	position: relative;
+}
+.radio__input:focus-visible + .radio__marker {
+	outline: auto;
+}
+.radio__input:checked + .radio__marker {
+	border-color: var(--accent-color-400);
+}
+
+.radio__marker::after {
+	content: none;
+	width: calc(0.6 * var(--size));
+	height: calc(0.6 * var(--size));
+	background-color: var(--accent-color-400);
+	border-radius: var(--br-pill);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+.radio__input:checked + .radio__marker::after {
+	content: "";
+}

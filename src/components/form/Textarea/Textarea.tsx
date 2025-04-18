@@ -2,8 +2,8 @@ import { forwardRef, ReactNode, TextareaHTMLAttributes } from "react";
 import addPropClassName from "../../../utils/addPropClassName";
 import "./Textarea.css";
 
-type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
-	label?: string | ReactNode;
+export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+	label?: ReactNode;
 	full?: boolean;
 };
 

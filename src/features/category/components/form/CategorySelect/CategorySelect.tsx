@@ -1,7 +1,7 @@
 import { forwardRef, SelectHTMLAttributes } from "react";
-import Select from "../Select";
-import useCategories from "../../../../features/category/hooks/useCategories";
-import addPropClassName from "../../../../utils/addPropClassName";
+import Select from "../../../../../components/form/Select/Select";
+import useCategories from "../../../hooks/useCategories";
+import addPropClassName from "../../../../../utils/addPropClassName";
 import "./CategorySelect.css";
 
 type CategorySelectProps = SelectHTMLAttributes<HTMLSelectElement>;

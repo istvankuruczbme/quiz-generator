@@ -112,13 +112,13 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 			dropZoneRef.current.classList.remove("fileUpload__drop--dragover");
 		}
 
-		function triggerInput(): void {
-			// Get file input
-			const fileInput = document.querySelector(".fileUpload__input") as HTMLInputElement;
+		// function triggerInput(): void {
+		// 	// Get file input
+		// 	const fileInput = document.querySelector(".fileUpload__input") as HTMLInputElement;
 
-			// Click file input
-			fileInput.click();
-		}
+		// 	// Click file input
+		// 	fileInput.click();
+		// }
 
 		function handleFileChange(file: File | undefined): void {
 			// Check file
@@ -200,11 +200,11 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 				</label>
 
 				<FlexContainer wrap="576px">
-					<label htmlFor={rest.id}>
+					{/* <label htmlFor={rest.id}>
 						<Button variant="accent" onClick={triggerInput}>
 							Select {uploadType === "photo" ? "photo" : "file"}
 						</Button>
-					</label>
+					</label> */}
 
 					<Button
 						variant="neutral"

@@ -77,6 +77,30 @@ const errors = {
 		message: "Category missing.",
 		details: "Please fill the category field.",
 	},
+	"quiz/generation/file-invalid-type": {
+		message: "The selected file is not a text file.",
+		details: "Please select a .txt / .md / .pdf / .docx file.",
+	},
+	"quiz/generation/strategy-invalid": {
+		message: "The selected strategy is invalid.",
+		details: "",
+	},
+	"quiz/generation/creativity-missing": {
+		message: "Value for creativity missing.",
+		details: "Please set the input to correct it.",
+	},
+	"quiz/generation/creativity-invalid": {
+		message: "Value for creativity is invalid.",
+		details: "Please set the input between 0% and 100%.",
+	},
+	"quiz/generation/question-count-invalid": {
+		message: "Invalid question count.",
+		details: "It must be greater or equal than 1.",
+	},
+	"quiz/generation/answer-option-count-invalid": {
+		message: "Invalid answer option count.",
+		details: "It must be greater or equal than 1.",
+	},
 	// #endregion
 
 	default: {

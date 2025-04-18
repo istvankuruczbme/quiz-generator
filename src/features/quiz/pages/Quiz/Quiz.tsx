@@ -24,7 +24,7 @@ const Quiz: FC<QuizProps> = () => {
 	//#endregion
 
 	return (
-		<Page className="quiz" hasFooter={false}>
+		<Page className="quiz">
 			<QuizSection>
 				{!isUserQuiz && (
 					<BackButton to="/browse" variant="primary" className="quiz__back">

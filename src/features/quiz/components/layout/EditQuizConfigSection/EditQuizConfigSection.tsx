@@ -1,23 +1,38 @@
-import { FC, FormEvent, HTMLAttributes } from "react";
+import { FC, FormEvent, HTMLAttributes, useState } from "react";
 // Components
-import QuizVisibilitySelect from "../../../../../components/form/Select/QuizVisibilitySelect/QuizVisibilitySelect";
-import QuestionOrderSelect from "../../../../../components/form/Select/QuestionOrderSelect/QuestionOrderSelect";
+import QuizVisibilitySelect from "../../form/QuizVisibilitySelect/QuizVisibilitySelect";
+import Section from "../../../../../components/layout/Section/Section";
+import FormInputsContainer from "../../../../../components/form/FormInputsContainer/FormInputsContainer";
+import FormButtonsContainer from "../../../../../components/form/FormButtonsContainer/FormButtonsContainer";
+import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
+import QuestionOrderSelect from "../../form/QuestionOrderSelect/QuestionOrderSelect";
+import EditQuizSection from "../EditQuizSection/EditQuizSection";
 // Hooks
 import useQuizData from "../../../hooks/useQuizData";
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
+// Functions
+import updateQuizConfig from "../../../sevices/updateQuizConfig";
 // Variables
 import { QuizVisibility } from "../../../assets/quizVisibility";
 import { QuestionOrder } from "../../../assets/questionOrder";
 // CSS
 import "./EditQuizConfigSection.css";
-import updateQuizConfig from "../../../sevices/updateQuizConfig";
+import Accordion from "../../../../../components/layout/Accordion/Accordion";
 
 type EditQuizConfigSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuizConfigSection: FC<EditQuizConfigSectionProps> = () => {
+	// #region States
+	const [loading, setLoading] = useState(false);
+	// #endregion
+
 	// #region Hooks
 	const { quiz, updateQuizState } = useQuizPrivate();
 	const { visibility, setVisibility, questionOrder, setQuestionOrder } = useQuizData(quiz);
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
 	//#endregion
 
 	// #region Functions
@@ -27,38 +42,58 @@ const EditQuizConfigSection: FC<EditQuizConfigSectionProps> = () => {
 		// Check quiz
 		if (quiz == null) return;
 
+		setLoading(true);
+
 		try {
 			// Update quiz config
 			await updateQuizConfig(quiz.id, visibility, questionOrder);
-		} catch (err) {
-			console.log("Error updating quiz config.", err);
-			return;
-		}
 
-		// Update quiz state
-		await updateQuizState();
-		console.log("Quiz config updated.");
+			// Update quiz state
+			await updateQuizState();
+
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Quiz config updated.",
+			});
+		} catch (err) {
+			// console.log("Error updating quiz config.", err);
+			setError(err);
+		} finally {
+			setLoading(false);
+		}
 	}
 	//#endregion
 
 	return (
-		<section>
-			<h2>Quiz config</h2>
+		<EditQuizSection>
+			<Accordion>
+				<Accordion.Header>
+					<Section.Title mb="0">Quiz config</Section.Title>
+				</Accordion.Header>
 
-			<form onSubmit={handleUpdateQuizConfig}>
-				<QuizVisibilitySelect
-					value={visibility}
-					onChange={(e) => setVisibility(e.target.value as QuizVisibility)}
-				/>
+				<Accordion.Body>
+					<form onSubmit={handleUpdateQuizConfig}>
+						<FormInputsContainer>
+							<QuizVisibilitySelect
+								value={visibility}
+								onChange={(e) => setVisibility(e.target.value as QuizVisibility)}
+							/>
+							<QuestionOrderSelect
+								value={questionOrder}
+								onChange={(e) => setQuestionOrder(e.target.value as QuestionOrder)}
+							/>
+						</FormInputsContainer>
 
-				<QuestionOrderSelect
-					value={questionOrder}
-					onChange={(e) => setQuestionOrder(e.target.value as QuestionOrder)}
-				/>
-
-				<button type="submit">Save</button>
-			</form>
-		</section>
+						<FormButtonsContainer>
+							<LoadingButton type="submit" full loading={loading}>
+								Save
+							</LoadingButton>
+						</FormButtonsContainer>
+					</form>
+				</Accordion.Body>
+			</Accordion>
+		</EditQuizSection>
 	);
 };
 
