@@ -2,6 +2,7 @@ import {
 	DragEvent,
 	forwardRef,
 	InputHTMLAttributes,
+	MouseEvent,
 	ReactNode,
 	useEffect,
 	useRef,
@@ -19,6 +20,8 @@ import validateImageFile from "../../../utils/image/validateImageFile";
 import createImageUrl from "../../../utils/image/createImageUrl";
 // CSS
 import "./FileUpload.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
 	uploadType?: "photo" | "file";
@@ -112,14 +115,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 			dropZoneRef.current.classList.remove("fileUpload__drop--dragover");
 		}
 
-		// function triggerInput(): void {
-		// 	// Get file input
-		// 	const fileInput = document.querySelector(".fileUpload__input") as HTMLInputElement;
-
-		// 	// Click file input
-		// 	fileInput.click();
-		// }
-
 		function handleFileChange(file: File | undefined): void {
 			// Check file
 			if (file == undefined) return;
@@ -149,7 +144,9 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 			}
 		}
 
-		function handleFileRemoveClick(): void {
+		function handleFileRemoveClick(e: MouseEvent<HTMLButtonElement>): void {
+			e.preventDefault();
+
 			// Get file input
 			const fileInput = document.querySelector(".fileUpload__input") as HTMLInputElement;
 
@@ -177,11 +174,21 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 						id={rest.id}
 						accept={uploadType === "photo" ? "image/*" : undefined}
 						className="fileUpload__input"
-						tabIndex={-1}
 						onChange={(e) => handleFileChange(e.target.files?.[0])}
 						{...rest}
 						ref={ref}
 					/>
+
+					{(photoUrl !== "" || filename !== "") && (
+						<Button
+							variant="neutral"
+							className="fileUpload__remove"
+							onClick={handleFileRemoveClick}
+						>
+							<FontAwesomeIcon icon={faXmark} />
+							Remove
+						</Button>
+					)}
 
 					{uploadType === "photo" && (
 						<img src={photoUrl || undefined} className="fileUpload__img" />
@@ -189,7 +196,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
 					{photoUrl === "" && filename === "" && (
 						<Text variant="neutral-400" mb="0">
-							Drop the {uploadType === "photo" ? "photo" : "file"} here.
+							Click or drop the {uploadType === "photo" ? "photo" : "file"} here.
 						</Text>
 					)}
 					{filename !== "" && (
@@ -199,23 +206,11 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 					)}
 				</label>
 
-				<FlexContainer wrap="576px">
-					{/* <label htmlFor={rest.id}>
-						<Button variant="accent" onClick={triggerInput}>
-							Select {uploadType === "photo" ? "photo" : "file"}
-						</Button>
-					</label> */}
-
-					<Button
-						variant="neutral"
-						className="profilePersonal__photo__remove"
-						onClick={handleFileRemoveClick}
-					>
-						Remove {uploadType === "photo" ? "photo" : "file"}
-					</Button>
-
-					{deleteFileButton != undefined && <>{deleteFileButton}</>}
-				</FlexContainer>
+				{deleteFileButton != undefined && (
+					<FlexContainer wrap="576px" className="fileUpload__buttons">
+						{deleteFileButton != undefined && deleteFileButton}
+					</FlexContainer>
+				)}
 			</div>
 		);
 	}

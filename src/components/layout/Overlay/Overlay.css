@@ -5,12 +5,13 @@
 	padding: 2rem;
 	overflow-y: auto;
 	position: fixed;
-	top: -100%;
+	top: 0;
 	left: 0;
 	right: 0;
 	z-index: 20;
-	transition: top 200ms linear;
+	translate: 0 -100%;
+	transition: translate 200ms linear;
 }
 .overlay--show {
-	top: 0;
+	translate: 0 0;
 }

@@ -1,14 +1,19 @@
-import { forwardRef, ReactNode, TextareaHTMLAttributes } from "react";
+import { CSSProperties, forwardRef, ReactNode, TextareaHTMLAttributes } from "react";
 import addPropClassName from "../../../utils/addPropClassName";
 import "./Textarea.css";
 
 export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 	label?: ReactNode;
 	full?: boolean;
+	minHeight?: string;
 };
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-	({ label, full, className, ...rest }, ref) => {
+	({ label, full, minHeight = "6rem", className, ...rest }, ref) => {
+		// #region Variables
+		const style: CSSProperties & { "--min-height": string } = { "--min-height": minHeight };
+		//#endregion
+
 		return (
 			<div className={`textarea${full ? " textarea--full" : ""}${addPropClassName(className)}`}>
 				{label != undefined && (
@@ -16,7 +21,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 						{label}
 					</label>
 				)}
-				<textarea className="textarea__textarea" {...rest} ref={ref}></textarea>
+				<textarea className="textarea__textarea" style={style} {...rest} ref={ref}></textarea>
 			</div>
 		);
 	}

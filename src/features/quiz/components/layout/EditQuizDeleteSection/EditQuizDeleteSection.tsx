@@ -1,47 +1,41 @@
-import { FC, HTMLAttributes } from "react";
-// Hooks
-import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
-import { useNavigate } from "react-router-dom";
-// Functions
-import deleteQuiz from "../../../sevices/deleteQuiz";
+import { FC, HTMLAttributes, useState } from "react";
+// Components
+import EditQuizSection from "../EditQuizSection/EditQuizSection";
+import Section from "../../../../../components/layout/Section/Section";
+import Accordion from "../../../../../components/layout/Accordion/Accordion";
+import Text from "../../../../../components/ui/Text/Text";
+import Button from "../../../../../components/ui/Button/Button";
+import DeleteQuizModal from "../DeleteQuizModal/DeleteQuizModal";
 // CSS
 import "./EditQuizDeleteSection.css";
 
 type EditQuizDeleteSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuizDeleteSection: FC<EditQuizDeleteSectionProps> = () => {
-	// #region Hooks
-	const { quiz } = useQuizPrivate();
-	const navigate = useNavigate();
-	//#endregion
-
-	//#region Functions
-	async function handleQuizDelete() {
-		// Confirm
-		const confirm = window.confirm("Are you sure you want to delete the quiz?");
-		if (!confirm) return;
-
-		// Check quiz
-		if (quiz == null) return;
-
-		try {
-			// Delete quiz
-			await deleteQuiz(quiz.id);
-		} catch (err) {
-			console.log("Error deleting the quiz.", err);
-			return;
-		}
-
-		// Navigate ti My quizzes page
-		navigate("/my-quizzes");
-	}
+	// #region States
+	const [showDeleteQuizModal, setShowDeleteQuizModal] = useState(false);
 	//#endregion
 
 	return (
-		<section>
-			<hr />
-			<button onClick={handleQuizDelete}>Delete quiz</button>
-		</section>
+		<EditQuizSection>
+			<DeleteQuizModal show={showDeleteQuizModal} setShow={setShowDeleteQuizModal} />
+
+			<Accordion>
+				<Accordion.Header>
+					<Section.Title mb="0">Delete quiz</Section.Title>
+				</Accordion.Header>
+
+				<Accordion.Body>
+					<Text variant="neutral-400">
+						By deleting the quiz all of its data (e.g. photos, files) will be lost.
+					</Text>
+
+					<Button variant="danger" onClick={() => setShowDeleteQuizModal(true)}>
+						Delete quiz
+					</Button>
+				</Accordion.Body>
+			</Accordion>
+		</EditQuizSection>
 	);
 };
 

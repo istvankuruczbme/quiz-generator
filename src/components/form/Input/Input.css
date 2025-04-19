@@ -5,6 +5,7 @@
 	position: relative;
 }
 .input--full {
+	width: 100%;
 	display: flex;
 }
 

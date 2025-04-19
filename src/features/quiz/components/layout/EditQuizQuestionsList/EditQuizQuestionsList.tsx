@@ -18,16 +18,20 @@ import {
 } from "@dnd-kit/sortable";
 // Components
 import QuestionProvider from "../../../../question/contexts/QuestionContext/QuestionProvider";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
+import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
+import Text from "../../../../../components/ui/Text/Text";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
 import { useParams } from "react-router-dom";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import getElementIndexById from "../../../../../utils/array/getElementIndexById";
 import updateQuizQuestionsOrder from "../../../../question/services/updateQuizQuestionsOrder";
 // CSS
 import "./EditQuizQuestionsList.css";
-import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 
 type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 	questions: QuestionPrivate[];
@@ -35,7 +39,7 @@ type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 
 const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) => {
 	// #region Hooks
-	const { updateQuestionsOrder } = useQuizPrivate();
+	const { updateQuestionsOrder, updateQuizState } = useQuizPrivate();
 	const { loadingGeneration } = useEditQuiz();
 	const { quizId } = useParams();
 	const sensors = useSensors(
@@ -43,6 +47,8 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 		useSensor(TouchSensor),
 		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
 	);
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
 	//#endregion
 
 	//#region Functions
@@ -69,28 +75,31 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 		// Update question order locally
 		updateQuestionsOrder(newQuestionOrder);
 
-		try {
-			// Validate quiz ID
-			if (quizId == undefined) throw new Error("quiz/invalid-id");
-		} catch (err) {
-			console.log(err);
-			return;
-		}
+		// Validate quiz ID
+		if (quizId == undefined) return;
 
 		try {
 			// Update question order in DB
 			await updateQuizQuestionsOrder(quizId, newQuestionOrder);
 
-			console.log("Order updated.");
+			// Update state
+			await updateQuizState();
+
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Question order updated.",
+			});
 		} catch (err) {
-			console.log("Error updating the order of questions.", err);
+			// console.log("Error updating the order of questions.", err);
+			setError(err);
 		}
 	}
 	//#endregion
 
 	return (
-		<div>
-			{questions.length === 0 && <p>No questions.</p>}
+		<FlexContainer direction="column" gap="2rem" className="editQuizQuestionsList">
+			{questions.length === 0 && <Text mb="0">No questions.</Text>}
 
 			<DndContext
 				sensors={sensors}
@@ -109,7 +118,7 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 					))}
 				</SortableContext>
 			</DndContext>
-		</div>
+		</FlexContainer>
 	);
 };
 

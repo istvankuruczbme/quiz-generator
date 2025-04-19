@@ -1,0 +1,12 @@
+.questionListItemPoint {
+	color: var(--point-color);
+}
+.questionListItemPoint--correct {
+	--point-color: var(--success-color-400);
+}
+.questionListItemPoint--wrong {
+	--point-color: var(--danger-color-400);
+}
+.questionListItemPoint--empty {
+	--point-color: var(--neutral-color-400);
+}

@@ -21,6 +21,7 @@ import validateQuizGenerationData from "../../../utils/validation/validateQuizGe
 import generateQuestions from "../../../../question/services/generateQuestions";
 // CSS
 import "./EditQuizGenerateQuestionsSection.css";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 
 type EditQuizGenerateQuestionsSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -30,7 +31,7 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 	// #endregion
 
 	// #region Hooks
-	const { quiz, updateQuizState } = useQuizPrivate();
+	const { quiz, loading: loadingQuiz, updateQuizState } = useQuizPrivate();
 	const { questionCount, setQuestionCount, answerOptionCount, setAnswerOptionCount } =
 		useQuizGenerationData();
 	const { setLoadingGeneration } = useEditQuiz();
@@ -147,26 +148,37 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 
 								<QuizCreativityRange ref={creativityRef} />
 
-								<Input
-									type="number"
-									label="Number of questions"
-									id="editQuizQuestionsQuestionCount"
-									placeholder="Number of questions"
-									min={1}
-									required
-									value={questionCount || ""}
-									onChange={(e) => setQuestionCount(parseInt(e.target.value))}
-								/>
-								<Input
-									type="number"
-									label="Number of answer options (per quiz)"
-									id="editQuizQuestionsAnswerOptionCount"
-									placeholder="Number of answer options (per quiz)"
-									min={1}
-									required
-									value={answerOptionCount || ""}
-									onChange={(e) => setAnswerOptionCount(parseInt(e.target.value))}
-								/>
+								{loadingQuiz && (
+									<>
+										<Skeleton type="rect" width="100%" height="3rem" />
+										<Skeleton type="rect" width="100%" height="3rem" />
+									</>
+								)}
+
+								{!loadingQuiz && (
+									<>
+										<Input
+											type="number"
+											label="Number of questions"
+											id="editQuizQuestionsQuestionCount"
+											placeholder="Number of questions"
+											min={1}
+											required
+											value={questionCount || ""}
+											onChange={(e) => setQuestionCount(parseInt(e.target.value))}
+										/>
+										<Input
+											type="number"
+											label="Number of answer options (per quiz)"
+											id="editQuizQuestionsAnswerOptionCount"
+											placeholder="Number of answer options (per quiz)"
+											min={1}
+											required
+											value={answerOptionCount || ""}
+											onChange={(e) => setAnswerOptionCount(parseInt(e.target.value))}
+										/>
+									</>
+								)}
 							</FormInputsContainer>
 						</div>
 

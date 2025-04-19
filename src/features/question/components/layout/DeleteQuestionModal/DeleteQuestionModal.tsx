@@ -1,0 +1,95 @@
+import { FC, useState } from "react";
+import { ModalProps } from "../../../../ui/modal/types/modalTypes";
+// Components
+import ModalProvider from "../../../../ui/modal/contexts/ModalContext/ModalProvider";
+import Overlay from "../../../../../components/layout/Overlay/Overlay";
+import Modal from "../../../../ui/modal/components/layout/Modal/Modal";
+import Text from "../../../../../components/ui/Text/Text";
+import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
+// Hooks
+import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
+import useQuestion from "../../../contexts/QuestionContext/useQuestion";
+import useError from "../../../../ui/error/hooks/useError";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
+// Functions
+import deleteQuestion from "../../../services/deleteQuestion";
+// CSS
+import "./DeleteQuestionModal.css";
+
+type DeleteQuestionModalProps = ModalProps;
+
+const DeleteQuestionModal: FC<DeleteQuestionModalProps> = ({ show, setShow }) => {
+	// #region States
+	const [loading, setLoading] = useState(false);
+	// #endregion
+
+	// #region Hooks
+	const { quiz, updateQuizState } = useQuizPrivate();
+	const { question } = useQuestion();
+	const { setError } = useError();
+	const { setFeedback } = useFeedback();
+	// #endregion
+
+	//#region Functions
+	async function handleDeleteQuestion() {
+		// Check quiz
+		if (quiz == null) return;
+
+		setLoading(true);
+
+		try {
+			// Delete question
+			await deleteQuestion(quiz.id, question.id);
+
+			// Close modal
+			setShow(false);
+
+			// Update quiz state
+			await updateQuizState();
+
+			// Show feedback
+			setFeedback({
+				type: "success",
+				message: "Question deleted.",
+			});
+		} catch (err) {
+			// console.log("Error deleting the question.", err);
+			setError(err);
+		} finally {
+			setLoading(false);
+		}
+	}
+	//#endregion
+
+	return (
+		<div onPointerDown={(e) => e.stopPropagation()}>
+			<ModalProvider show={show} setShow={setShow}>
+				<Overlay>
+					<Modal>
+						<Modal.Header>
+							<Modal.Title>Delete question</Modal.Title>
+							<Modal.Close />
+						</Modal.Header>
+
+						<Modal.Body>
+							<Text mb="0">Are you sure you want to delete the question?</Text>
+						</Modal.Body>
+
+						<Modal.Footer>
+							<Modal.Cancel />
+							<LoadingButton
+								variant="danger"
+								loading={loading}
+								onClick={handleDeleteQuestion}
+							>
+								Delete
+							</LoadingButton>
+						</Modal.Footer>
+					</Modal>
+				</Overlay>
+			</ModalProvider>
+		</div>
+	);
+};
+
+export default DeleteQuestionModal;

@@ -1,0 +1,19 @@
+.questionListItemAnswerOption {
+	display: flex;
+	gap: 1rem;
+	border-radius: var(--br-400);
+	box-shadow: 0 0 0.5rem var(--neutral-color-300);
+	padding: 1rem 1.5rem;
+}
+.questionListItemAnswerOption--correct {
+	--answer-option-color: var(--success-color-400);
+}
+.questionListItemAnswerOption--wrong {
+	--answer-option-color: var(--danger-color-400);
+}
+
+.questionListItem__answerOption__icon {
+	font-size: var(--fs-500);
+	color: var(--answer-option-color);
+	margin-top: 0.125rem;
+}

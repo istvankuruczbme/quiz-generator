@@ -6,3 +6,10 @@
 .editQuizGenerateQuestionsSection__form__inputs__left {
 	flex-grow: 1;
 }
+
+@media screen and (max-width: 576px) {
+	.editQuizGenerateQuestionsSection__form__inputs {
+		flex-direction: column;
+		gap: 2rem;
+	}
+}

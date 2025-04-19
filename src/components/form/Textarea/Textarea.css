@@ -9,7 +9,7 @@
 }
 
 .textarea__textarea {
-	min-height: 6rem;
+	min-height: var(--min-height, 6rem);
 	background-color: var(--secondary-color);
 	border: 0.125rem solid var(--neutral-color-300);
 	border-radius: var(--br-400);

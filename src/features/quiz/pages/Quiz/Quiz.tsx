@@ -5,9 +5,12 @@ import QuizSection from "../../components/layout/QuizSection/QuizSection";
 import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
 import QuizSummary from "../../components/ui/QuizSummary/QuizSummary";
 import QuizSummaryLoading from "../../components/ui/QuizSummary/QuizSummaryLoading/QuizSummaryLoading";
+import LinkButton from "../../../../components/ui/Button/LinkButton/LinkButton";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
 import useQuizSummary from "../../hooks/useQuizSummary";
+// Functions
+import checkQuizWriteAccess from "../../utils/checkQuizWriteAccess";
 // CSS
 import "./Quiz.css";
 
@@ -21,6 +24,7 @@ const Quiz: FC<QuizProps> = () => {
 
 	// #region Variables
 	const isUserQuiz = quizSummary == null || user == null ? false : quizSummary.user.id === user.id;
+	const isQuizWritable = checkQuizWriteAccess(quizSummary, user);
 	//#endregion
 
 	return (
@@ -41,6 +45,20 @@ const Quiz: FC<QuizProps> = () => {
 			<QuizSection>
 				{loading && <QuizSummaryLoading />}
 				{quizSummary != null && <QuizSummary quiz={quizSummary} />}
+			</QuizSection>
+
+			<QuizSection className="quiz__button">
+				{!isQuizWritable && (
+					<LinkButton to="complete" full>
+						Start quiz
+					</LinkButton>
+				)}
+
+				{isQuizWritable && (
+					<LinkButton to="edit" full>
+						Edit quiz
+					</LinkButton>
+				)}
 			</QuizSection>
 		</Page>
 	);

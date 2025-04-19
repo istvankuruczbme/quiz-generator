@@ -5,15 +5,17 @@
 	place-items: center;
 	border: 0.25rem dashed var(--neutral-color-400);
 	border-radius: var(--br-400);
-	margin-bottom: 1rem;
 	position: relative;
-	isolation: isolate;
 	z-index: 0;
 	transition: border-color 200ms ease;
 	cursor: pointer;
 }
 .fileUpload__drop--dragover {
 	border-color: var(--accent-color-400);
+}
+.fileUpload__drop:has(.fileUpload__input:focus-visible) {
+	outline: auto;
+	outline-offset: 0.25rem;
 }
 
 .fileUpload__input {
@@ -27,4 +29,18 @@
 	max-height: 95%;
 	border-radius: var(--br-400);
 	position: absolute;
+}
+
+.fileUpload__remove {
+	font-size: var(--fs-200);
+	border-radius: var(--br-400);
+	padding: 0.25rem 0.5rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 10;
+}
+
+.fileUpload__buttons {
+	margin-top: 1rem;
 }

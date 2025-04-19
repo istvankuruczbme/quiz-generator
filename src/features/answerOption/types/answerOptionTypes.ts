@@ -3,10 +3,10 @@ export type AnswerOptionPublic = Readonly<{
 	text: string;
 }>;
 
-export type AnswerOptionPrivate = Readonly<{
+export type AnswerOptionPrivate = {
 	id: string;
 	text: string;
 	isCorrect: boolean;
-}>;
+};
 
 export type AnswerOptionEditableProperty = keyof Omit<AnswerOptionPrivate, "id">;

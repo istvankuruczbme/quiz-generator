@@ -5,6 +5,6 @@
 	cursor: pointer;
 }
 
-.accordion[open] .accordionHeader__icon {
+.accordion[open] > .accordionHeader > .accordionHeader__icon {
 	rotate: 90deg;
 }

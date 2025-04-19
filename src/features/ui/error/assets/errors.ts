@@ -103,6 +103,48 @@ const errors = {
 	},
 	// #endregion
 
+	// #region Question
+	"question/text-missing": {
+		message: "Question missing.",
+		details: "Please fill question field.",
+	},
+	"question/correct-points-missing": {
+		message: "Correct points missing.",
+		details: "Please fill correct points field.",
+	},
+	"question/correct-points-invalid": {
+		message: "Correct points invalid.",
+		details: "Please enter a valid number for correct points field.",
+	},
+	"question/wrong-points-missing": {
+		message: "Wrong points missing.",
+		details: "Please fill wrong points field.",
+	},
+	"question/wrong-points-invalid": {
+		message: "Correct points invalid.",
+		details: "Please enter a valid number for correct points field.",
+	},
+	"question/empty-points-missing": {
+		message: "Empty points missing.",
+		details: "Please fill empty points field.",
+	},
+	"question/empty-points-invalid": {
+		message: "Empty points invalid.",
+		details: "Please enter a valid number for empty points field.",
+	},
+	// #endregion
+
+	// #region Answer options
+	"question/answer-option-text-missing": {
+		message: "Asnwer option text missing.",
+		details: "Please fill answer option's text field.",
+	},
+	"question/correct-answer-option-missing": {
+		message: "No correct answer option.",
+		details: "Please select at least 1 correct answer option.",
+	},
+	// #endregion
+
 	default: {
 		message: "An unknown error occured.",
 		details: "Please try again later.",

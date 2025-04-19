@@ -23,6 +23,7 @@ import updateQuizData from "../../../sevices/updateQuizData";
 // CSS
 import "./EditQuizDataSection.css";
 import Accordion from "../../../../../components/layout/Accordion/Accordion";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 
 type EditQuizDataSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -37,7 +38,7 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 	//#endregion
 
 	// #region Hooks
-	const { quiz, updateQuizState } = useQuizPrivate();
+	const { quiz, loading: loadingQuiz, updateQuizState } = useQuizPrivate();
 	const {
 		title,
 		setTitle,
@@ -106,52 +107,63 @@ const EditQuizDataSection: FC<EditQuizDataSectionProps> = () => {
 				</Accordion.Header>
 
 				<Accordion.Body>
-					{hasQuizPhoto && (
-						<DeleteQuizPhotoModal
-							show={showDeletePhotoModal}
-							setShow={setShowDeletePhotoModal}
-							setPhotoUrl={setPhotoUrl}
-						/>
-					)}
+					<DeleteQuizPhotoModal
+						show={showDeletePhotoModal}
+						setShow={setShowDeletePhotoModal}
+						setPhotoUrl={setPhotoUrl}
+					/>
 
 					<form onSubmit={handleUpdateQuizData}>
 						<FormInputsContainer>
-							<Input
-								type="text"
-								id="editQuizTitle"
-								label="Title"
-								placeholder="Title"
-								required
-								value={title}
-								onChange={(e) => setTitle(e.target.value)}
-							/>
+							{loadingQuiz && (
+								<>
+									<Skeleton type="rect" width="100%" height="3rem" />
+									<Skeleton type="rect" width="100%" height="7rem" />
+									<Skeleton type="rect" width="100%" height="3rem" />
+									<Skeleton type="rect" width="100%" height="15rem" />
+								</>
+							)}
 
-							<QuizDescriptionTextarea
-								description={description}
-								setDescription={setDescription}
-							/>
+							{!loadingQuiz && (
+								<>
+									<Input
+										type="text"
+										id="editQuizTitle"
+										label="Title"
+										placeholder="Title"
+										required
+										value={title}
+										onChange={(e) => setTitle(e.target.value)}
+									/>
 
-							<CategorySelect
-								value={category}
-								onChange={(e) => setCategory(e.target.value)}
-							/>
+									<QuizDescriptionTextarea
+										description={description}
+										setDescription={setDescription}
+									/>
 
-							<Text mb="-1rem">Photo</Text>
-							<FileUpload
-								uploadType="photo"
-								defaultPhotoUrl={photoUrl || undefined}
-								deleteFileButton={
-									hasQuizPhoto ? (
-										<Button
-											variant="danger"
-											onClick={() => setShowDeletePhotoModal(true)}
-										>
-											Delete photo
-										</Button>
-									) : null
-								}
-								ref={photoRef}
-							/>
+									<CategorySelect
+										value={category}
+										onChange={(e) => setCategory(e.target.value)}
+									/>
+
+									<Text mb="-1rem">Photo</Text>
+									<FileUpload
+										uploadType="photo"
+										defaultPhotoUrl={photoUrl || undefined}
+										deleteFileButton={
+											hasQuizPhoto ? (
+												<Button
+													variant="danger"
+													onClick={() => setShowDeletePhotoModal(true)}
+												>
+													Delete photo
+												</Button>
+											) : null
+										}
+										ref={photoRef}
+									/>
+								</>
+							)}
 						</FormInputsContainer>
 
 						<FormButtonsContainer>

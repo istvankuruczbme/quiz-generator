@@ -6,4 +6,13 @@
 	.quiz {
 		padding-bottom: 5rem;
 	}
+
+	.quiz__button {
+		background-color: var(--primary-color);
+		position: fixed;
+		padding: 0.5rem;
+		bottom: 0rem;
+		left: 0rem;
+		right: 0rem;
+	}
 }

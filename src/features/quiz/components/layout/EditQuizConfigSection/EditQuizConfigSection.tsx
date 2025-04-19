@@ -20,6 +20,7 @@ import { QuestionOrder } from "../../../assets/questionOrder";
 // CSS
 import "./EditQuizConfigSection.css";
 import Accordion from "../../../../../components/layout/Accordion/Accordion";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 
 type EditQuizConfigSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -29,7 +30,7 @@ const EditQuizConfigSection: FC<EditQuizConfigSectionProps> = () => {
 	// #endregion
 
 	// #region Hooks
-	const { quiz, updateQuizState } = useQuizPrivate();
+	const { quiz, loading: loadingQuiz, updateQuizState } = useQuizPrivate();
 	const { visibility, setVisibility, questionOrder, setQuestionOrder } = useQuizData(quiz);
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
@@ -67,7 +68,7 @@ const EditQuizConfigSection: FC<EditQuizConfigSectionProps> = () => {
 
 	return (
 		<EditQuizSection>
-			<Accordion>
+			<Accordion defaultOpen>
 				<Accordion.Header>
 					<Section.Title mb="0">Quiz config</Section.Title>
 				</Accordion.Header>
@@ -75,14 +76,25 @@ const EditQuizConfigSection: FC<EditQuizConfigSectionProps> = () => {
 				<Accordion.Body>
 					<form onSubmit={handleUpdateQuizConfig}>
 						<FormInputsContainer>
-							<QuizVisibilitySelect
-								value={visibility}
-								onChange={(e) => setVisibility(e.target.value as QuizVisibility)}
-							/>
-							<QuestionOrderSelect
-								value={questionOrder}
-								onChange={(e) => setQuestionOrder(e.target.value as QuestionOrder)}
-							/>
+							{loadingQuiz && (
+								<>
+									<Skeleton type="rect" width="100%" height="3rem" />
+									<Skeleton type="rect" width="100%" height="3rem" />
+								</>
+							)}
+
+							{!loadingQuiz && (
+								<>
+									<QuizVisibilitySelect
+										value={visibility}
+										onChange={(e) => setVisibility(e.target.value as QuizVisibility)}
+									/>
+									<QuestionOrderSelect
+										value={questionOrder}
+										onChange={(e) => setQuestionOrder(e.target.value as QuestionOrder)}
+									/>
+								</>
+							)}
 						</FormInputsContainer>
 
 						<FormButtonsContainer>

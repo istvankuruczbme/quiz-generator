@@ -3,13 +3,11 @@ import { QuizSummary as QuizSummaryType } from "../../../types/quizTypes";
 // Components
 import Text from "../../../../../components/ui/Text/Text";
 import QuizCategory from "../QuizCard/QuizCategory/QuizCategory";
-import LinkButton from "../../../../../components/ui/Button/LinkButton/LinkButton";
 import { faCheckDouble, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import QuizCount from "../QuizCount/QuizCount";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
 // Functions
-import checkQuizWriteAccess from "../../../utils/checkQuizWriteAccess";
 import defaultUserPhotoUrl from "../../../../user/assets/defaultUserPhotoUrl";
 import formatQuizDate from "../../../utils/fornatting/formatQuizDate";
 // Variables
@@ -28,7 +26,6 @@ const QuizSummary: FC<QuizSummaryProps> = ({ quiz }) => {
 
 	// #region Variables
 	const isQuizDraft = quiz.config.state === "DRAFT";
-	const isQuizWritable = checkQuizWriteAccess(quiz, user);
 	// #endregion
 
 	return (
@@ -62,7 +59,7 @@ const QuizSummary: FC<QuizSummaryProps> = ({ quiz }) => {
 					<QuizCount
 						icon={faCheckDouble}
 						title="Number of completions"
-						count={quiz.questionCount}
+						count={quiz.completionCount}
 					/>
 				</div>
 
@@ -80,20 +77,6 @@ const QuizSummary: FC<QuizSummaryProps> = ({ quiz }) => {
 						{formatQuizDate(new Date(quiz.updatedAt))}
 					</span>
 				</div>
-			</div>
-
-			<div className="quizSummary__button">
-				{!isQuizWritable && (
-					<LinkButton to="complete" full>
-						Start quiz
-					</LinkButton>
-				)}
-
-				{isQuizWritable && (
-					<LinkButton to="edit" full>
-						Edit quiz
-					</LinkButton>
-				)}
 			</div>
 		</div>
 	);

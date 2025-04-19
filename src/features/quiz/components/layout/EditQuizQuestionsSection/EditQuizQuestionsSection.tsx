@@ -1,14 +1,18 @@
 import { FC, HTMLAttributes, useState } from "react";
 // Components
 import Section from "../../../../../components/layout/Section/Section";
-import NewQuestionForm from "../../../../question/components/layout/NewQuestionForm/NewQuestionForm";
+import EditQuestion from "../../../../question/components/layout/EditQuestion/EditQuestion";
 import EditQuizQuestionsList from "../EditQuizQuestionsList/EditQuizQuestionsList";
 import EditQuizSection from "../EditQuizSection/EditQuizSection";
 import Accordion from "../../../../../components/layout/Accordion/Accordion";
+import Button from "../../../../../components/ui/Button/Button";
+import EditQuestionProvider from "../../../../question/contexts/EditQuestionContext/EditQuestionProvider";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 // CSS
 import "./EditQuizQuestionsSection.css";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
+import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
 
 type EditQuizQuestionsSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -18,10 +22,9 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 	//#endregion
 
 	// #region Hooks
-	const { quiz } = useQuizPrivate();
+	const { quiz, loading: loadingQuiz } = useQuizPrivate();
 	//#endregion
 
-	if (quiz == null) return null;
 	return (
 		<EditQuizSection>
 			<Accordion defaultOpen>
@@ -30,15 +33,25 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 				</Accordion.Header>
 
 				<Accordion.Body>
-					<EditQuizQuestionsList questions={quiz.questions} />
+					{/* List of questions */}
+					{loadingQuiz && (
+						<FlexContainer direction="column" gap="2rem">
+							<Skeleton type="rect" width="100%" height="20rem" />
+							<Skeleton type="rect" width="100%" height="20rem" />
+						</FlexContainer>
+					)}
+					{quiz != null && <EditQuizQuestionsList questions={quiz.questions} />}
 
+					{/* New question form */}
 					{showNewQuestionForm && (
-						<NewQuestionForm hideForm={() => setShowNewQuestionForm(false)} />
+						<EditQuestionProvider>
+							<EditQuestion hideForm={() => setShowNewQuestionForm(false)} />
+						</EditQuestionProvider>
 					)}
 
-					<br />
+					{/* Show new question form buttons */}
 					{!showNewQuestionForm && (
-						<button onClick={() => setShowNewQuestionForm(true)}>New question</button>
+						<Button onClick={() => setShowNewQuestionForm(true)}>New question</Button>
 					)}
 				</Accordion.Body>
 			</Accordion>

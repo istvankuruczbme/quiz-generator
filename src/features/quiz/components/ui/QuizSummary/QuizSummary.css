@@ -46,10 +46,6 @@
 	padding: 0.5rem 1rem;
 }
 
-.quizSummary__body {
-	margin-bottom: 3rem;
-}
-
 .quizSummary__category {
 	margin-top: 0.5rem;
 }
@@ -79,18 +75,4 @@
 	display: inline-block;
 	background-color: var(--neutral-color-700);
 	border-radius: var(--br-pill);
-}
-
-@media screen and (max-width: 576px) {
-	.quizSummary__body {
-		margin-bottom: 0;
-	}
-
-	.quizSummary__button {
-		position: fixed;
-		padding: 0.5rem;
-		bottom: 0rem;
-		left: 0rem;
-		right: 0rem;
-	}
 }
