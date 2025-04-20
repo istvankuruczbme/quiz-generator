@@ -102,10 +102,10 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 	//#endregion
 
 	return (
-		<FlexContainer direction="column" gap="2rem" className="editQuizQuestionsList">
-			<DeleteQuestionProvider>
-				<DeleteQuestionModal />
+		<DeleteQuestionProvider>
+			<DeleteQuestionModal />
 
+			<FlexContainer direction="column" gap="2rem" className="editQuizQuestionsList">
 				{questions.length === 0 && (
 					<IconTextSection icon={faBan} text={<Text mb="0">No questions.</Text>} />
 				)}
@@ -127,8 +127,8 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 						))}
 					</SortableContext>
 				</DndContext>
-			</DeleteQuestionProvider>
-		</FlexContainer>
+			</FlexContainer>
+		</DeleteQuestionProvider>
 	);
 };
 
