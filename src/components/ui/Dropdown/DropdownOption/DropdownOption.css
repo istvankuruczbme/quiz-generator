@@ -1,0 +1,34 @@
+.dropdownOption {
+	color: var(--dropdownOption-color);
+	background-color: var(--primary-color);
+	padding: 0.25rem 1.5rem;
+	cursor: pointer;
+	transition: background-color 200ms ease;
+}
+.dropdownOption:hover {
+	background-color: hsl(from var(--primary-color) h s calc(l - 10));
+}
+
+/* #region Variants */
+.dropdownOption--primary {
+	--dropdownOption-color: var(--primary-color);
+}
+.dropdownOption--secondary {
+	--dropdownOption-color: var(--secondary-color);
+}
+.dropdownOption--accent {
+	--dropdownOption-color: var(--accent-color-400);
+}
+.dropdownOption--neutral {
+	--dropdownOption-color: var(--neutral-color-700);
+}
+.dropdownOption--success {
+	--dropdownOption-color: var(--success-color-400);
+}
+.dropdownOption--danger {
+	--dropdownOption-color: var(--danger-color-400);
+}
+.dropdownOption--info {
+	--dropdownOption-color: var(--info-color-400);
+}
+/* #endregion */

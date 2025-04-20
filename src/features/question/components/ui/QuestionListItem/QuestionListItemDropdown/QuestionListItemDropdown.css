@@ -1,0 +1,14 @@
+.questionListItemDropdown__button {
+	width: 2.5rem;
+	height: 2.5rem;
+	display: inline-grid;
+	place-items: center;
+	background-color: var(--primary-color);
+	border-radius: var(--br-pill);
+	padding: 0;
+	cursor: pointer;
+	transition: bacground-color 200ms ease;
+}
+.questionListItemDropdown__button:hover {
+	background-color: hsl(from var(--primary-color) h s calc(l - 10));
+}

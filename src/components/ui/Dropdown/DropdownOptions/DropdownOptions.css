@@ -1,0 +1,10 @@
+.dropdownOptions {
+	list-style: none;
+	background-color: var(--primary-color);
+	border-radius: var(--br-400);
+	box-shadow: 0 0.25rem 0.5rem var(--neutral-color-300);
+	padding-block: 0.75rem;
+	position: absolute;
+	top: calc(100% + 0.25rem);
+	right: 0;
+}

@@ -12,6 +12,8 @@ import "./MyQuizzes.css";
 import QuizCard from "../../components/ui/QuizCard/QuizCard";
 import QuizContainer from "../../components/layout/QuizContainer/QuizContainer";
 import Skeleton from "../../../../components/ui/Skeleton/Skeleton";
+import IconTextSection from "../../../../components/layout/IconTextSection/IconTextSection";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 
 type MyQuizzesProps = HTMLAttributes<HTMLDivElement>;
 
@@ -44,7 +46,6 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			<Section>
 				<Section.Title>Draft quizzes</Section.Title>
 
-				{draftQuizzes.length === 0 && <Text>No draft quizzes.</Text>}
 				<QuizContainer>
 					{loading && (
 						<>
@@ -52,7 +53,12 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 							<Skeleton type="rect" width="18rem" height="26.5rem" />
 						</>
 					)}
-					{draftQuizzes.length > 0 &&
+
+					{!loading && draftQuizzes.length === 0 && (
+						<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
+					)}
+					{!loading &&
+						draftQuizzes.length > 0 &&
 						draftQuizzes.map((quiz) => <QuizCard key={quiz.id} quiz={quiz} />)}
 				</QuizContainer>
 			</Section>

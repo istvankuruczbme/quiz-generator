@@ -1,5 +1,4 @@
-import { FC, useState } from "react";
-import { ModalProps } from "../../../../ui/modal/types/modalTypes";
+import { FC, HTMLAttributes, useState } from "react";
 // Components
 import ModalProvider from "../../../../ui/modal/contexts/ModalContext/ModalProvider";
 import Overlay from "../../../../../components/layout/Overlay/Overlay";
@@ -8,7 +7,7 @@ import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
-import useQuestion from "../../../contexts/QuestionContext/useQuestion";
+import useDeleteQuestion from "../../../contexts/DeleteQuestionContext/useDeleteQuestion";
 import useError from "../../../../ui/error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
@@ -16,24 +15,24 @@ import deleteQuestion from "../../../services/deleteQuestion";
 // CSS
 import "./DeleteQuestionModal.css";
 
-type DeleteQuestionModalProps = ModalProps;
+type DeleteQuestionModalProps = HTMLAttributes<HTMLDivElement>;
 
-const DeleteQuestionModal: FC<DeleteQuestionModalProps> = ({ show, setShow }) => {
+const DeleteQuestionModal: FC<DeleteQuestionModalProps> = () => {
 	// #region States
 	const [loading, setLoading] = useState(false);
 	// #endregion
 
 	// #region Hooks
 	const { quiz, updateQuizState } = useQuizPrivate();
-	const { question } = useQuestion();
+	const { question, showModal: show, setShowModal: setShow } = useDeleteQuestion();
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
 	// #endregion
 
 	//#region Functions
 	async function handleDeleteQuestion() {
-		// Check quiz
-		if (quiz == null) return;
+		// Check quiz and question
+		if (quiz == null || question == null) return;
 
 		setLoading(true);
 

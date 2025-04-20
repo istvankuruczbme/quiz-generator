@@ -44,7 +44,7 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 				will be redirected to Stripe's page.
 			</Text>
 			<Button
-				variant="accent"
+				variant="primary"
 				className="profileSubscription__my"
 				onClick={handleCustomerPortalClick}
 			>

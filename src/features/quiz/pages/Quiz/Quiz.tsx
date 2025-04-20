@@ -13,6 +13,7 @@ import useQuizSummary from "../../hooks/useQuizSummary";
 import checkQuizWriteAccess from "../../utils/checkQuizWriteAccess";
 // CSS
 import "./Quiz.css";
+import Skeleton from "../../../../components/ui/Skeleton/Skeleton";
 
 type QuizProps = HTMLAttributes<HTMLDivElement>;
 
@@ -48,13 +49,15 @@ const Quiz: FC<QuizProps> = () => {
 			</QuizSection>
 
 			<QuizSection className="quiz__button">
-				{!isQuizWritable && (
+				{loading && <Skeleton type="circle" width="100%" height="3rem" />}
+
+				{!loading && !isQuizWritable && (
 					<LinkButton to="complete" full>
 						Start quiz
 					</LinkButton>
 				)}
 
-				{isQuizWritable && (
+				{!loading && isQuizWritable && (
 					<LinkButton to="edit" full>
 						Edit quiz
 					</LinkButton>

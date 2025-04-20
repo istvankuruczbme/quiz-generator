@@ -21,6 +21,8 @@ import QuestionProvider from "../../../../question/contexts/QuestionContext/Ques
 import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
 import Text from "../../../../../components/ui/Text/Text";
+import IconTextSection from "../../../../../components/layout/IconTextSection/IconTextSection";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
@@ -32,6 +34,8 @@ import getElementIndexById from "../../../../../utils/array/getElementIndexById"
 import updateQuizQuestionsOrder from "../../../../question/services/updateQuizQuestionsOrder";
 // CSS
 import "./EditQuizQuestionsList.css";
+import DeleteQuestionModal from "../../../../question/components/layout/DeleteQuestionModal/DeleteQuestionModal";
+import DeleteQuestionProvider from "../../../../question/contexts/DeleteQuestionContext/DeleteQuestionProvider";
 
 type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 	questions: QuestionPrivate[];
@@ -99,25 +103,31 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 
 	return (
 		<FlexContainer direction="column" gap="2rem" className="editQuizQuestionsList">
-			{questions.length === 0 && <Text mb="0">No questions.</Text>}
+			<DeleteQuestionProvider>
+				<DeleteQuestionModal />
 
-			<DndContext
-				sensors={sensors}
-				collisionDetection={closestCorners}
-				onDragEnd={handleDragEnd}
-			>
-				<SortableContext items={questions} strategy={verticalListSortingStrategy}>
-					{loadingGeneration && (
-						<>
-							<Skeleton type="rect" width="100%" height="250px" />
-							<Skeleton type="rect" width="100%" height="250px" />
-						</>
-					)}
-					{questions.map((question) => (
-						<QuestionProvider key={question.id} question={question} />
-					))}
-				</SortableContext>
-			</DndContext>
+				{questions.length === 0 && (
+					<IconTextSection icon={faBan} text={<Text mb="0">No questions.</Text>} />
+				)}
+
+				<DndContext
+					sensors={sensors}
+					collisionDetection={closestCorners}
+					onDragEnd={handleDragEnd}
+				>
+					<SortableContext items={questions} strategy={verticalListSortingStrategy}>
+						{loadingGeneration && (
+							<>
+								<Skeleton type="rect" width="100%" height="250px" />
+								<Skeleton type="rect" width="100%" height="250px" />
+							</>
+						)}
+						{questions.map((question) => (
+							<QuestionProvider key={question.id} question={question} />
+						))}
+					</SortableContext>
+				</DndContext>
+			</DeleteQuestionProvider>
 		</FlexContainer>
 	);
 };

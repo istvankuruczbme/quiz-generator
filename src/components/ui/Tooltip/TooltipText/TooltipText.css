@@ -1,0 +1,4 @@
+.tooltipText {
+	font-size: var(--fs-200);
+	color: var(--primary-color);
+}

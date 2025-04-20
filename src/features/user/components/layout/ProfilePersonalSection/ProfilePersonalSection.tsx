@@ -136,7 +136,7 @@ const ProfilePersonalSection: FC<ProfilePersonalSectionProps> = () => {
 						className="profilePersonal__save"
 						loading={loading}
 					>
-						Save personal data
+						Save
 					</LoadingButton>
 				</FormInputsContainer>
 			</form>

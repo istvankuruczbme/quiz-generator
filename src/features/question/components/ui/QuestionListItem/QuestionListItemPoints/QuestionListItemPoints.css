@@ -1,7 +1,7 @@
 .questionListItemPoints {
 	display: flex;
-	flex-direction: column;
+	gap: 1rem;
 	align-items: flex-end;
-	font-size: var(--fs-200);
+	font-size: var(--fs-300);
 	font-weight: 500;
 }

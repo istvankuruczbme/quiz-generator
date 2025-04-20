@@ -1,0 +1,12 @@
+.iconTextSection {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	align-items: center;
+	padding-block: 3rem;
+}
+
+.iconTextSection__icon {
+	font-size: 3rem;
+	color: var(--neutral-color-300);
+}

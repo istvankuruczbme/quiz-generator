@@ -30,10 +30,6 @@
 	margin-bottom: 1.5rem;
 }
 
-.questionListItem__answerOptions__container {
-	margin-bottom: 1.5rem;
-}
-
 .questionListItem__buttons {
 	display: flex;
 	gap: 1rem;
