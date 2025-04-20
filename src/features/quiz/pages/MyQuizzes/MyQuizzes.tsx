@@ -46,6 +46,10 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			<Section>
 				<Section.Title>Draft quizzes</Section.Title>
 
+				{!loading && draftQuizzes.length === 0 && (
+					<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
+				)}
+
 				<QuizContainer>
 					{loading && (
 						<>
@@ -54,9 +58,6 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 						</>
 					)}
 
-					{!loading && draftQuizzes.length === 0 && (
-						<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
-					)}
 					{!loading &&
 						draftQuizzes.length > 0 &&
 						draftQuizzes.map((quiz) => <QuizCard key={quiz.id} quiz={quiz} />)}

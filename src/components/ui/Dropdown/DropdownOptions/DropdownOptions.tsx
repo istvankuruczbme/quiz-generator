@@ -10,8 +10,6 @@ const DropdownOptions: FC<DropdownOptionsProps> = ({ className, children }) => {
 	const { showOptions } = useDropdown();
 	// #endregion
 
-	console.log(showOptions);
-
 	if (!showOptions) return null;
 	return <ul className={`dropdownOptions${addPropClassName(className)}`}>{children}</ul>;
 };

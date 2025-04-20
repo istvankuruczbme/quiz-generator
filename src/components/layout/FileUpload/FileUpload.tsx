@@ -151,7 +151,7 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 			const fileInput = document.querySelector(".fileUpload__input") as HTMLInputElement;
 
 			// Remove files
-			fileInput.files = null;
+			fileInput.value = "";
 
 			// Update state
 			if (uploadType === "photo") setPhotoUrl("");
