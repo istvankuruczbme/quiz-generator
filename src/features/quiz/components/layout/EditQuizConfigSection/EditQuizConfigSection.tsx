@@ -7,6 +7,8 @@ import FormButtonsContainer from "../../../../../components/form/FormButtonsCont
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import QuestionOrderSelect from "../../form/QuestionOrderSelect/QuestionOrderSelect";
 import EditQuizSection from "../EditQuizSection/EditQuizSection";
+import Accordion from "../../../../../components/layout/Accordion/Accordion";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 // Hooks
 import useQuizData from "../../../hooks/useQuizData";
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
@@ -19,8 +21,7 @@ import { QuizVisibility } from "../../../assets/quizVisibility";
 import { QuestionOrder } from "../../../assets/questionOrder";
 // CSS
 import "./EditQuizConfigSection.css";
-import Accordion from "../../../../../components/layout/Accordion/Accordion";
-import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
+import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
 
 type EditQuizConfigSectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -77,23 +78,25 @@ const EditQuizConfigSection: FC<EditQuizConfigSectionProps> = () => {
 					<form onSubmit={handleUpdateQuizConfig}>
 						<FormInputsContainer>
 							{loadingQuiz && (
-								<>
+								<FlexContainer gap="2rem">
 									<Skeleton type="rect" width="100%" height="3rem" />
 									<Skeleton type="rect" width="100%" height="3rem" />
-								</>
+								</FlexContainer>
 							)}
 
 							{!loadingQuiz && (
-								<>
+								<FlexContainer gap="2rem">
 									<QuizVisibilitySelect
+										full
 										value={visibility}
 										onChange={(e) => setVisibility(e.target.value as QuizVisibility)}
 									/>
 									<QuestionOrderSelect
+										full
 										value={questionOrder}
 										onChange={(e) => setQuestionOrder(e.target.value as QuestionOrder)}
 									/>
-								</>
+								</FlexContainer>
 							)}
 						</FormInputsContainer>
 

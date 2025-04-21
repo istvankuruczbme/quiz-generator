@@ -4,6 +4,7 @@ import Input from "../../../../../components/form/Input/Input";
 import useNewQuestion from "../../../contexts/EditQuestionContext/useEditQuestion";
 import addPropClassName from "../../../../../utils/addPropClassName";
 import "./QuestionPoints.css";
+import convertNumberToInputValue from "../../../../../utils/dom/convertNumberToInputValue";
 
 type QuestionPointsProps = HTMLAttributes<HTMLDetailsElement>;
 
@@ -25,7 +26,7 @@ const QuestionPoints: FC<QuestionPointsProps> = ({ className }) => {
 						placeholder="Correct"
 						required
 						full
-						value={isNaN(correct) ? "" : correct}
+						value={convertNumberToInputValue(correct)}
 						onChange={(e) => setCorrect(e.target.valueAsNumber)}
 					/>
 					<Input
@@ -35,7 +36,7 @@ const QuestionPoints: FC<QuestionPointsProps> = ({ className }) => {
 						placeholder="Wrong"
 						required
 						full
-						value={isNaN(wrong) ? "" : wrong}
+						value={convertNumberToInputValue(wrong)}
 						onChange={(e) => setWrong(e.target.valueAsNumber)}
 					/>
 					<Input
@@ -45,7 +46,7 @@ const QuestionPoints: FC<QuestionPointsProps> = ({ className }) => {
 						placeholder="Empty"
 						required
 						full
-						value={isNaN(empty) ? "" : empty}
+						value={convertNumberToInputValue(empty)}
 						onChange={(e) => setEmpty(e.target.valueAsNumber)}
 					/>
 				</div>

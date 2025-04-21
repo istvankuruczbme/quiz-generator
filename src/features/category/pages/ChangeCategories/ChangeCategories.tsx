@@ -10,6 +10,7 @@ import Text from "../../../../components/ui/Text/Text";
 import Divider from "../../../../components/ui/Divider/Divider";
 import LoadingButton from "../../../../components/ui/Button/LoadingButton/LoadingButton";
 import CategorySkeleton from "../../components/ui/CategorySkeleton/CategorySkeleton";
+import Skeleton from "../../../../components/ui/Skeleton/Skeleton";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
 import useCategories from "../../hooks/useCategories";
@@ -132,9 +133,19 @@ const ChangeCategories: FC<ChangeCategoriesProps> = () => {
 
 					<Divider my="2rem" />
 
-					<LoadingButton type="submit" centered loading={loading}>
-						{hasUserCategories ? "Update" : "Select"} Categories
-					</LoadingButton>
+					{loadingCategories && (
+						<Skeleton
+							type="circle"
+							width="10rem"
+							height="3rem"
+							className="changeCategories__save__skeleton"
+						/>
+					)}
+					{!loadingCategories && (
+						<LoadingButton type="submit" centered loading={loading}>
+							{hasUserCategories ? "Update" : "Select"} Categories
+						</LoadingButton>
+					)}
 				</form>
 			</Section>
 		</Page>

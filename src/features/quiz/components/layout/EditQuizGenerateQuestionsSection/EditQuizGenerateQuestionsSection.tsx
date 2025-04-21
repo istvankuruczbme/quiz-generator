@@ -25,6 +25,7 @@ import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFee
 // Functions
 import validateQuizGenerationData from "../../../utils/validation/validateQuizGenerationData";
 import generateQuestions from "../../../../question/services/generateQuestions";
+import convertNumberToInputValue from "../../../../../utils/dom/convertNumberToInputValue";
 // CSS
 import "./EditQuizGenerateQuestionsSection.css";
 
@@ -39,8 +40,14 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 
 	// #region Hooks
 	const { quiz, loading: loadingQuiz, updateQuizState } = useQuizPrivate();
-	const { questionCount, setQuestionCount, answerOptionCount, setAnswerOptionCount } =
-		useQuizGenerationData();
+	const {
+		questionCount,
+		setQuestionCount,
+		answerOptionCount,
+		setAnswerOptionCount,
+		maxQuestionCount,
+		maxAnswerOptionCount,
+	} = useQuizGenerationData();
 	const { setLoadingGeneration } = useEditQuiz();
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
@@ -52,6 +59,11 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 	const tfidfStrategyRef = useRef<HTMLInputElement>(null);
 	const creativityRef = useRef<HTMLInputElement>(null);
 	//#endregion
+
+	// #region Variables
+	const maxPossibleQuestionCount =
+		quiz == undefined ? undefined : maxQuestionCount - quiz.questions.length;
+	// #endregion
 
 	// #region Functions
 	async function handleGenerateQuestions(e: FormEvent<HTMLFormElement>) {
@@ -185,22 +197,24 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 									<>
 										<Input
 											type="number"
-											label="Number of questions"
+											label="Questions"
 											id="editQuizQuestionsQuestionCount"
-											placeholder="Number of questions"
+											max={convertNumberToInputValue(maxPossibleQuestionCount)}
+											placeholder="Questions"
+											value={convertNumberToInputValue(questionCount)}
 											min={1}
 											required
-											value={questionCount || ""}
 											onChange={(e) => setQuestionCount(parseInt(e.target.value))}
 										/>
 										<Input
 											type="number"
-											label="Number of answer options (per quiz)"
+											label="Answer options (/question)"
 											id="editQuizQuestionsAnswerOptionCount"
-											placeholder="Number of answer options (per quiz)"
+											placeholder="Answer options (/question)"
 											min={1}
+											max={convertNumberToInputValue(maxAnswerOptionCount)}
 											required
-											value={answerOptionCount || ""}
+											value={convertNumberToInputValue(answerOptionCount)}
 											onChange={(e) => setAnswerOptionCount(parseInt(e.target.value))}
 										/>
 									</>

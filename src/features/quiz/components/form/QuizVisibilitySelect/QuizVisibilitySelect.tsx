@@ -1,6 +1,6 @@
-import { forwardRef, SelectHTMLAttributes } from "react";
+import { forwardRef } from "react";
 // Components
-import Select from "../../../../../components/form/Select/Select";
+import Select, { SelectProps } from "../../../../../components/form/Select/Select";
 // Functions
 import addPropClassName from "../../../../../utils/addPropClassName";
 // Variables
@@ -8,7 +8,7 @@ import quizVisibilityOptions from "../../../assets/quizVisibility";
 // CSS
 import "./QuizVisibilitySelect.css";
 
-type QuizVisibilitySelectProps = SelectHTMLAttributes<HTMLSelectElement>;
+type QuizVisibilitySelectProps = Omit<SelectProps, "options">;
 
 const QuizVisibilitySelect = forwardRef<HTMLSelectElement, QuizVisibilitySelectProps>(
 	({ className, ...rest }, ref) => {

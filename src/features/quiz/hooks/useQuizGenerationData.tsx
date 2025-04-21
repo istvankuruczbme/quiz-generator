@@ -47,7 +47,14 @@ const useQuizGenerationData = () => {
 		setAnswerOptionCount(4 > maxAnswerOptionCount ? maxAnswerOptionCount : 4);
 	}, [quiz, maxQuestionCount, maxAnswerOptionCount]);
 
-	return { questionCount, setQuestionCount, answerOptionCount, setAnswerOptionCount };
+	return {
+		questionCount,
+		setQuestionCount,
+		answerOptionCount,
+		setAnswerOptionCount,
+		maxQuestionCount,
+		maxAnswerOptionCount,
+	};
 };
 
 export default useQuizGenerationData;

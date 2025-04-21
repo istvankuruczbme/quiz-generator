@@ -5,6 +5,7 @@
 	position: relative;
 }
 .select--full {
+	width: 100%;
 	display: flex;
 }
 

@@ -6,7 +6,7 @@ type SelectOption = {
 	id: string;
 	text: string;
 };
-type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
+export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
 	label?: ReactNode;
 	full?: boolean;
 	options: SelectOption[];

@@ -30,12 +30,16 @@ const Product: ProductComponent = ({ product }) => {
 	const [loading, setLoading] = useState(false);
 	//#endregion
 
-	// console.log(product.id);
-
 	// #region Hooks
 	const { user } = useUser();
 	const { userProductId } = useProducts();
 	const navigate = useNavigate();
+	// #endregion
+
+	// #region Variables
+	const maxQuizCountPerPeriod = Number.isFinite(product.maxQuizCountPerPeriod)
+		? product.maxQuizCountPerPeriod.toString()
+		: "No limit";
 	// #endregion
 
 	// #region Functions
@@ -107,14 +111,7 @@ const Product: ProductComponent = ({ product }) => {
 			<Text mb="2rem">{product.description}</Text>
 
 			<Product.Features className="product__features">
-				<Product.Features.Item
-					text={
-						<>
-							Max quizzes:{" "}
-							{Number.isFinite(product.maxQuizCount) ? product.maxQuizCount : "No limit"}
-						</>
-					}
-				/>
+				<Product.Features.Item text={<>Max quizzes (per month): {maxQuizCountPerPeriod}</>} />
 				<Product.Features.Item
 					text={<>Max questions (per quiz): {product.maxQuestionCount}</>}
 				/>
