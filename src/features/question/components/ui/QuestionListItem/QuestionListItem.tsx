@@ -49,9 +49,8 @@ const QuestionListItem: QuestionListItemComponent = ({ className }) => {
 		>
 			<header className="questionListItem__header">
 				<div className="questionListItem__header__left">
-					<h3 className="questionListItem__text">
-						<span className="questionListItem__order">{question.order}.</span> {question.text}
-					</h3>
+					<span className="questionListItem__header__order">#{question.order}</span>
+					<h3 className="questionListItem__text">{question.text}</h3>
 				</div>
 
 				<div onPointerDown={(e) => e.stopPropagation()}>

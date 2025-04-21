@@ -3,7 +3,7 @@ import { ColorVariant } from "../../../assets/colorVariants";
 import addPropClassName from "../../../utils/addPropClassName";
 import "./Box.css";
 
-type BoxProps = HTMLAttributes<HTMLDivElement> & {
+export type BoxProps = HTMLAttributes<HTMLDivElement> & {
 	variant?: ColorVariant;
 	full?: boolean;
 };

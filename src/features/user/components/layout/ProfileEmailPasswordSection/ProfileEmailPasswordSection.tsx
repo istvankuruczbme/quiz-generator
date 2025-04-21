@@ -2,10 +2,10 @@ import { FC, HTMLAttributes } from "react";
 // Components
 import Section from "../../../../../components/layout/Section/Section";
 import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
-import Box from "../../../../../components/layout/Box/Box";
 import ProfileLinkButton from "../../ui/ProfileLinkButton/ProfileLinkButton";
 import Text from "../../../../../components/ui/Text/Text";
 import ProfileSection from "../ProfileSection/ProfileSection";
+import TextButtonBox from "../../../../../components/layout/Box/TextButtonBox/TextButtonBox";
 // CSS
 import "./ProfileEmailPasswordSection.css";
 
@@ -17,15 +17,17 @@ const ProfileEmailPasswordSection: FC<ProfileEmailPasswordSectionProps> = () => 
 			<Section.Title>Email & password</Section.Title>
 
 			<FlexContainer gap="3rem" wrap="576px">
-				<Box variant="primary" full>
+				<TextButtonBox variant="primary" full>
 					<Text variant="neutral-400">Click on Change email button to change your email.</Text>
 					<ProfileLinkButton to="change-email">Change email</ProfileLinkButton>
-				</Box>
+				</TextButtonBox>
 
-				<Box variant="primary" full>
-					<Text variant="neutral-400">Click on Change email button to change your email.</Text>
+				<TextButtonBox variant="primary" full>
+					<Text variant="neutral-400">
+						Click on Change password button to change your password.
+					</Text>
 					<ProfileLinkButton to="change-password">Change password</ProfileLinkButton>
-				</Box>
+				</TextButtonBox>
 			</FlexContainer>
 		</ProfileSection>
 	);

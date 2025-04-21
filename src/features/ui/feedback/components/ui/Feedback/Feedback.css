@@ -38,6 +38,9 @@
 .feedback--success {
 	--feedback-color: var(--success-color-400);
 }
+.feedback--info {
+	--feedback-color: var(--info-color-400);
+}
 /* #endregion */
 
 .feedback__header {

@@ -7,7 +7,7 @@ import "./ModalCancel.css";
 type ModalCancelProps = ButtonProps;
 
 const ModalCancel = forwardRef<HTMLButtonElement, ModalCancelProps>(
-	({ className, ...rest }, ref) => {
+	({ className, children = "Cancel", ...rest }, ref) => {
 		// #region Hooks
 		const { setShow } = useModal();
 		// #endregion
@@ -20,7 +20,7 @@ const ModalCancel = forwardRef<HTMLButtonElement, ModalCancelProps>(
 				{...rest}
 				ref={ref}
 			>
-				Cancel
+				{children}
 			</Button>
 		);
 	}

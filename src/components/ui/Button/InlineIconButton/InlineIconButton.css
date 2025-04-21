@@ -1,0 +1,19 @@
+.inlineIconButton {
+	width: var(--fs-400);
+	height: var(--fs-400);
+	display: inline-grid;
+	place-items: center;
+	color: var(--neutral-color-300);
+	background-color: transparent;
+	border: none;
+	border-radius: var(--br-pill);
+	cursor: pointer;
+	transition: color 200ms ease;
+}
+.inlineIconButton:hover {
+	color: hsl(from var(--neutral-color-300) h s calc(l - 10));
+}
+
+.inlineIconButton__icon {
+	font-size: var(--fs-400);
+}

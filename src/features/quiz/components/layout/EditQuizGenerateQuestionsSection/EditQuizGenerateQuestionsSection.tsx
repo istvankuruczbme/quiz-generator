@@ -10,6 +10,12 @@ import Input from "../../../../../components/form/Input/Input";
 import QuizCreativityRange from "../../form/QuizCreativityRange/QuizCreativityRange";
 import Section from "../../../../../components/layout/Section/Section";
 import Accordion from "../../../../../components/layout/Accordion/Accordion";
+import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
+import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
+import TfidfInfoModal from "../TfidfInfoModal/TfidfInfoModal";
+import RandomInfoModal from "../RandomInfoModal/RandomInfoModal";
+import TfidfStrategyLabel from "../../ui/TfidfStrategyLabel/TfidfStrategyLabel";
+import RandomStrategyLabel from "../../ui/RandomStrategyLabel/RandomStrategyLabel";
 // Hooks
 import useQuizGenerationData from "../../../hooks/useQuizGenerationData";
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
@@ -21,12 +27,13 @@ import validateQuizGenerationData from "../../../utils/validation/validateQuizGe
 import generateQuestions from "../../../../question/services/generateQuestions";
 // CSS
 import "./EditQuizGenerateQuestionsSection.css";
-import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 
 type EditQuizGenerateQuestionsSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps> = () => {
 	// #region States
+	const [showTfidfInfoModal, setShowTfidfInfoModal] = useState(false);
+	const [showRandomInfoModal, setShowRandomInfoModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 	// #endregion
 
@@ -42,6 +49,7 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 	// #region Refs
 	const fileRef = useRef<HTMLInputElement>(null);
 	const randomStrategyRef = useRef<HTMLInputElement>(null);
+	const tfidfStrategyRef = useRef<HTMLInputElement>(null);
 	const creativityRef = useRef<HTMLInputElement>(null);
 	//#endregion
 
@@ -77,8 +85,15 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 		}
 
 		try {
+			// Set feedback
+			setFeedback({
+				type: "info",
+				message: "Generation can take some time.",
+				details: "Please do not close the browser.",
+			});
+
 			// Get strategy
-			const strategy = randomStrategy ? "RANDOM" : "RANDOM";
+			const strategy = randomStrategy ? "RANDOM" : "TFIDF";
 
 			// Generate questions
 			await generateQuestions(
@@ -110,6 +125,9 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 
 	return (
 		<EditQuizSection>
+			<TfidfInfoModal show={showTfidfInfoModal} setShow={setShowTfidfInfoModal} />
+			<RandomInfoModal show={showRandomInfoModal} setShow={setShowRandomInfoModal} />
+
 			<Accordion defaultOpen>
 				<Accordion.Header>
 					<Section.Title mb="0">Generate questions</Section.Title>
@@ -137,14 +155,22 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 							</div>
 
 							<FormInputsContainer>
-								<Text mb="-1rem">Strategy</Text>
-								<Radio
-									label="Random"
-									name="editQuizQuestionsStrategy"
-									id="editQuizQuestionsStrategyRandom"
-									defaultChecked
-									ref={randomStrategyRef}
-								/>
+								<FlexContainer direction="column" gap="1rem">
+									<Text mb="0">Strategy</Text>
+									<Radio
+										label={<TfidfStrategyLabel setShowModal={setShowTfidfInfoModal} />}
+										name="editQuizQuestionsStrategy"
+										id="editQuizQuestionsStrategyTFIDF"
+										defaultChecked
+										ref={tfidfStrategyRef}
+									/>
+									<Radio
+										label={<RandomStrategyLabel setShowModal={setShowRandomInfoModal} />}
+										name="editQuizQuestionsStrategy"
+										id="editQuizQuestionsStrategyRandom"
+										ref={randomStrategyRef}
+									/>
+								</FlexContainer>
 
 								<QuizCreativityRange ref={creativityRef} />
 

@@ -3,6 +3,7 @@
 	box-shadow: 0 0.5rem 1rem var(--neutral-color-300);
 	padding: 1rem;
 	touch-action: none;
+	cursor: move;
 }
 
 .questionListItem__header {
@@ -14,11 +15,13 @@
 
 .questionListItem__header__left {
 	display: flex;
-	gap: 0.5rem;
+	flex-direction: column;
+	gap: 0.25rem;
 }
 
-.questionListItem__order {
-	color: var(--accent-color-400);
+.questionListItem__header__order {
+	font-size: var(--fs-200);
+	color: var(--neutral-color-400);
 }
 
 .questionListItem__photo {

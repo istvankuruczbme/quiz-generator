@@ -5,6 +5,8 @@ import Section from "../../../../../components/layout/Section/Section";
 import Text from "../../../../../components/ui/Text/Text";
 import Button from "../../../../../components/ui/Button/Button";
 import ProfileLinkButton from "../../ui/ProfileLinkButton/ProfileLinkButton";
+import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
+import TextButtonBox from "../../../../../components/layout/Box/TextButtonBox/TextButtonBox";
 // Function
 import createCustomerPortal from "../../../services/createCustomerPortal";
 import useUser from "../../../../../contexts/UserContext/useUser";
@@ -39,22 +41,28 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 		<ProfileSection>
 			<Section.Title>Your subscription</Section.Title>
 
-			<Text variant="neutral-400">
-				Click on My subscription button to manage everything related to your subscription. You
-				will be redirected to Stripe's page.
-			</Text>
-			<Button
-				variant="primary"
-				className="profileSubscription__my"
-				onClick={handleCustomerPortalClick}
-			>
-				My subscription
-			</Button>
+			<FlexContainer gap="3rem" wrap="576px">
+				<TextButtonBox variant="primary" full>
+					<Text variant="neutral-400">
+						Click on My subscription button to manage everything related to your subscription.
+						You will be redirected to Stripe's page.
+					</Text>
+					<Button
+						variant="primary"
+						className="profileSubscription__my"
+						onClick={handleCustomerPortalClick}
+					>
+						My subscription
+					</Button>
+				</TextButtonBox>
 
-			<Text variant="neutral-400">
-				Click on Change subscription button to change your subscription.
-			</Text>
-			<ProfileLinkButton to="/profile/subscription">Change subscription</ProfileLinkButton>
+				<TextButtonBox variant="primary" full>
+					<Text variant="neutral-400">
+						Click on Change subscription button to change your subscription.
+					</Text>
+					<ProfileLinkButton to="/profile/subscription">Change subscription</ProfileLinkButton>
+				</TextButtonBox>
+			</FlexContainer>
 		</ProfileSection>
 	);
 };

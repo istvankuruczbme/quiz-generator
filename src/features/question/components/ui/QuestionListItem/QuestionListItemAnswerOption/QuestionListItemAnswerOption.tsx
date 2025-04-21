@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes } from "react";
 import { AnswerOptionPrivate } from "../../../../../answerOption/types/answerOptionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import Text from "../../../../../../components/ui/Text/Text";
 import "./QuestionListItemAnswerOption.css";
 
@@ -17,7 +17,7 @@ const QuestionListItemAnswerOption: FC<QuestionListItemAnswerOptionProps> = ({ a
 			}`}
 		>
 			<FontAwesomeIcon
-				icon={answerOption.isCorrect ? faCheck : faXmark}
+				icon={answerOption.isCorrect ? faCheckCircle : faXmarkCircle}
 				className="questionListItem__answerOption__icon"
 			/>
 			<Text mb="0">{answerOption.text}</Text>

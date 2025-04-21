@@ -1,4 +1,4 @@
 .profileSubscription__my {
+	width: fit-content;
 	color: var(--accent-color-400);
-	margin-bottom: 2rem;
 }
