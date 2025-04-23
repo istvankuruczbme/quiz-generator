@@ -26,6 +26,7 @@ import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFee
 import validateQuizGenerationData from "../../../utils/validation/validateQuizGenerationData";
 import generateQuestions from "../../../../question/services/generateQuestions";
 import convertNumberToInputValue from "../../../../../utils/dom/convertNumberToInputValue";
+import getGenerationStrategy from "../../../utils/getGenerationStrategy";
 // CSS
 import "./EditQuizGenerateQuestionsSection.css";
 
@@ -57,6 +58,7 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 	const fileRef = useRef<HTMLInputElement>(null);
 	const randomStrategyRef = useRef<HTMLInputElement>(null);
 	const tfidfStrategyRef = useRef<HTMLInputElement>(null);
+	const embeddingStrategyRef = useRef<HTMLInputElement>(null);
 	const creativityRef = useRef<HTMLInputElement>(null);
 	//#endregion
 
@@ -78,6 +80,8 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 		// Input values
 		const file = fileRef.current?.files?.[0];
 		const randomStrategy = randomStrategyRef.current?.checked;
+		const tfidfStrategy = tfidfStrategyRef.current?.checked;
+		const embeddingStrategy = embeddingStrategyRef.current?.checked;
 		const creativity = creativityRef.current?.valueAsNumber;
 
 		try {
@@ -105,7 +109,7 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 			});
 
 			// Get strategy
-			const strategy = randomStrategy ? "RANDOM" : "TFIDF";
+			const strategy = getGenerationStrategy(randomStrategy, tfidfStrategy, embeddingStrategy);
 
 			// Generate questions
 			await generateQuestions(
@@ -181,6 +185,12 @@ const EditQuizGenerateQuestionsSection: FC<EditQuizGenerateQuestionsSectionProps
 										name="editQuizQuestionsStrategy"
 										id="editQuizQuestionsStrategyRandom"
 										ref={randomStrategyRef}
+									/>
+									<Radio
+										label="Embedding"
+										name="editQuizQuestionsStrategy"
+										id="editQuizQuestionsStrategyEmbedding"
+										ref={embeddingStrategyRef}
 									/>
 								</FlexContainer>
 

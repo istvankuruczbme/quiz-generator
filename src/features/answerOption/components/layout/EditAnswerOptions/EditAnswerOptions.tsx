@@ -26,7 +26,7 @@ const EditAnswerOptions: FC<EditAnswerOptionsProps> = ({ className }) => {
 			<Accordion.Header>Answer options</Accordion.Header>
 
 			<Accordion.Body>
-				<FlexContainer direction="column" className="editAnswerOptions__container">
+				<FlexContainer direction="column" mb="1rem">
 					{answerOptions.length === 0 && (
 						<IconTextSection icon={faBan} text={<Text mb="0">No answer options.</Text>} />
 					)}

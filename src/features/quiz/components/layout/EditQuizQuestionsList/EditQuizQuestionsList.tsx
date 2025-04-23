@@ -18,11 +18,12 @@ import {
 } from "@dnd-kit/sortable";
 // Components
 import QuestionProvider from "../../../../question/contexts/QuestionContext/QuestionProvider";
-import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
 import Text from "../../../../../components/ui/Text/Text";
 import IconTextSection from "../../../../../components/layout/IconTextSection/IconTextSection";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
+import DeleteQuestionModal from "../../../../question/components/layout/DeleteQuestionModal/DeleteQuestionModal";
+import DeleteQuestionProvider from "../../../../question/contexts/DeleteQuestionContext/DeleteQuestionProvider";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
@@ -34,8 +35,6 @@ import getElementIndexById from "../../../../../utils/array/getElementIndexById"
 import updateQuizQuestionsOrder from "../../../../question/services/updateQuizQuestionsOrder";
 // CSS
 import "./EditQuizQuestionsList.css";
-import DeleteQuestionModal from "../../../../question/components/layout/DeleteQuestionModal/DeleteQuestionModal";
-import DeleteQuestionProvider from "../../../../question/contexts/DeleteQuestionContext/DeleteQuestionProvider";
 
 type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 	questions: QuestionPrivate[];
@@ -105,8 +104,8 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 		<DeleteQuestionProvider>
 			<DeleteQuestionModal />
 
-			<FlexContainer direction="column" gap="2rem" className="editQuizQuestionsList">
-				{questions.length === 0 && (
+			<FlexContainer direction="column" gap="2rem" mb="2rem">
+				{!loadingGeneration && questions.length === 0 && (
 					<IconTextSection icon={faBan} text={<Text mb="0">No questions.</Text>} />
 				)}
 
@@ -116,12 +115,6 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 					onDragEnd={handleDragEnd}
 				>
 					<SortableContext items={questions} strategy={verticalListSortingStrategy}>
-						{loadingGeneration && (
-							<>
-								<Skeleton type="rect" width="100%" height="250px" />
-								<Skeleton type="rect" width="100%" height="250px" />
-							</>
-						)}
 						{questions.map((question) => (
 							<QuestionProvider key={question.id} question={question} />
 						))}

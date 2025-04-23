@@ -12,6 +12,8 @@ import {
 import Text from "../../ui/Text/Text";
 import FlexContainer from "../FlexContainer/FlexContainer";
 import Button from "../../ui/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import useError from "../../../features/ui/error/hooks/useError";
 // Functions
@@ -20,8 +22,6 @@ import validateImageFile from "../../../utils/image/validateImageFile";
 import createImageUrl from "../../../utils/image/createImageUrl";
 // CSS
 import "./FileUpload.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
 	uploadType?: "photo" | "file";

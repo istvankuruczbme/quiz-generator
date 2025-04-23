@@ -26,4 +26,4 @@ export type QuestionPrivate = Readonly<{
 	answerOptions: AnswerOptionPrivate[];
 }>;
 
-export type QuestionGenerationStrategy = "RANDOM" | "TFIDF";
+export type QuestionGenerationStrategy = "RANDOM" | "TFIDF" | "EMBEDDING";
