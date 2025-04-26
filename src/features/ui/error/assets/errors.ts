@@ -175,7 +175,7 @@ const errors = {
 		details: "",
 	},
 	"quiz/invalid-id": {
-		message: "Invalid quiz ID.",
+		message: "Quiz not found.",
 		details: "",
 	},
 	"quiz/not-found": {

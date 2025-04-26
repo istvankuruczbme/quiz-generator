@@ -8,7 +8,7 @@ const SignedInRoute: FC = () => {
 	//#endregion
 
 	// Check if there is a user signed in
-	if (user == null && !loading) return <Navigate to="/unauthorized" replace />;
+	if (user == null && !loading) return <Navigate to="/error/unauthorized" replace />;
 
 	return <Outlet />;
 };

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { QuizSummary } from "../types/quizTypes";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import getQuizSummary from "../sevices/getQuizSummary";
+import useError from "../../ui/error/hooks/useError";
+import checkAxiosError from "../../../utils/axios/checkAxiosError";
+import getAxiosErrorMessage from "../../../utils/axios/getAxiosErrorMessage";
 
 const useQuizSummary = () => {
 	// #region States
@@ -11,6 +14,8 @@ const useQuizSummary = () => {
 
 	// #region Hooks
 	const { quizId } = useParams();
+	const { setError } = useError();
+	const navigate = useNavigate();
 	// #endregion
 
 	useEffect(() => {
@@ -29,12 +34,24 @@ const useQuizSummary = () => {
 				// Update quiz summary state
 				setQuizSummary(quizSummary);
 			} catch (err) {
-				console.log("Error fetching the quiz.", err);
+				// console.log("Error fetching the quiz.", err);
+				setError(err);
+
+				// Check quiz not found error
+				if (
+					checkAxiosError(err) &&
+					(getAxiosErrorMessage(err) === "quiz/invalid-id" ||
+						getAxiosErrorMessage(err) === "quiz/id-missing" ||
+						getAxiosErrorMessage(err) === "quiz/not-found")
+				) {
+					// Redirect to Quiz not found page
+					navigate("/error/quiz-not-found", { replace: true });
+				}
 			} finally {
 				setLoading(false);
 			}
 		})();
-	}, [quizId]);
+	}, [quizId, setError, navigate]);
 
 	return { quizSummary, loading };
 };

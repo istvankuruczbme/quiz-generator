@@ -25,6 +25,7 @@ import Unauthorized from "../features/ui/error/pages/Unauthorized/Unauthorized";
 import useAuth from "../features/auth/hooks/useAuth";
 // CSS
 import "./App.css";
+import QuizNotFound from "../features/ui/error/pages/QuizNotFound/QuizNotFound";
 
 function App() {
 	//#region Hooks
@@ -65,8 +66,11 @@ function App() {
 				<Route path="/" element={<Home />} />
 
 				{/* Error */}
-				<Route path="/subscription-required" element={<SubscriptionRequired />} />
-				<Route path="/unauthorized" element={<Unauthorized />} />
+				<Route path="/error">
+					<Route path="quiz-not-found" element={<QuizNotFound />} />
+					<Route path="subscription-required" element={<SubscriptionRequired />} />
+					<Route path="unauthorized" element={<Unauthorized />} />
+				</Route>
 				<Route path="*" element={<h1>Page not found</h1>} />
 			</Routes>
 		</>

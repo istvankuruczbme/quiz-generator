@@ -8,7 +8,7 @@ const SubscriptionRequiredRoute = () => {
 
 	// No user with subscription
 	if (user != null && !loading && user.hasSubscription === false) {
-		return <Navigate to="/subscription-required" replace />;
+		return <Navigate to="/error/subscription-required" replace />;
 	}
 
 	return <Outlet />;
