@@ -15,7 +15,7 @@ import Divider from "../../../../../components/ui/Divider/Divider";
 // Hooks
 import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuestion from "../../../contexts/EditQuestionContext/useEditQuestion";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import validateQuestionPointsData from "../../../utils/validation/validateQuestionPointsData";

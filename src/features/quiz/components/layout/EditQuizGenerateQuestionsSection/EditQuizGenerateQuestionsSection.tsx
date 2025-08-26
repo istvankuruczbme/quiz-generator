@@ -20,7 +20,7 @@ import RandomStrategyLabel from "../../ui/RandomStrategyLabel/RandomStrategyLabe
 import useQuizGenerationData from "../../../hooks/useQuizGenerationData";
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import validateQuizGenerationData from "../../../utils/validation/validateQuizGenerationData";

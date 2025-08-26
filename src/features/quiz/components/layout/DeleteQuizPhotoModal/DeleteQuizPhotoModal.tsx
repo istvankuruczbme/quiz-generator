@@ -8,7 +8,7 @@ import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import removeQuizPhoto from "../../../sevices/removeQuizPhoto";

@@ -10,7 +10,7 @@ type FeedbackProviderProps = {
 const FeedbackProvider: FC<FeedbackProviderProps> = ({ children }) => {
 	// #region States
 	const [feedback, setFeedback] = useState<FeedbackType>({
-		type: "success",
+		type: "info",
 		message: "",
 		details: "",
 	});

@@ -6,7 +6,6 @@ export type UserPublic = Readonly<{
 export type UserProfile = Readonly<{
 	id: string;
 	name: string;
-	email: string;
 	photoUrl: string | null;
 	hasSubscription: boolean;
 	updatedAt: Date;

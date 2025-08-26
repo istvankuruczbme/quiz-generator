@@ -1,16 +1,17 @@
 import { FC } from "react";
-import useUser from "../../../../../contexts/UserContext/useUser";
 import "./NotSignedInRoute.css";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import useAuth from "../../../contexts/AuthContext/useAuth";
 
 const NotSignedInRoute: FC = () => {
 	//#region Hooks
-	const { user, loading } = useUser();
+	const { session } = useAuth();
 	//#endregion
 
-	// Check if there is no user signed in
-	if (user != null && !loading) return null;
+	// There is a user
+	if (session) return <Navigate to="/" replace />;
 
+	// No user
 	return <Outlet />;
 };
 

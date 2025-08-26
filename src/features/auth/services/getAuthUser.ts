@@ -1,5 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { supabase } from "../../../config/supabase";
+import AppError from "../../error/classes/AppError";
 
 export default async function getAuthUser(token: string): Promise<User> {
 	// Get user
@@ -9,10 +10,12 @@ export default async function getAuthUser(token: string): Promise<User> {
 	} = await supabase.auth.getUser(token);
 
 	// Check if there was an error
-	if (error != null) throw error;
+	if (error) {
+		throw new AppError({ message: "Error fetching authenticated user.", details: error.message });
+	}
 
 	// Check user data
-	if (user == null) throw new Error("auth/no-user");
+	if (!user) throw new AppError({ message: "No user." });
 
 	// Return user
 	return user;

@@ -13,7 +13,7 @@ import Button from "../../../../components/ui/Button/Button";
 import FormButtonsContainer from "../../../../components/form/FormButtonsContainer/FormButtonsContainer";
 import CategorySelect from "../../../category/components/form/CategorySelect/CategorySelect";
 // Hooks
-import useError from "../../../ui/error/hooks/useError";
+import useError from "../../../error/hooks/useError";
 import { useNavigate } from "react-router-dom";
 // Functions
 import validateQuizData from "../../utils/validation/validateQuizData";

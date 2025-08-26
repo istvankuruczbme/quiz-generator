@@ -1,14 +1,14 @@
 import { FC } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import useUser from "../../../../../contexts/UserContext/useUser";
+import useAuth from "../../../contexts/AuthContext/useAuth";
 
 const SignedInRoute: FC = () => {
 	//#region Hooks
-	const { user, loading } = useUser();
+	const { session } = useAuth();
 	//#endregion
 
 	// Check if there is a user signed in
-	if (user == null && !loading) return <Navigate to="/error/unauthorized" replace />;
+	if (!session) return <Navigate to="/sign-in" replace />;
 
 	return <Outlet />;
 };

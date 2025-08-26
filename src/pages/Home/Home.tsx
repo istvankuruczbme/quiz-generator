@@ -36,6 +36,16 @@ const Home = () => {
 				<h2>Hello {user?.name}!</h2>
 				<p>{JSON.stringify(user)}</p>
 
+				{!user?.hasSubscription && (
+					<div>
+						<p>
+							You don't have a subscription. Click on the button below to create one to use
+							the app.
+						</p>
+						<Link to="/profile/subscription">Select subscription</Link>
+					</div>
+				)}
+
 				<nav>
 					Menu:
 					<ul>

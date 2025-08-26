@@ -17,9 +17,11 @@ type ChangeSubscriptionProps = HTMLAttributes<HTMLDivElement>;
 
 const ChangeSubscription: FC<ChangeSubscriptionProps> = () => {
 	// #region Hooks
-	const { user } = useUser();
+	const { user, loading } = useUser();
 	const [searchParams] = useSearchParams();
 	//#endregion
+
+	console.log({ user, loading });
 
 	// #region Variables
 	const success = searchParams.get("success") === "";

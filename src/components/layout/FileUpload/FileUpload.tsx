@@ -15,7 +15,7 @@ import Button from "../../ui/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 // Hooks
-import useError from "../../../features/ui/error/hooks/useError";
+import useError from "../../../features/error/hooks/useError";
 // Functions
 import addPropClassName from "../../../utils/addPropClassName";
 import validateImageFile from "../../../utils/image/validateImageFile";

@@ -8,7 +8,7 @@ import LoadingButton from "../../../../../components/ui/Button/LoadingButton/Loa
 // Hooks
 import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
 import useDeleteQuestion from "../../../contexts/DeleteQuestionContext/useDeleteQuestion";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import deleteQuestion from "../../../services/deleteQuestion";

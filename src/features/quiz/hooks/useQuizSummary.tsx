@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { QuizSummary } from "../types/quizTypes";
 import { useNavigate, useParams } from "react-router-dom";
 import getQuizSummary from "../sevices/getQuizSummary";
-import useError from "../../ui/error/hooks/useError";
-import checkAxiosError from "../../../utils/axios/checkAxiosError";
-import getAxiosErrorMessage from "../../../utils/axios/getAxiosErrorMessage";
+import useError from "../../error/hooks/useError";
 
 const useQuizSummary = () => {
 	// #region States
@@ -37,16 +35,8 @@ const useQuizSummary = () => {
 				// console.log("Error fetching the quiz.", err);
 				setError(err);
 
-				// Check quiz not found error
-				if (
-					checkAxiosError(err) &&
-					(getAxiosErrorMessage(err) === "quiz/invalid-id" ||
-						getAxiosErrorMessage(err) === "quiz/id-missing" ||
-						getAxiosErrorMessage(err) === "quiz/not-found")
-				) {
-					// Redirect to Quiz not found page
-					navigate("/error/quiz-not-found", { replace: true });
-				}
+				// Redirect to Quiz not found page
+				navigate("/error/quiz-not-found", { replace: true });
 			} finally {
 				setLoading(false);
 			}

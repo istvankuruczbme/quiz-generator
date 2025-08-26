@@ -4,10 +4,11 @@ import LoadingButton from "../../../../../components/ui/Button/LoadingButton/Loa
 import { ButtonProps } from "../../../../../components/ui/Button/Button";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// Hooks
+import useError from "../../../../error/hooks/useError";
 // Functions
 import addPropClassName from "../../../../../utils/addPropClassName";
 import signInWithGoogle from "../../../services/signInWithGoogle";
-import setNewUserFlag from "../../../utils/setNewUserFlag";
 // CSS
 import "./GoogleSignInButton.css";
 
@@ -18,18 +19,19 @@ const GoogleSignInButton: FC<GoogleSignInButtonProps> = ({ className }) => {
 	const [loading, setLoading] = useState(false);
 	//#endregion
 
+	// #region Hooks
+	const { setError } = useError();
+	//#endregion
+
 	//#region Functions
-	function handleGoogleSignInClick() {
+	async function handleGoogleSignInClick() {
 		setLoading(true);
 
 		try {
 			// Sign in with Google
-			signInWithGoogle();
-
-			// Set Google sign in flag
-			setNewUserFlag();
+			await signInWithGoogle();
 		} catch (err) {
-			console.log("Error signing in with Google.", err);
+			setError(err);
 		} finally {
 			setLoading(false);
 		}

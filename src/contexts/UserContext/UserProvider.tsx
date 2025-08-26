@@ -1,46 +1,11 @@
-import { FC, ReactNode, useState } from "react";
+import { PropsWithChildren } from "react";
 import UserContext from "./UserContext";
-import { UserProfile } from "../../features/user/types/userTypes";
-import getUser from "../../features/user/services/getUser";
-import getAuthToken from "../../features/auth/services/getAuthToken";
+import useGetUser from "../../features/user/hooks/useGetUser";
 
-type UserProviderProps = {
-	children: ReactNode;
-};
-
-export const UserProvider: FC<UserProviderProps> = ({ children }) => {
-	// #region States
-	const [user, setUser] = useState<UserProfile | null>(null);
-	const [loading, setLoading] = useState(true);
+export const UserProvider = ({ children }: PropsWithChildren) => {
+	// #region Hooks
+	const { user, loading } = useGetUser();
 	// #endregion
 
-	// #region Functions
-	async function updateUserState(): Promise<void> {
-		// Check user
-		if (user == null) return;
-
-		setLoading(true);
-
-		try {
-			// Get token
-			const token = await getAuthToken();
-
-			// Get user from DB
-			const updatedUser = await getUser(user.id, token);
-
-			// Update user
-			setUser(updatedUser);
-		} catch (err) {
-			console.log("Error fetching user from DB.", err);
-		} finally {
-			setLoading(false);
-		}
-	}
-	//#endregion
-
-	return (
-		<UserContext.Provider value={{ user, setUser, loading, setLoading, updateUserState }}>
-			{children}
-		</UserContext.Provider>
-	);
+	return <UserContext.Provider value={{ user, loading }}>{children}</UserContext.Provider>;
 };

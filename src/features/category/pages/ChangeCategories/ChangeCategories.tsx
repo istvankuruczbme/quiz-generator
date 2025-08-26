@@ -14,7 +14,7 @@ import Skeleton from "../../../../components/ui/Skeleton/Skeleton";
 // Hooks
 import useUser from "../../../../contexts/UserContext/useUser";
 import useCategories from "../../hooks/useCategories";
-import useError from "../../../ui/error/hooks/useError";
+import useError from "../../../error/hooks/useError";
 import useFeedback from "../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 import { useNavigate } from "react-router-dom";
 // Functions

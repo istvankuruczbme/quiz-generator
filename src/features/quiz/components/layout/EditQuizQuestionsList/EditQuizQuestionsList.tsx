@@ -28,7 +28,7 @@ import DeleteQuestionProvider from "../../../../question/contexts/DeleteQuestion
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
 import { useParams } from "react-router-dom";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import getElementIndexById from "../../../../../utils/array/getElementIndexById";

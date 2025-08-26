@@ -9,7 +9,7 @@ import LoadingButton from "../../../../../components/ui/Button/LoadingButton/Loa
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import { useNavigate } from "react-router-dom";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import deleteQuiz from "../../../sevices/deleteQuiz";

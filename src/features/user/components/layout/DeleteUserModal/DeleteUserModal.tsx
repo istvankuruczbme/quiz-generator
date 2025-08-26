@@ -8,7 +8,7 @@ import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 import { useNavigate } from "react-router-dom";
 // Functions
@@ -41,16 +41,6 @@ const DeleteUserModal: FC<DeleteUserModalProps> = ({ show, setShow }) => {
 		try {
 			// Delete user
 			await deleteUser(user.id);
-		} catch (err) {
-			// console.log("Error deleting the user from DB.", err);
-			setError(err);
-			setLoading(false);
-			return;
-		}
-
-		try {
-			// Sign out user
-			await signOut();
 
 			// Show feedback
 			setFeedback({
@@ -60,8 +50,10 @@ const DeleteUserModal: FC<DeleteUserModalProps> = ({ show, setShow }) => {
 
 			// Navigate to home page
 			navigate("/");
+
+			// Sign out user
+			await signOut();
 		} catch (err) {
-			// console.log("Error signing out the user.", err);
 			setError(err);
 		} finally {
 			setLoading(false);

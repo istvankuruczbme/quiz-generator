@@ -29,7 +29,7 @@ const Feedback: FC<FeedbackProps> = ({ feedback }) => {
 			</header>
 
 			{feedback.details != undefined && feedback.details !== "" && (
-				<p className="feedback__details">{feedback.details}</p>
+				<pre className="feedback__details">{feedback.details}</pre>
 			)}
 		</div>
 	);

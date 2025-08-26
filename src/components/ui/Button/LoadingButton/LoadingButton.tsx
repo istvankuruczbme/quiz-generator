@@ -1,8 +1,8 @@
-import Button, { ButtonProps } from "../Button";
-import "./LoadingButton.css";
-import addPropClassName from "../../../../utils/addPropClassName";
 import { forwardRef } from "react";
+import Button, { ButtonProps } from "../Button";
 import Spinner from "../../Spinner/Spinner";
+import addPropClassName from "../../../../utils/addPropClassName";
+import "./LoadingButton.css";
 
 export type LoadingButtonProps = ButtonProps & {
 	loading: boolean;

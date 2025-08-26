@@ -12,7 +12,7 @@ import Button from "../../../../../components/ui/Button/Button";
 import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
-import useError from "../../../../ui/error/hooks/useError";
+import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 import useProfilePersonalData from "../../../hooks/useProfilePersonalData";
 // Functions

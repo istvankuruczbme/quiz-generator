@@ -13,7 +13,7 @@ const usePasswordReset = () => {
 
 	useEffect(() => {
 		if (!isPasswordReset) {
-			navigate("/page-not-found");
+			navigate("/");
 			return;
 		}
 	}, [isPasswordReset, navigate]);
