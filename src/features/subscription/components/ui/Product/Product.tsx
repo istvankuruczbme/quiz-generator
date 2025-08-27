@@ -9,13 +9,15 @@ import LoadingButton from "../../../../../components/ui/Button/LoadingButton/Loa
 // Hooks
 import useUser from "../../../../../contexts/UserContext/useUser";
 import useProducts from "../../../../product/contexts/ProductsContext/useProducts";
-import { useNavigate } from "react-router-dom";
+import useUpdateSubscription from "../../../hooks/useUpdateSubscription";
+import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
+import useError from "../../../../error/hooks/useError";
 // Functions
 import createCheckoutSession from "../../../../product/services/createCheckoutSession";
-import updateSubscription from "../../../services/updateSubscription";
 import formatCurrency from "../../../../../utils/formatting/formatCurrency";
 // CSS
 import "./Product.css";
+import AppError from "../../../../error/classes/AppError";
 
 type ProductProps = HTMLAttributes<HTMLDivElement> & {
 	product: ProductType;
@@ -33,7 +35,9 @@ const Product: ProductComponent = ({ product }) => {
 	// #region Hooks
 	const { user } = useUser();
 	const { userProductId } = useProducts();
-	const navigate = useNavigate();
+	const { mutateAsync, loading: loadingSubscriptionUpdate } = useUpdateSubscription();
+	const { setFeedback } = useFeedback();
+	const { setError } = useError();
 	// #endregion
 
 	// #region Variables
@@ -45,24 +49,24 @@ const Product: ProductComponent = ({ product }) => {
 	// #region Functions
 	async function handleSubscriptionClick() {
 		// Check user
-		if (user == null) return;
-
-		setLoading(true);
+		if (!user) return;
 
 		// Create subscription
 		if (!user.hasSubscription) {
+			setLoading(true);
+
 			try {
 				// Create checkout session
-				const { url } = await createCheckoutSession(
-					user.id,
-					product.price.id,
-					"/profile/categories"
-				);
+				const { url } = await createCheckoutSession({
+					userId: user.id,
+					priceId: product.price.id,
+					successUrl: "/profile/categories",
+				});
 
 				// Navigate to checkout portal
 				window.location.href = url;
 			} catch (err) {
-				console.log("Error creating the checkout session.", err);
+				setError(err);
 			} finally {
 				setLoading(false);
 			}
@@ -70,31 +74,28 @@ const Product: ProductComponent = ({ product }) => {
 		// Update subscription
 		else {
 			try {
-				// Check same product ID
-				if (userProductId === product.id) throw new Error("subscription/same-plan");
-			} catch (err) {
-				console.log(err);
-				setLoading(false);
-				return;
-			}
+				// Check same subscription
+				if (userProductId === product.id) {
+					throw new AppError({ message: "Plan is already in user." });
+				}
 
-			try {
 				// Update subscription
-				await updateSubscription(user.id, product.price.id);
+				await mutateAsync({ priceId: product.price.id });
 
-				// Navigate to Profile page
-				navigate("/profile");
+				// Show feedback
+				setFeedback({
+					type: "success",
+					message: "Subscription updated.",
+				});
 			} catch (err) {
-				console.log("Error updating the subscription.", err);
-			} finally {
-				setLoading(false);
+				setError(err);
 			}
 		}
 	}
 	// #endregion
 
 	return (
-		<div className={`product${product.id === userProductId ? " product--current" : ""}`}>
+		<div className="product">
 			{product.id === userProductId && (
 				<div className="product__current">Current subscription</div>
 			)}
@@ -131,7 +132,7 @@ const Product: ProductComponent = ({ product }) => {
 				variant="accent"
 				full
 				disabled={userProductId === product.id || loading}
-				loading={loading}
+				loading={loading || loadingSubscriptionUpdate}
 				onClick={handleSubscriptionClick}
 			>
 				Subscribe

@@ -1,16 +1,16 @@
 import Stripe from "stripe";
 import { axios } from "../../../config/axios";
-import getAuthToken from "../../auth/services/getAuthToken";
 import createBearerAuthHeader from "../utils/createBearerAuthHeader";
+import getSession from "../../auth/services/getSession";
 
-export default async function getUserSubscription(userId: string): Promise<Stripe.Subscription> {
-	// Get session token
-	const token = await getAuthToken();
+export default async function getUserSubscription(): Promise<Stripe.Subscription> {
+	// Get session
+	const session = await getSession();
 
 	// Get data from DB
-	const { data } = await axios.get<Stripe.Subscription>(`/users/${userId}/subscription`, {
+	const { data } = await axios.get<Stripe.Subscription>(`/users/${session.user.id}/subscription`, {
 		headers: {
-			Authorization: createBearerAuthHeader(token),
+			Authorization: createBearerAuthHeader(session.access_token),
 		},
 	});
 

@@ -7,9 +7,6 @@
 	position: relative;
 	transition: box-shadow 300ms ease;
 }
-.product--current {
-	opacity: 0.5;
-}
 .product:hover {
 	box-shadow: 0 1rem 1rem var(--neutral-color-300);
 }

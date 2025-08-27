@@ -10,6 +10,7 @@ import Page from "../../../../components/layout/Page/Page";
 import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
 // CSS
 import "./Profile.css";
+import ProfileSignOutSection from "../../components/layout/ProfileSignOutSection/ProfileSignOutSection";
 
 type ProfileProps = HTMLAttributes<HTMLDivElement>;
 
@@ -30,6 +31,8 @@ const Profile: FC<ProfileProps> = () => {
 			<ProfileSubscriptionSection />
 
 			<ProfileCategoriesSection />
+
+			<ProfileSignOutSection />
 
 			<ProfileDeleteSection />
 		</Page>

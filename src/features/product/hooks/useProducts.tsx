@@ -1,44 +1,27 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import getProducts from "../services/getProducts";
-import useUser from "../../../contexts/UserContext/useUser";
-import { Product } from "../types/productTypes";
+import useError from "../../error/hooks/useError";
+import useAuth from "../../auth/contexts/AuthContext/useAuth";
 
 const useProducts = () => {
-	// #region States
-	const [products, setProducts] = useState<Product[]>([]);
-	const [loading, setLoading] = useState(true);
+	//#region Hooks
+	const { session } = useAuth();
+	const { setError } = useError();
 	// #endregion
 
-	// #region Hooks
-	const { user } = useUser();
+	//#region Query
+	const { data, isLoading, error } = useQuery({
+		enabled: session != null,
+		queryKey: ["products"],
+		queryFn: getProducts,
+	});
+	// #endregion
+
+	// #region Error
+	if (error) setError(error);
 	//#endregion
 
-	useEffect(() => {
-		// Check user
-		if (user == null) {
-			setProducts([]);
-			return;
-		}
-
-		// Fetch products
-		(async function fetchproducts() {
-			setLoading(true);
-
-			try {
-				// Get products
-				const products = await getProducts();
-
-				// Update products state
-				setProducts(products);
-			} catch (err) {
-				console.log("Error fetching the products.", err);
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [user]);
-
-	return { products, loading };
+	return { products: data ?? [], loading: isLoading };
 };
 
 export default useProducts;

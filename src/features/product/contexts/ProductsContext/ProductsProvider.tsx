@@ -10,10 +10,14 @@ type ProductsProviderProps = {
 
 const ProductsProvider: FC<ProductsProviderProps> = ({ children }) => {
 	// #region Hooks
-	const { products, loading } = useProducts();
-	const { subscription } = useUserSubscription();
+	const { products, loading: loadingProducts } = useProducts();
+	const { subscription, loading: loadingSubscription } = useUserSubscription();
 	const { productId } = useDefaultProduct(products, subscription);
 	//#endregion
+
+	// #region Constants
+	const loading = loadingProducts || loadingSubscription;
+	// #endregion
 
 	return (
 		<ProductsContext.Provider

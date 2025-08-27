@@ -1,42 +1,27 @@
-import { useEffect, useState } from "react";
-import Stripe from "stripe";
-import useUser from "../../../contexts/UserContext/useUser";
 import getUserSubscription from "../services/getUserSubscription";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../auth/contexts/AuthContext/useAuth";
+import useError from "../../error/hooks/useError";
 
 const useUserSubscription = () => {
-	// #region States
-	const [subscription, setSubscription] = useState<Stripe.Subscription | null>(null);
-	const [loading, setLoading] = useState(false);
-	// #endregion
-
 	// #region Hooks
-	const { user } = useUser();
+	const { session } = useAuth();
+	const { setError } = useError();
 	// #endregion
 
-	useEffect(() => {
-		if (user == null || !user.hasSubscription) {
-			setSubscription(null);
-			return;
-		}
+	// #region Query
+	const { data, isLoading, error } = useQuery({
+		enabled: session != null,
+		queryKey: ["users", session?.user.id, "subscription"],
+		queryFn: getUserSubscription,
+	});
+	// #endregion
 
-		(async function fetchUserSubscription() {
-			setLoading(true);
+	// #region Error
+	if (error) setError(error);
+	// #endregion
 
-			try {
-				// Get subscription
-				const subscription = await getUserSubscription(user.id);
-
-				// Update subscription state
-				setSubscription(subscription);
-			} catch (err) {
-				console.log("Error fetching the subscription of user.", err);
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [user]);
-
-	return { subscription, loading };
+	return { subscription: data ?? null, loading: isLoading };
 };
 
 export default useUserSubscription;

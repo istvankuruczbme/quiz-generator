@@ -5,11 +5,11 @@ import useAuth from "../../../contexts/AuthContext/useAuth";
 
 const NotSignedInRoute: FC = () => {
 	//#region Hooks
-	const { session } = useAuth();
+	const { session, loading } = useAuth();
 	//#endregion
 
 	// There is a user
-	if (session) return <Navigate to="/" replace />;
+	if (session && !loading) return <Navigate to="/" replace />;
 
 	// No user
 	return <Outlet />;

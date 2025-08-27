@@ -9,7 +9,7 @@ import getPasswordResetFlag from "../utils/getPasswordResetFlag";
 const useAuthStateChange = () => {
 	// #region States
 	const [session, setSession] = useState<Session | null>(null);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	// #endregion
 
 	// #region Hooks

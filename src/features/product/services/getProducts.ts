@@ -7,13 +7,13 @@ export default async function getProducts(): Promise<Product[]> {
 	// Get session token
 	const token = await getAuthToken();
 
-	// Get data from DB
-	const { data } = await axios.get<Product[]>(`/products`, {
+	// Send request
+	const { data: products } = await axios.get<Product[]>(`/products`, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},
 	});
 
-	// Return data
-	return data;
+	// Return products
+	return products;
 }

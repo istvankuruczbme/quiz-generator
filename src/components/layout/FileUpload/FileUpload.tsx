@@ -3,14 +3,12 @@ import {
 	forwardRef,
 	InputHTMLAttributes,
 	MouseEvent,
-	ReactNode,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
 // Components
 import Text from "../../ui/Text/Text";
-import FlexContainer from "../FlexContainer/FlexContainer";
 import Button from "../../ui/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -26,11 +24,11 @@ import "./FileUpload.css";
 type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
 	uploadType?: "photo" | "file";
 	defaultPhotoUrl?: string;
-	deleteFileButton?: ReactNode;
+	onFileChange: (file: File | null, photoUrl?: string) => void;
 };
 
 const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
-	({ uploadType = "photo", defaultPhotoUrl, deleteFileButton, className, ...rest }, ref) => {
+	({ uploadType = "photo", defaultPhotoUrl, onFileChange, className, ...rest }, ref) => {
 		// #region States
 		const [filename, setFilename] = useState("");
 		const [photoUrl, setPhotoUrl] = useState("");
@@ -115,32 +113,36 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 			dropZoneRef.current.classList.remove("fileUpload__drop--dragover");
 		}
 
-		function handleFileChange(file: File | undefined): void {
+		function handleFileChange(file?: File): void {
 			// Check file
-			if (file == undefined) return;
+			if (!file) return;
 
 			// Photo
 			if (uploadType === "photo") {
 				try {
-					// Validate image file
+					// Validation
 					validateImageFile(file);
+
+					// Create image URL
+					const photoUrl = createImageUrl(file as File);
+
+					// Update photoURL state
+					setPhotoUrl(photoUrl);
+
+					// Run custom handler
+					onFileChange(file, photoUrl);
 				} catch (err) {
 					setError(err);
-					return;
 				}
-
-				// Create image URL
-				const photoUrl = createImageUrl(file as File);
-
-				// Update photoURL state
-				setPhotoUrl(photoUrl);
-
-				return;
 			}
 
 			// File
 			if (uploadType === "file") {
+				// Set filename
 				setFilename(file.name);
+
+				// Run custom handler
+				onFileChange(file);
 			}
 		}
 
@@ -156,6 +158,9 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 			// Update state
 			if (uploadType === "photo") setPhotoUrl("");
 			if (uploadType === "file") setFilename("");
+
+			// Run custom handler
+			onFileChange(null);
 		}
 		// #endregion
 
@@ -205,12 +210,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 						</Text>
 					)}
 				</label>
-
-				{deleteFileButton != undefined && (
-					<FlexContainer wrap="576px" className="fileUpload__buttons">
-						{deleteFileButton != undefined && deleteFileButton}
-					</FlexContainer>
-				)}
 			</div>
 		);
 	}

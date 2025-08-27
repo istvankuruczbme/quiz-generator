@@ -12,18 +12,20 @@ import createCustomerPortal from "../../../services/createCustomerPortal";
 import useUser from "../../../../../contexts/UserContext/useUser";
 // CSS
 import "./ProfileSubscriptionSection.css";
+import useError from "../../../../error/hooks/useError";
 
 type ProfileSubscriptionSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 	// #region Hooks
 	const { user } = useUser();
+	const { setError } = useError();
 	//#endregion
 
 	//#region Functions
 	async function handleCustomerPortalClick() {
 		// Check user
-		if (user == null) return;
+		if (!user) return;
 
 		try {
 			// Get session URL
@@ -32,7 +34,7 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 			// Go to URL
 			window.location.href = url;
 		} catch (err) {
-			console.log("Error getting to customer portal.", err);
+			setError(err);
 		}
 	}
 	//#endregion
@@ -42,25 +44,30 @@ const ProfileSubscriptionSection: FC<ProfileSubscriptionSectionProps> = () => {
 			<Section.Title>Your subscription</Section.Title>
 
 			<FlexContainer gap="3rem" wrap="576px">
-				<TextButtonBox variant="primary" full>
-					<Text variant="neutral-400">
-						Click on My subscription button to manage everything related to your subscription.
-						You will be redirected to Stripe's page.
-					</Text>
-					<Button
-						variant="primary"
-						className="profileSubscription__my"
-						onClick={handleCustomerPortalClick}
-					>
-						My subscription
-					</Button>
-				</TextButtonBox>
+				{user?.hasSubscription && (
+					<TextButtonBox variant="primary" full>
+						<Text variant="neutral-400">
+							Click on My subscription button to manage everything related to your
+							subscription. You will be redirected to Stripe's page.
+						</Text>
+						<Button
+							variant="primary"
+							className="profileSubscription__my"
+							onClick={handleCustomerPortalClick}
+						>
+							My subscription
+						</Button>
+					</TextButtonBox>
+				)}
 
 				<TextButtonBox variant="primary" full>
 					<Text variant="neutral-400">
-						Click on Change subscription button to change your subscription.
+						Click on the button to {user?.hasSubscription ? "change" : "select"} your
+						subscription.
 					</Text>
-					<ProfileLinkButton to="/profile/subscription">Change subscription</ProfileLinkButton>
+					<ProfileLinkButton to="/profile/subscription">
+						{user?.hasSubscription ? "Change" : "Select"} subscription
+					</ProfileLinkButton>
 				</TextButtonBox>
 			</FlexContainer>
 		</ProfileSection>
