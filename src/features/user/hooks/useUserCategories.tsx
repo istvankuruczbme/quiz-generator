@@ -1,42 +1,27 @@
-import { useEffect, useState } from "react";
-import { Category } from "../../category/types/categoryTypes";
-import useUser from "../../../contexts/UserContext/useUser";
 import getUserCategories from "../services/getUserCategories";
+import useError from "../../error/hooks/useError";
+import useAuth from "../../auth/contexts/AuthContext/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 const useUserCategories = () => {
-	// #region States
-	const [userCategories, setUserCategories] = useState<Category[]>([]);
-	const [loading, setLoading] = useState(false);
-	//#endregion
-
 	// #region Hooks
-	const { user } = useUser();
+	const { session } = useAuth();
+	const { setError } = useError();
 	//#endregion
 
-	useEffect(() => {
-		if (user == null) {
-			setUserCategories([]);
-			return;
-		}
+	// #region Query
+	const { data, isLoading, error } = useQuery({
+		enabled: session != null,
+		queryKey: ["users", session?.user.id, "categories"],
+		queryFn: getUserCategories,
+	});
+	// #endregion
 
-		(async function fetchUserCategories() {
-			setLoading(true);
+	// #region Error handling
+	if (error) setError(error);
+	//#endregion
 
-			try {
-				// Get user categories
-				const categories = await getUserCategories(user.id);
-
-				// Update categories state
-				setUserCategories(categories);
-			} catch (err) {
-				console.log("Error fetching the user categories from DB.", err);
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [user]);
-
-	return { userCategories, loading };
+	return { categories: data ?? [], loading: isLoading };
 };
 
 export default useUserCategories;

@@ -1,22 +1,29 @@
 import { axios } from "../../../config/axios";
-import getAuthToken from "../../auth/services/getAuthToken";
+import getSession from "../../auth/services/getSession";
+import { Category } from "../../category/types/categoryTypes";
+import addIconToCategory from "../../category/utils/addIconToCategory";
 import createBearerAuthHeader from "../utils/createBearerAuthHeader";
 
-export default async function updateUserCategories(
-	categoryIds: string[],
-	userId: string
-): Promise<void> {
-	// Get session token
-	const token = await getAuthToken();
+export default async function updateUserCategories(userCategoriesData: {
+	categoryIds: string[];
+}): Promise<Category[]> {
+	// Get session
+	const session = await getSession();
 
 	// Send request
-	await axios.put<string[]>(
-		`/users/${userId}/categories`,
-		{ categoryIds },
+	const { data: rawCategories } = await axios.put<Category[]>(
+		`/users/${session.user.id}/categories`,
+		userCategoriesData,
 		{
 			headers: {
-				Authorization: createBearerAuthHeader(token),
+				Authorization: createBearerAuthHeader(session.access_token),
 			},
 		}
 	);
+
+	// Add icon to categories
+	const categories = rawCategories.map((cateory) => addIconToCategory(cateory));
+
+	// Return categories
+	return categories;
 }

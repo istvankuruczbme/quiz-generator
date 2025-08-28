@@ -1,43 +1,27 @@
-import { useEffect, useState } from "react";
-import { Category } from "../types/categoryTypes";
+import useAuth from "../../auth/contexts/AuthContext/useAuth";
+import useError from "../../error/hooks/useError";
 import getCategories from "../services/getCategories";
-import useUser from "../../../contexts/UserContext/useUser";
+import { useQuery } from "@tanstack/react-query";
 
 const useCategories = () => {
-	// #region States
-	const [categories, setCategories] = useState<Category[]>([]);
-	const [loading, setLoading] = useState(true);
-	// #endregion
-
 	//#region Hooks
-	const { user } = useUser();
+	const { session } = useAuth();
+	const { setError } = useError();
 	//#endregion
 
-	useEffect(() => {
-		// Check user
-		if (user == null) {
-			setCategories([]);
-			return;
-		}
+	// #region Query
+	const { data, isLoading, error } = useQuery({
+		enabled: session != null,
+		queryKey: ["categories"],
+		queryFn: getCategories,
+	});
+	// #endregion
 
-		(async function fetchCategories() {
-			setLoading(true);
+	// #region Error handling
+	if (error) setError(error);
+	// #endregion
 
-			try {
-				// Get categories
-				const categories = await getCategories();
-
-				// Update categories
-				setCategories(categories);
-			} catch (err) {
-				console.log("Error fetching the categories.", err);
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [user]);
-
-	return { categories, loading };
+	return { categories: data ?? [], loading: isLoading };
 };
 
 export default useCategories;

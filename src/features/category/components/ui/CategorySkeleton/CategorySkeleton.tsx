@@ -5,7 +5,7 @@ import "./CategorySkeleton.css";
 type CategorySkeletonProps = HTMLAttributes<HTMLDivElement>;
 
 const CategorySkeleton: FC<CategorySkeletonProps> = () => {
-	return <Skeleton type="rect" width="160px" height="40px" />;
+	return <Skeleton type="circle" width="160px" height="40px" />;
 };
 
 export default CategorySkeleton;

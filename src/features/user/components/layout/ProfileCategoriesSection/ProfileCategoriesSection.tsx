@@ -4,9 +4,10 @@ import ProfileSection from "../ProfileSection/ProfileSection";
 import Section from "../../../../../components/layout/Section/Section";
 import CategoriesContainer from "../../../../category/components/layout/CategoriesContainer/CategoriesContainer";
 import CategoryCheckbox from "../../../../category/components/form/CategoryCheckbox/CategoryCheckbox";
-import CategorySkeleton from "../../../../category/components/ui/CategorySkeleton/CategorySkeleton";
 import Text from "../../../../../components/ui/Text/Text";
 import ProfileLinkButton from "../../ui/ProfileLinkButton/ProfileLinkButton";
+import Suspense from "../../../../../components/layout/Suspense/Suspense";
+import CategoriesSkeleton from "../../ui/CategoriesSkeleton/CategoriesSkeleton";
 // Hooks
 import useUserCategories from "../../../hooks/useUserCategories";
 // CSS
@@ -16,7 +17,7 @@ type ProfileCategoriesSectionProps = HTMLAttributes<HTMLDivElement>;
 
 const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 	// #region Hooks
-	const { userCategories, loading } = useUserCategories();
+	const { categories, loading } = useUserCategories();
 	// #endregion
 
 	return (
@@ -28,15 +29,9 @@ const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 			</Text>
 
 			<CategoriesContainer className="profileCategories__container">
-				{loading && (
-					<>
-						<CategorySkeleton />
-						<CategorySkeleton />
-						<CategorySkeleton />
-					</>
-				)}
-				{!loading &&
-					userCategories.map((category) => (
+				<Suspense loading={loading} fallback={<CategoriesSkeleton />}>
+					{categories.length === 0 && <Text mb="-2rem">No categories.</Text>}
+					{categories.map((category) => (
 						<CategoryCheckbox
 							key={category.id}
 							icon={category.icon}
@@ -46,9 +41,12 @@ const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 							disabled
 						/>
 					))}
+				</Suspense>
 			</CategoriesContainer>
 
-			<ProfileLinkButton to="categories">Change categories</ProfileLinkButton>
+			<ProfileLinkButton to="categories">
+				{categories.length === 0 ? "Select" : "Change"} categories
+			</ProfileLinkButton>
 		</ProfileSection>
 	);
 };

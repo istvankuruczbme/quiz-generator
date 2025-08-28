@@ -10,6 +10,8 @@ import LoadingButton from "../../../../../components/ui/Button/LoadingButton/Loa
 import validatePasswordResetInputs from "../../../utils/validation/validatePasswordResetInputs";
 import updateAuthPassword from "../../../services/updateAuthPassword";
 import useAuth from "../../../contexts/AuthContext/useAuth";
+import Suspense from "../../../../../components/layout/Suspense/Suspense";
+import PasswordResetFormSkeleton from "./PasswordResetFormSkeleton";
 
 const PasswordResetForm = () => {
 	// #region Loading
@@ -57,41 +59,43 @@ const PasswordResetForm = () => {
 	// #endregion
 
 	return (
-		<form onSubmit={handlePasswordResetFormSubmit}>
-			<FormInputsContainer>
-				<Input
-					type="email"
-					label="Email"
-					id="PasswordResetEmail"
-					placeholder="Email"
-					required
-					disabled
-					value={data.email}
-				/>
-				<Input
-					type="password"
-					label="Password"
-					id="PasswordResetPassword"
-					placeholder="Password"
-					required
-					value={data.password}
-					onChange={(e) => updateData({ password: e.target.value })}
-				/>
-				<Input
-					type="password"
-					label="Password Confirm"
-					id="PasswordResetPasswordConfirm"
-					placeholder="Password Confirm"
-					required
-					value={data.passwordConfirm}
-					onChange={(e) => updateData({ passwordConfirm: e.target.value })}
-				/>
-			</FormInputsContainer>
+		<Suspense loading={loadingData} fallback={<PasswordResetFormSkeleton />}>
+			<form onSubmit={handlePasswordResetFormSubmit}>
+				<FormInputsContainer>
+					<Input
+						type="email"
+						label="Email"
+						id="PasswordResetEmail"
+						placeholder="Email"
+						required
+						disabled
+						value={data.email}
+					/>
+					<Input
+						type="password"
+						label="Password"
+						id="PasswordResetPassword"
+						placeholder="Password"
+						required
+						value={data.password}
+						onChange={(e) => updateData({ password: e.target.value })}
+					/>
+					<Input
+						type="password"
+						label="Password Confirm"
+						id="PasswordResetPasswordConfirm"
+						placeholder="Password Confirm"
+						required
+						value={data.passwordConfirm}
+						onChange={(e) => updateData({ passwordConfirm: e.target.value })}
+					/>
+				</FormInputsContainer>
 
-			<LoadingButton type="submit" variant="accent" full loading={loading}>
-				Reset password
-			</LoadingButton>
-		</form>
+				<LoadingButton type="submit" variant="accent" full loading={loading}>
+					Reset password
+				</LoadingButton>
+			</form>
+		</Suspense>
 	);
 };
 

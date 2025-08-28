@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 function useFormData<T>(initialData: T) {
 	// #region States
@@ -6,9 +6,9 @@ function useFormData<T>(initialData: T) {
 	//#endregion
 
 	// #region Functions
-	function updateData(newData: Partial<T>): void {
+	const updateData = useCallback((newData: Partial<T>) => {
 		setData((data) => ({ ...data, ...newData }));
-	}
+	}, []);
 	//#endregion
 
 	return [data, updateData] as const;

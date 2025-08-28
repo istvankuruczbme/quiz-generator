@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { ModalProps } from "../../../../ui/modal/types/modalTypes";
 // Components
 import Overlay from "../../../../../components/layout/Overlay/Overlay";
@@ -7,12 +7,10 @@ import Modal from "../../../../ui/modal/components/layout/Modal/Modal";
 import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
-import useUser from "../../../../../contexts/UserContext/useUser";
+import useDeleteUser from "../../../hooks/useDeleteUser";
 import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
-import { useNavigate } from "react-router-dom";
 // Functions
-import deleteUser from "../../../services/deleteUser";
 import signOut from "../../../../auth/services/signOut";
 // CSS
 import "./DeleteUserModal.css";
@@ -20,27 +18,17 @@ import "./DeleteUserModal.css";
 type DeleteUserModalProps = ModalProps;
 
 const DeleteUserModal: FC<DeleteUserModalProps> = ({ show, setShow }) => {
-	// #region States
-	const [loading, setLoading] = useState(false);
-	//#endregion
-
 	// #region Hooks
-	const { user } = useUser();
-	const { setError } = useError();
+	const { mutateAsync, loading } = useDeleteUser();
 	const { setFeedback } = useFeedback();
-	const navigate = useNavigate();
+	const { setError } = useError();
 	// #endregion
 
 	// #region Functions
 	async function handleDeleteUserClick(): Promise<void> {
-		// Check user
-		if (user == null) return;
-
-		setLoading(true);
-
 		try {
 			// Delete user
-			await deleteUser(user.id);
+			await mutateAsync();
 
 			// Show feedback
 			setFeedback({
@@ -48,15 +36,10 @@ const DeleteUserModal: FC<DeleteUserModalProps> = ({ show, setShow }) => {
 				message: "Your profile was deleted.",
 			});
 
-			// Navigate to home page
-			navigate("/");
-
 			// Sign out user
 			await signOut();
 		} catch (err) {
 			setError(err);
-		} finally {
-			setLoading(false);
 		}
 	}
 	//#endregion
