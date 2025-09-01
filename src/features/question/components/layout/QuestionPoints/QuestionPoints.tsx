@@ -1,16 +1,15 @@
 import { FC, HTMLAttributes } from "react";
 import Accordion from "../../../../../components/layout/Accordion/Accordion";
 import Input from "../../../../../components/form/Input/Input";
-import useNewQuestion from "../../../contexts/EditQuestionContext/useEditQuestion";
+import useEditQuestion from "../../../contexts/EditQuestionContext/useEditQuestion";
 import addPropClassName from "../../../../../utils/addPropClassName";
 import "./QuestionPoints.css";
-import convertNumberToInputValue from "../../../../../utils/dom/convertNumberToInputValue";
 
 type QuestionPointsProps = HTMLAttributes<HTMLDetailsElement>;
 
 const QuestionPoints: FC<QuestionPointsProps> = ({ className }) => {
 	// #region Hooks
-	const { correct, setCorrect, wrong, setWrong, empty, setEmpty } = useNewQuestion();
+	const { data, updateData } = useEditQuestion();
 	//#endregion
 
 	return (
@@ -22,32 +21,32 @@ const QuestionPoints: FC<QuestionPointsProps> = ({ className }) => {
 					<Input
 						type="number"
 						label="Correct"
-						id="newQuestionPointsCorrect"
+						id="editQuestionPointsCorrect"
 						placeholder="Correct"
 						required
 						full
-						value={convertNumberToInputValue(correct)}
-						onChange={(e) => setCorrect(e.target.valueAsNumber)}
+						value={data.correct}
+						onChange={(e) => updateData({ correct: e.target.value })}
 					/>
 					<Input
 						type="number"
 						label="Wrong"
-						id="newQuestionPointsWrong"
+						id="editQuestionPointsWrong"
 						placeholder="Wrong"
 						required
 						full
-						value={convertNumberToInputValue(wrong)}
-						onChange={(e) => setWrong(e.target.valueAsNumber)}
+						value={data.wrong}
+						onChange={(e) => updateData({ wrong: e.target.value })}
 					/>
 					<Input
 						type="number"
 						label="Empty"
-						id="newQuestionPointsEmpty"
+						id="editQuestionPointsEmpty"
 						placeholder="Empty"
 						required
 						full
-						value={convertNumberToInputValue(empty)}
-						onChange={(e) => setEmpty(e.target.valueAsNumber)}
+						value={data.empty}
+						onChange={(e) => updateData({ empty: e.target.value })}
 					/>
 				</div>
 			</Accordion.Body>

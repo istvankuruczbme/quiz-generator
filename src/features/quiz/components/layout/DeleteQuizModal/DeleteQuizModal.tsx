@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { ModalProps } from "../../../../ui/modal/types/modalTypes";
 // Components
 import ModalProvider from "../../../../ui/modal/contexts/ModalContext/ModalProvider";
@@ -8,26 +8,22 @@ import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
+import useDeleteQuiz from "../../../hooks/useDeleteQuiz";
 import { useNavigate } from "react-router-dom";
 import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
-// Functions
-import deleteQuiz from "../../../sevices/deleteQuiz";
 // CSS
 import "./DeleteQuizModal.css";
 
 type DeleteQuizModalProps = ModalProps;
 
 const DeleteQuizModal: FC<DeleteQuizModalProps> = ({ show, setShow }) => {
-	// #region States
-	const [loading, setLoading] = useState(false);
-	// #endregion
-
 	// #region Hooks
 	const { quiz } = useQuizPrivate();
-	const navigate = useNavigate();
-	const { setError } = useError();
+	const { mutateAsync, loading } = useDeleteQuiz();
 	const { setFeedback } = useFeedback();
+	const { setError } = useError();
+	const navigate = useNavigate();
 	//#endregion
 
 	//#region Functions
@@ -35,11 +31,9 @@ const DeleteQuizModal: FC<DeleteQuizModalProps> = ({ show, setShow }) => {
 		// Check quiz
 		if (quiz == null) return;
 
-		setLoading(true);
-
 		try {
 			// Delete quiz
-			await deleteQuiz(quiz.id);
+			await mutateAsync(quiz.id);
 
 			// Show feedback
 			setFeedback({
@@ -53,10 +47,7 @@ const DeleteQuizModal: FC<DeleteQuizModalProps> = ({ show, setShow }) => {
 			// Navigate ti My quizzes page
 			navigate("/my-quizzes");
 		} catch (err) {
-			// console.log("Error deleting the quiz.", err);
 			setError(err);
-		} finally {
-			setLoading(false);
 		}
 	}
 	//#endregion

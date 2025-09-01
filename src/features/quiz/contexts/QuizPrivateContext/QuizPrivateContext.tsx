@@ -1,22 +1,14 @@
-import { createContext, Dispatch, SetStateAction } from "react";
-import { QuizFullPrivate } from "../../types/quizTypes";
+import { createContext } from "react";
+import { QuizPrivate } from "../../types/quizTypes";
 
 type QuizPrivateContextType = {
-	quiz: QuizFullPrivate | null;
-	setQuiz: Dispatch<SetStateAction<QuizFullPrivate | null>>;
+	quiz: QuizPrivate | null;
 	loading: boolean;
-	setLoading: Dispatch<SetStateAction<boolean>>;
-	updateQuizState: () => Promise<void>;
-	updateQuestionsOrder: (questionIds: string[]) => void;
 };
 
 const QuizPrivateContext = createContext<QuizPrivateContextType>({
 	quiz: null,
-	setQuiz: () => {},
-	loading: false,
-	setLoading: () => {},
-	updateQuizState: async () => {},
-	updateQuestionsOrder: () => {},
+	loading: true,
 });
 
 export default QuizPrivateContext;

@@ -4,38 +4,54 @@ import { QuestionPrivate, QuestionPublic } from "../../question/types/questionTy
 import { UserPublic } from "../../user/types/userTypes";
 import { QuizVisibility } from "../assets/quizVisibility";
 
+// #region Quiz config
 export type QuizConfig = Readonly<{
 	state: "DRAFT" | "ACTIVE";
 	visibility: QuizVisibility;
 	questionOrder: QuestionOrder;
 }>;
+// #endregion
 
-export type QuizData = Readonly<{
+// #region Update quiz config
+export type EditQuizConfigData = Partial<{
+	visibility: QuizVisibility;
+	questionOrder: QuestionOrder;
+}>;
+//#endregion
+
+// #region Quiz data
+type QuizData = Readonly<{
 	id: string;
-	category: Category;
 	title: string;
 	description: string;
 	photoUrl: string | null;
+	embedding: number[];
 	updatedAt: Date;
 	createdAt: Date;
 	config: QuizConfig;
+	category: Category;
 	user: UserPublic;
 }>;
+// #endregion
 
-export type QuizSummary = Readonly<
-	QuizData & {
+// #region Quiz summary
+export type QuizSummary = QuizData &
+	Readonly<{
 		questionCount: number;
 		completionCount: number;
-	}
->;
+	}>;
+// #endregion
 
-export type QuizFullPublic = Readonly<
-	QuizData & {
-		questions: QuestionPublic[];
-	}
->;
-export type QuizFullPrivate = Readonly<
-	QuizData & {
-		questions: QuestionPrivate[];
-	}
->;
+// #region Quiz public
+export type QuizPublic = QuizData & {
+	questions: QuestionPublic[];
+	completionCount: number;
+};
+// #endregion
+
+// #region Quiz private
+export type QuizPrivate = QuizData & {
+	questions: QuestionPrivate[];
+	completionCount: number;
+};
+// #endregion

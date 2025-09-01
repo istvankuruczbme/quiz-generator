@@ -1,49 +1,29 @@
-import { useEffect, useState } from "react";
-import { QuizSummary } from "../types/quizTypes";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import getQuizSummary from "../sevices/getQuizSummary";
 import useError from "../../error/hooks/useError";
+import { useQuery } from "@tanstack/react-query";
+import useUser from "../../../contexts/UserContext/useUser";
 
 const useQuizSummary = () => {
-	// #region States
-	const [quizSummary, setQuizSummary] = useState<QuizSummary | null>(null);
-	const [loading, setLoading] = useState(true);
-	// #endregion
-
 	// #region Hooks
-	const { quizId } = useParams();
+	const { user, loading: loadingUser } = useUser();
 	const { setError } = useError();
-	const navigate = useNavigate();
+	const { quizId } = useParams();
 	// #endregion
 
-	useEffect(() => {
-		if (quizId == undefined) {
-			setQuizSummary(null);
-			return;
-		}
+	// #region Query
+	const { data, isLoading, error } = useQuery({
+		enabled: user != null && quizId != undefined,
+		queryKey: ["quizzes", quizId, "summary"],
+		queryFn: () => getQuizSummary(quizId!),
+	});
+	// #endregion
 
-		(async function fetchQuizSummary() {
-			setLoading(true);
+	// #region Error handling
+	if (error) setError(error);
+	// #endregion
 
-			try {
-				// Get quiz summary
-				const quizSummary = await getQuizSummary(quizId);
-
-				// Update quiz summary state
-				setQuizSummary(quizSummary);
-			} catch (err) {
-				// console.log("Error fetching the quiz.", err);
-				setError(err);
-
-				// Redirect to Quiz not found page
-				navigate("/error/quiz-not-found", { replace: true });
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [quizId, setError, navigate]);
-
-	return { quizSummary, loading };
+	return { quizSummary: data ?? null, loading: isLoading || loadingUser };
 };
 
 export default useQuizSummary;

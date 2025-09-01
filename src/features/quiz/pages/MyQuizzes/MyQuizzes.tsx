@@ -22,6 +22,8 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 	const { quizzes, loading } = useUserQuizzes();
 	//#endregion
 
+	// console.log("Quizzes:", quizzes);
+
 	// #region Variables
 	const draftQuizzes = quizzes.filter((quiz) => quiz.config.state === "DRAFT");
 	const activeQuizzes = quizzes.filter((quiz) => quiz.config.state === "ACTIVE");
@@ -37,9 +39,6 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			</Section>
 
 			<Section>
-				<Section.Title>New quiz</Section.Title>
-
-				<Text variant="neutral-400">Click on the button below to create a new quiz.</Text>
 				<LinkButton to="/new-quiz">Create quiz</LinkButton>
 			</Section>
 

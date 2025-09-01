@@ -1,16 +1,15 @@
 import Textarea, { TextareaProps } from "../../../../../components/form/Textarea/Textarea";
-import { ChangeEvent, Dispatch, forwardRef, SetStateAction } from "react";
+import { ChangeEvent, forwardRef } from "react";
 import Text from "../../../../../components/ui/Text/Text";
 import addPropClassName from "../../../../../utils/addPropClassName";
 import "./QuizDescriptionTextarea.css";
 
-type QuizDescriptionTextareaProps = TextareaProps & {
-	description: string;
-	setDescription: Dispatch<SetStateAction<string>>;
+type QuizDescriptionTextareaProps = Omit<TextareaProps, "value"> & {
+	value?: string;
 };
 
 const QuizDescriptionTextarea = forwardRef<HTMLTextAreaElement, QuizDescriptionTextareaProps>(
-	({ description, setDescription, className, ...rest }, ref) => {
+	({ onChange, className, ...rest }, ref) => {
 		// #region Variables
 		const MAX_DESCRIPTION_LENGTH = 1000;
 		//#endregion
@@ -23,8 +22,8 @@ const QuizDescriptionTextarea = forwardRef<HTMLTextAreaElement, QuizDescriptionT
 			// Check if description length is below limit
 			if (descriptionLength > MAX_DESCRIPTION_LENGTH) return;
 
-			// Update description
-			setDescription(e.target.value);
+			// Run custom handler
+			onChange?.(e);
 		}
 		// #endregion
 
@@ -36,13 +35,12 @@ const QuizDescriptionTextarea = forwardRef<HTMLTextAreaElement, QuizDescriptionT
 					placeholder="Description"
 					className={`quizDescriptionTextarea${addPropClassName(className)}`}
 					required
-					value={description}
 					onChange={handleDescriptionChange}
 					{...rest}
 					ref={ref}
 				/>
 				<Text variant="neutral-400" mb="0" className="quizDescriptionTextarea__length">
-					{description.length}/{MAX_DESCRIPTION_LENGTH}
+					{rest.value?.length ?? 0}/{MAX_DESCRIPTION_LENGTH}
 				</Text>
 			</>
 		);

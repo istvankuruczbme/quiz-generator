@@ -18,7 +18,7 @@ type EditAnswerOptionsProps = HTMLAttributes<HTMLDetailsElement>;
 
 const EditAnswerOptions: FC<EditAnswerOptionsProps> = ({ className }) => {
 	// #region Hooks
-	const { answerOptions, addAnswerOption } = useEditQuestion();
+	const { data, addAnswerOption } = useEditQuestion();
 	// #endregion
 
 	return (
@@ -27,11 +27,11 @@ const EditAnswerOptions: FC<EditAnswerOptionsProps> = ({ className }) => {
 
 			<Accordion.Body>
 				<FlexContainer direction="column" mb="1rem">
-					{answerOptions.length === 0 && (
+					{data.answerOptions.length === 0 && (
 						<IconTextSection icon={faBan} text={<Text mb="0">No answer options.</Text>} />
 					)}
 
-					{answerOptions.map((option) => (
+					{data.answerOptions.map((option) => (
 						<EditAnswerOption key={option.id} option={option} />
 					))}
 				</FlexContainer>

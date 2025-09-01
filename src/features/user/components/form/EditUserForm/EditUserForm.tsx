@@ -5,7 +5,6 @@ import FormInputsContainer from "../../../../../components/form/FormInputsContai
 import Text from "../../../../../components/ui/Text/Text";
 import FileUpload from "../../../../../components/layout/FileUpload/FileUpload";
 import Input from "../../../../../components/form/Input/Input";
-import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import useEditUserData from "../../../hooks/useEditUserData";
 import validateEditUserData from "../../../utils/validation/validateEditUserData";
@@ -61,21 +60,16 @@ const EditUserForm = () => {
 							updateData({ photo, photoUrl: photoUrl ?? "" })
 						}
 					/>
-
-					{!loadingData ? (
-						<Input
-							type="text"
-							label="Name"
-							id="profileName"
-							placeholder="Name"
-							full
-							required
-							value={data.name}
-							onChange={(e) => updateData({ name: e.target.value })}
-						/>
-					) : (
-						<Skeleton type="rect" width="100%" height="40px" />
-					)}
+					<Input
+						type="text"
+						label="Name"
+						id="profileName"
+						placeholder="Name"
+						full
+						required
+						value={data.name}
+						onChange={(e) => updateData({ name: e.target.value })}
+					/>
 
 					<LoadingButton
 						type="submit"

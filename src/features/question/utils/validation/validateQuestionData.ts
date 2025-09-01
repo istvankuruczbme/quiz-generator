@@ -1,19 +1,16 @@
-import validateNonEmptyString from "../../../../utils/validation/validateNonEmptyString";
-import { AnswerOptionPrivate } from "../../../answerOption/types/answerOptionTypes";
+import AppError from "../../../error/classes/AppError";
+import getZodErrorMessages from "../../../error/utils/getZodErrorMessages";
+import { QuestionData, questionSchema } from "./schemas/questionSchema";
 
-export default function validateQuestionData(
-	text: string | undefined,
-	answerOptions: AnswerOptionPrivate[]
-): void {
-	// Question text
-	validateNonEmptyString(text, "question/text-");
+export default function validateQuestionData(questionData: QuestionData): QuestionData {
+	// Validation
+	const { success, data, error } = questionSchema.safeParse(questionData);
 
-	// Answer options' text
-	for (const option of answerOptions) {
-		validateNonEmptyString(option.text, "question/answer-option-text-");
+	// Check error
+	if (!success) {
+		throw new AppError({ message: "Validation failed.", details: getZodErrorMessages(error) });
 	}
 
-	// Number of correct answers
-	const correctAnswers = answerOptions.filter((option) => option.isCorrect);
-	if (correctAnswers.length === 0) throw new Error("question/correct-answer-option-missing");
+	// Return data
+	return data;
 }

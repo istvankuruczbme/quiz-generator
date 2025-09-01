@@ -1,24 +1,12 @@
-import { ChangeEvent, createContext, Dispatch, SetStateAction } from "react";
-import {
-	AnswerOptionEditableProperty,
-	AnswerOptionPrivate,
-} from "../../../answerOption/types/answerOptionTypes";
+import { ChangeEvent, createContext } from "react";
+import { AnswerOptionEditableProperty } from "../../../answerOption/types/answerOptionTypes";
 import { QuestionPrivate } from "../../types/questionTypes";
+import { EDIT_QUESTION_FORM_DATA, EditQuestionFormData } from "../../constants/formData";
 
 type EditQuestionContextType = {
 	question?: QuestionPrivate;
-	text: string;
-	setText: Dispatch<SetStateAction<string>>;
-	photoUrl: string;
-	setPhotoUrl: Dispatch<SetStateAction<string>>;
-	correct: number;
-	setCorrect: Dispatch<SetStateAction<number>>;
-	wrong: number;
-	setWrong: Dispatch<SetStateAction<number>>;
-	empty: number;
-	setEmpty: Dispatch<SetStateAction<number>>;
-	answerOptions: AnswerOptionPrivate[];
-	setAnswerOptions: Dispatch<SetStateAction<AnswerOptionPrivate[]>>;
+	data: EditQuestionFormData;
+	updateData: (data: Partial<EditQuestionFormData>) => void;
 	addAnswerOption: () => void;
 	updateAnswerOption: (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -29,18 +17,8 @@ type EditQuestionContextType = {
 };
 
 const EditQuestionContext = createContext<EditQuestionContextType>({
-	text: "",
-	setText: () => {},
-	photoUrl: "",
-	setPhotoUrl: () => {},
-	correct: 1,
-	setCorrect: () => {},
-	wrong: 0,
-	setWrong: () => {},
-	empty: 0,
-	setEmpty: () => {},
-	answerOptions: [],
-	setAnswerOptions: () => {},
+	data: EDIT_QUESTION_FORM_DATA,
+	updateData: () => null,
 	addAnswerOption: () => {},
 	updateAnswerOption: () => {},
 	removeAnswerOption: () => {},

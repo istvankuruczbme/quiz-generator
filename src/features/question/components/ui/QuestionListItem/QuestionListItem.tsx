@@ -59,7 +59,7 @@ const QuestionListItem: QuestionListItemComponent = ({ className }) => {
 			</header>
 
 			<div className="questionListItem__body">
-				{question.photoUrl != null && (
+				{question.photoUrl && (
 					<img
 						src={question.photoUrl}
 						alt={question.text}

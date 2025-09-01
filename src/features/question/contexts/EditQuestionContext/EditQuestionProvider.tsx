@@ -1,11 +1,10 @@
-import { ChangeEvent, FC, ReactNode, useState } from "react";
+import { ChangeEvent, FC, ReactNode, useEffect } from "react";
 import EditQuestionContext from "./EditQuestionContext";
-import {
-	AnswerOptionEditableProperty,
-	AnswerOptionPrivate,
-} from "../../../answerOption/types/answerOptionTypes";
+import { AnswerOptionEditableProperty } from "../../../answerOption/types/answerOptionTypes";
 import { QuestionPrivate } from "../../types/questionTypes";
 import getDefaultAnswerOption from "../../../answerOption/utils/getDefaultAnswerOption";
+import useFormData from "../../../../hooks/form/useFormData";
+import { EDIT_QUESTION_FORM_DATA } from "../../constants/formData";
 
 type EditQuestionProviderProps = {
 	question?: QuestionPrivate;
@@ -14,27 +13,38 @@ type EditQuestionProviderProps = {
 
 const EditQuestionProvider: FC<EditQuestionProviderProps> = ({ question, children }) => {
 	// #region States
-	const [text, setText] = useState(question?.text || "");
-	const [photoUrl, setPhotoUrl] = useState(question?.photoUrl || "");
-	const [correct, setCorrect] = useState(question?.points.correct || 1);
-	const [wrong, setWrong] = useState(question?.points.wrong || 0);
-	const [empty, setEmpty] = useState(question?.points.empty || 0);
-	const [answerOptions, setAnswerOptions] = useState<AnswerOptionPrivate[]>(
-		structuredClone(question?.answerOptions) || []
-	);
+	const [data, updateData] = useFormData(EDIT_QUESTION_FORM_DATA);
 	// #endregion
 
+	useEffect(() => {
+		// No question
+		if (!question) {
+			updateData(EDIT_QUESTION_FORM_DATA);
+			return;
+		}
+
+		// Update form data with question data
+		updateData({
+			text: question.text,
+			photoUrl: question.photoUrl,
+			correct: question.points.correct.toString(),
+			wrong: question.points.wrong.toString(),
+			empty: question.points.empty.toString(),
+			answerOptions: question.answerOptions,
+		});
+	}, [question, updateData]);
+
 	// #region Functions
-	function addAnswerOption(): void {
-		setAnswerOptions((options) => [...options, getDefaultAnswerOption()]);
+	function addAnswerOption() {
+		updateData({ answerOptions: [...data.answerOptions, getDefaultAnswerOption()] });
 	}
 
 	function updateAnswerOption(
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 		id: string,
 		property: AnswerOptionEditableProperty
-	): void {
-		const newAnswerOptions = answerOptions.map((option) => {
+	) {
+		const newAnswerOptions = data.answerOptions.map((option) => {
 			// Check same option
 			if (option.id === id) {
 				switch (property) {
@@ -54,12 +64,13 @@ const EditQuestionProvider: FC<EditQuestionProviderProps> = ({ question, childre
 			// Return option
 			return option;
 		});
-		setAnswerOptions(newAnswerOptions);
+
+		updateData({ answerOptions: newAnswerOptions });
 	}
 
 	function removeAnswerOption(id: string): void {
-		const newAnswerOptions = answerOptions.filter((option) => option.id !== id);
-		setAnswerOptions(newAnswerOptions);
+		const newAnswerOptions = data.answerOptions.filter((option) => option.id !== id);
+		updateData({ answerOptions: newAnswerOptions });
 	}
 	//#endregion
 
@@ -67,18 +78,8 @@ const EditQuestionProvider: FC<EditQuestionProviderProps> = ({ question, childre
 		<EditQuestionContext.Provider
 			value={{
 				question,
-				text,
-				setText,
-				photoUrl,
-				setPhotoUrl,
-				correct,
-				setCorrect,
-				wrong,
-				setWrong,
-				empty,
-				setEmpty,
-				answerOptions,
-				setAnswerOptions,
+				data,
+				updateData,
 				addAnswerOption,
 				updateAnswerOption,
 				removeAnswerOption,

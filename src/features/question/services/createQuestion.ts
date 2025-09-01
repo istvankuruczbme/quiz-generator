@@ -1,29 +1,34 @@
 import { axios } from "../../../config/axios";
-import { AnswerOptionPrivate } from "../../answerOption/types/answerOptionTypes";
 import getAuthToken from "../../auth/services/getAuthToken";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
-import { QuestionPoints } from "../types/questionTypes";
+import { NewQuestionData, QuestionPrivate } from "../types/questionTypes";
 
 export default async function createQuestion(
-	text: string,
-	photo: File | undefined,
-	order: number,
-	points: QuestionPoints,
-	answerOptions: AnswerOptionPrivate[],
-	quizId: string
-): Promise<void> {
+	quizId: string,
+	data: NewQuestionData
+): Promise<QuestionPrivate> {
 	// Get session token
 	const token = await getAuthToken();
 
-	// Create form data
-	const questionData = new FormData();
-	questionData.append("data", JSON.stringify({ text, order, points, answerOptions }));
-	if (photo != undefined) questionData.append("file", photo);
+	// Get photo
+	const { photo, ...restData } = data;
 
-	// Create quiz
-	await axios.post(`/quizzes/${quizId}/questions/`, questionData, {
-		headers: {
-			Authorization: createBearerAuthHeader(token),
-		},
-	});
+	// Create form data
+	const questionFormData = new FormData();
+	if (photo) questionFormData.append("file", photo);
+	questionFormData.append("data", JSON.stringify(restData));
+
+	// Send request
+	const { data: question } = await axios.post<QuestionPrivate>(
+		`/quizzes/${quizId}/questions/`,
+		questionFormData,
+		{
+			headers: {
+				Authorization: createBearerAuthHeader(token),
+			},
+		}
+	);
+
+	// Return question
+	return question;
 }

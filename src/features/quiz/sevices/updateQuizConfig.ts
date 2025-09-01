@@ -1,28 +1,22 @@
 import { axios } from "../../../config/axios";
 import getAuthToken from "../../auth/services/getAuthToken";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
-import { QuestionOrder } from "../assets/questionOrder";
-import { QuizVisibility } from "../assets/quizVisibility";
+import { QuizPrivate, EditQuizConfigData } from "../types/quizTypes";
 
 export default async function updateQuizConfig(
 	quizId: string,
-	visibility: QuizVisibility,
-	questionOrder: QuestionOrder
-): Promise<void> {
+	data: EditQuizConfigData
+): Promise<QuizPrivate> {
 	// Get auth token
 	const token = await getAuthToken();
 
-	// Update quiz config
-	await axios.put(
-		`/quizzes/${quizId}/config`,
-		{
-			visibility,
-			questionOrder,
+	// Send request
+	const { data: quiz } = await axios.put<QuizPrivate>(`/quizzes/${quizId}/config`, data, {
+		headers: {
+			Authorization: createBearerAuthHeader(token),
 		},
-		{
-			headers: {
-				Authorization: createBearerAuthHeader(token),
-			},
-		}
-	);
+	});
+
+	// Return quiz
+	return quiz;
 }

@@ -1,18 +1,18 @@
 import getUserSubscription from "../services/getUserSubscription";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../auth/contexts/AuthContext/useAuth";
 import useError from "../../error/hooks/useError";
+import useUser from "../../../contexts/UserContext/useUser";
 
 const useUserSubscription = () => {
 	// #region Hooks
-	const { session } = useAuth();
+	const { user } = useUser();
 	const { setError } = useError();
 	// #endregion
 
 	// #region Query
 	const { data, isLoading, error } = useQuery({
-		enabled: session != null,
-		queryKey: ["users", session?.user.id, "subscription"],
+		enabled: user != null && user.hasSubscription,
+		queryKey: ["users", user?.id, "subscription"],
 		queryFn: getUserSubscription,
 	});
 	// #endregion

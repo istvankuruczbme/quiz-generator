@@ -5,21 +5,23 @@ import getUser from "../services/getUser";
 
 function useGetUser() {
 	//#region Hooks
-	const { session } = useAuth();
+	const { session, loading: loadingSession } = useAuth();
 	const { setError } = useError();
 	//#endregion
 
-	// Fetch user
+	// #region Query
 	const { data, isLoading, error } = useQuery({
 		enabled: session != null,
 		queryKey: ["users", session?.user.id],
 		queryFn: getUser,
 	});
+	// #endregion
 
-	// Check error
+	// #region Error handling
 	if (error) setError(error);
+	// #endregion
 
-	return { user: data ?? null, loading: isLoading };
+	return { user: data ?? null, loading: loadingSession || isLoading };
 }
 
 export default useGetUser;

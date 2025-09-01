@@ -1,30 +1,37 @@
 import { axios } from "../../../config/axios";
-import { AnswerOptionPrivate } from "../../answerOption/types/answerOptionTypes";
 import getAuthToken from "../../auth/services/getAuthToken";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
-import { QuestionPoints } from "../types/questionTypes";
+import { EditQuestionData, QuestionPrivate } from "../types/questionTypes";
 
 export default async function updateQuestion(
-	questionId: string,
-	text: string,
-	photo: File | undefined,
-	order: number,
-	points: QuestionPoints,
-	answerOptions: AnswerOptionPrivate[],
-	quizId: string
-): Promise<void> {
+	ids: { questionId: string; quizId: string },
+	data: EditQuestionData
+): Promise<QuestionPrivate> {
 	// Get session token
 	const token = await getAuthToken();
 
-	// Create form data
-	const questionData = new FormData();
-	questionData.append("data", JSON.stringify({ text, order, points, answerOptions }));
-	if (photo != undefined) questionData.append("file", photo);
+	// Get IDs
+	const { quizId, questionId } = ids;
 
-	// Create quiz
-	await axios.put(`/quizzes/${quizId}/questions/${questionId}`, questionData, {
-		headers: {
-			Authorization: createBearerAuthHeader(token),
-		},
-	});
+	// Get photo
+	const { photo, ...restData } = data;
+
+	// Create form data
+	const questionFormData = new FormData();
+	if (photo) questionFormData.append("file", photo);
+	questionFormData.append("data", JSON.stringify(restData));
+
+	// Send request
+	const { data: question } = await axios.put<QuestionPrivate>(
+		`/quizzes/${quizId}/questions/${questionId}`,
+		questionFormData,
+		{
+			headers: {
+				Authorization: createBearerAuthHeader(token),
+			},
+		}
+	);
+
+	// Return question
+	return question;
 }

@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useState } from "react";
+import { FC, HTMLAttributes } from "react";
 // Components
 import ModalProvider from "../../../../ui/modal/contexts/ModalContext/ModalProvider";
 import Overlay from "../../../../../components/layout/Overlay/Overlay";
@@ -7,24 +7,20 @@ import Text from "../../../../../components/ui/Text/Text";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 // Hooks
 import useQuizPrivate from "../../../../quiz/contexts/QuizPrivateContext/useQuizPrivate";
-import useDeleteQuestion from "../../../contexts/DeleteQuestionContext/useDeleteQuestion";
+import useDeleteQuestionModal from "../../../contexts/DeleteQuestionModalContext/useDeleteQuestionModal";
+import useDeleteQuestion from "../../../hooks/useDeleteQuestion";
 import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
-// Functions
-import deleteQuestion from "../../../services/deleteQuestion";
 // CSS
 import "./DeleteQuestionModal.css";
 
 type DeleteQuestionModalProps = HTMLAttributes<HTMLDivElement>;
 
 const DeleteQuestionModal: FC<DeleteQuestionModalProps> = () => {
-	// #region States
-	const [loading, setLoading] = useState(false);
-	// #endregion
-
 	// #region Hooks
-	const { quiz, updateQuizState } = useQuizPrivate();
-	const { question, showModal: show, setShowModal: setShow } = useDeleteQuestion();
+	const { quiz } = useQuizPrivate();
+	const { question, showModal: show, setShowModal: setShow } = useDeleteQuestionModal();
+	const { mutateAsync, loading } = useDeleteQuestion();
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
 	// #endregion
@@ -32,19 +28,14 @@ const DeleteQuestionModal: FC<DeleteQuestionModalProps> = () => {
 	//#region Functions
 	async function handleDeleteQuestion() {
 		// Check quiz and question
-		if (quiz == null || question == null) return;
-
-		setLoading(true);
+		if (!quiz || !question) return;
 
 		try {
 			// Delete question
-			await deleteQuestion(quiz.id, question.id);
+			await mutateAsync({ quizId: quiz.id, questionId: question.id });
 
 			// Close modal
 			setShow(false);
-
-			// Update quiz state
-			await updateQuizState();
 
 			// Show feedback
 			setFeedback({
@@ -52,10 +43,7 @@ const DeleteQuestionModal: FC<DeleteQuestionModalProps> = () => {
 				message: "Question deleted.",
 			});
 		} catch (err) {
-			// console.log("Error deleting the question.", err);
 			setError(err);
-		} finally {
-			setLoading(false);
 		}
 	}
 	//#endregion

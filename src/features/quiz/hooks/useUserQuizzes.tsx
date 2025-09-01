@@ -1,42 +1,27 @@
-import { useEffect, useState } from "react";
-import { QuizSummary } from "../types/quizTypes";
-import useUser from "../../../contexts/UserContext/useUser";
 import getUserQuizzes from "../sevices/getUserQuizzes";
+import useAuth from "../../auth/contexts/AuthContext/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useError from "../../error/hooks/useError";
 
 const useUserQuizzes = () => {
-	// #region States
-	const [quizzes, setQuizzes] = useState<QuizSummary[]>([]);
-	const [loading, setLoading] = useState(true);
-	//#endregion
-
 	//#region Hooks
-	const { user } = useUser();
+	const { session } = useAuth();
+	const { setError } = useError();
 	//#endregion
 
-	useEffect(() => {
-		if (user == null) {
-			setQuizzes([]);
-			return;
-		}
+	// #region Query
+	const { data, isLoading, error } = useQuery({
+		enabled: session != null,
+		queryKey: ["users", session?.user.id, "quizzes"],
+		queryFn: getUserQuizzes,
+	});
+	//#endregion
 
-		(async function fetchQuizzes() {
-			setLoading(true);
+	// #region Error handling
+	if (error) setError(error);
+	// #endregion
 
-			try {
-				// Get user quizzes
-				const quizzes = await getUserQuizzes();
-
-				// Update quizzes states
-				setQuizzes(quizzes);
-			} catch (err) {
-				console.log("Error fething the quizzes of the user.", err);
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [user]);
-
-	return { quizzes, loading };
+	return { quizzes: data ?? [], loading: isLoading };
 };
 
 export default useUserQuizzes;

@@ -19,13 +19,14 @@ type QuizProps = HTMLAttributes<HTMLDivElement>;
 
 const Quiz: FC<QuizProps> = () => {
 	// #region Hooks
-	const { user } = useUser();
-	const { quizSummary, loading } = useQuizSummary();
+	const { user, loading: loadingUser } = useUser();
+	const { quizSummary, loading: loadingQuiz } = useQuizSummary();
 	//#endregion
 
 	// #region Variables
 	const isUserQuiz = quizSummary == null || user == null ? false : quizSummary.user.id === user.id;
 	const isQuizWritable = checkQuizWriteAccess(quizSummary, user);
+	const loading = loadingUser || loadingQuiz;
 	//#endregion
 
 	return (
@@ -45,7 +46,7 @@ const Quiz: FC<QuizProps> = () => {
 
 			<QuizSection>
 				{loading && <QuizSummaryLoading />}
-				{quizSummary != null && <QuizSummary quiz={quizSummary} />}
+				{quizSummary && <QuizSummary quiz={quizSummary} />}
 			</QuizSection>
 
 			<QuizSection className="quiz__button">

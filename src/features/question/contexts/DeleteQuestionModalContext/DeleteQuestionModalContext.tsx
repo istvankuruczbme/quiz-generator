@@ -1,18 +1,18 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { QuestionPrivate } from "../../types/questionTypes";
 
-type DeleteQuestionContextType = {
+type DeleteQuestionModalContextType = {
 	question: QuestionPrivate | null;
 	setQuestion: Dispatch<SetStateAction<QuestionPrivate | null>>;
 	showModal: boolean;
 	setShowModal: Dispatch<SetStateAction<boolean>>;
 };
 
-const DeleteQuestionContext = createContext<DeleteQuestionContextType>({
+const DeleteQuestionModalContext = createContext<DeleteQuestionModalContextType>({
 	question: null,
 	setQuestion: () => {},
 	showModal: false,
 	setShowModal: () => {},
 });
 
-export default DeleteQuestionContext;
+export default DeleteQuestionModalContext;

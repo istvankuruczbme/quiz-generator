@@ -42,8 +42,9 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 							<Skeleton type="rect" width="100%" height="20rem" />
 						</FlexContainer>
 					)}
+
 					{/* List of questions */}
-					{quiz != null && <EditQuizQuestionsList questions={quiz.questions} />}
+					{quiz && <EditQuizQuestionsList questions={quiz.questions} />}
 
 					{/* Show new question form button */}
 					{!showNewQuestionForm && (

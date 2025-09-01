@@ -2,25 +2,25 @@ import { axios } from "../../../config/axios";
 import getAuthToken from "../../auth/services/getAuthToken";
 import addIconToCategory from "../../category/utils/addIconToCategory";
 import createBearerAuthHeader from "../../user/utils/createBearerAuthHeader";
-import { QuizFullPrivate } from "../types/quizTypes";
+import { QuizPrivate } from "../types/quizTypes";
 
-export default async function getQuiz(quizId: string): Promise<QuizFullPrivate> {
+export default async function getQuizPrivate(id: string): Promise<QuizPrivate> {
 	// Get session token
 	const token = await getAuthToken();
 
 	// Get quiz full
-	const { data } = await axios.get<QuizFullPrivate>(`/quizzes/${quizId}`, {
+	const { data: quiz } = await axios.get<QuizPrivate>(`/quizzes/${id}`, {
 		headers: {
 			Authorization: createBearerAuthHeader(token),
 		},
 	});
 
 	// Add category icon to quiz category
-	const category = addIconToCategory(data.category);
+	const category = addIconToCategory(quiz.category);
 
-	// Return quiz full
+	// Return quiz
 	return {
-		...data,
+		...quiz,
 		category,
 	};
 }

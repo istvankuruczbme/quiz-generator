@@ -1,4 +1,4 @@
-import { FC, FormEvent, HTMLAttributes, useRef, useState } from "react";
+import { FC, FormEvent, HTMLAttributes } from "react";
 // Components
 import QuestionPoints from "../QuestionPoints/QuestionPoints";
 import FormInputsContainer from "../../../../../components/form/FormInputsContainer/FormInputsContainer";
@@ -18,122 +18,85 @@ import useEditQuestion from "../../../contexts/EditQuestionContext/useEditQuesti
 import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
-import validateQuestionPointsData from "../../../utils/validation/validateQuestionPointsData";
+import transformQuestionData from "../../../utils/transformQuestionData";
 import validateQuestionData from "../../../utils/validation/validateQuestionData";
-import createQuestion from "../../../services/createQuestion";
-import updateQuestion from "../../../services/updateQuestion";
 // CSS
 import "./EditQuestion.css";
+import useCreateQuestion from "../../../hooks/useCreateQuestion";
+import useUpdateQuestion from "../../../hooks/useUpdateQuestion";
 
 type EditQuestionProps = HTMLAttributes<HTMLDivElement> & {
 	hideForm: () => void;
 };
 
 const EditQuestion: FC<EditQuestionProps> = ({ hideForm }) => {
-	// #region States
-	const [loading, setLoading] = useState(false);
-	// #endregion
-
-	// #region Refs
-	const photoRef = useRef<HTMLInputElement>(null);
-	//#endregion
-
 	//#region Hooks
-	const { quiz, updateQuizState } = useQuizPrivate();
-	const {
-		question,
-		text,
-		setText,
-		photoUrl,
-		setPhotoUrl,
-		correct,
-		setCorrect,
-		wrong,
-		setWrong,
-		empty,
-		setEmpty,
-		answerOptions,
-		setAnswerOptions,
-	} = useEditQuestion();
+	const { quiz } = useQuizPrivate();
+	const { question, data, updateData } = useEditQuestion();
+	const { mutateAsync: createQuestion, loading: loadingCreateQuestion } = useCreateQuestion();
+	const { mutateAsync: updateQuestion, loading: loadingUpdateQuestion } = useUpdateQuestion();
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
 	//#endregion
 
+	// #region Constants
+	const loading = loadingCreateQuestion || loadingUpdateQuestion;
+	//#endregion
+
 	//#region Functions
-	async function handleEditQuestionSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleEditQuestionSubmit(e: FormEvent) {
 		e.preventDefault();
 
 		// Check quiz
-		if (quiz == null) return;
+		if (!quiz) return;
 
-		setLoading(true);
-
-		// Input values
-		const photo = photoRef.current?.files?.[0];
+		// Transform data
+		const transformedData = transformQuestionData(data);
 
 		try {
 			// Validation
-			validateQuestionData(text, answerOptions);
-			validateQuestionPointsData(correct, wrong, empty);
-		} catch (err) {
-			setError(err);
-			setLoading(false);
-			return;
-		}
+			const questionData = validateQuestionData(transformedData);
 
-		try {
-			if (question == undefined) {
+			// No question
+			if (!question) {
 				// Create question
-				await createQuestion(
-					text as string,
-					photo,
-					quiz.questions.length + 1,
-					{ correct, wrong, empty },
-					answerOptions,
-					quiz.id
-				);
+				await createQuestion({
+					quizId: quiz.id,
+					data: { ...questionData, order: quiz.questions.length + 1 },
+				});
 			} else {
 				// Update question
-				await updateQuestion(
-					question.id,
-					text as string,
-					photo,
-					question.order,
-					{ correct, wrong, empty },
-					answerOptions,
-					quiz.id
-				);
+				await updateQuestion({
+					ids: { quizId: quiz.id, questionId: question.id },
+					data: questionData,
+				});
 			}
-
-			// Update quiz questions
-			await updateQuizState();
 
 			// Show feedback
 			setFeedback({
 				type: "success",
-				message: `Question ${question == undefined ? "added" : "updated"}.`,
+				message: `Question ${question ? "updated" : "added"}.`,
 			});
 
 			// Hide form
 			hideForm();
 		} catch (err) {
-			// console.log("Error adding the question to DB.", err);
 			setError(err);
-		} finally {
-			setLoading(false);
 		}
 	}
 
 	function handleClose() {
 		// Check if there is an edited question
-		if (question != undefined) {
+		if (question) {
 			// Reset inputs
-			setText(question.text);
-			setPhotoUrl(question.photoUrl || "");
-			setCorrect(question.points.correct);
-			setWrong(question.points.wrong);
-			setEmpty(question.points.empty);
-			setAnswerOptions(question.answerOptions);
+			updateData({
+				text: question.text,
+				photoUrl: question.photoUrl,
+				correct: question.points.correct.toString(),
+				wrong: question.points.wrong.toString(),
+				empty: question.points.empty.toString(),
+				answerOptions: question.answerOptions,
+			});
 		}
 
 		// Hide form
@@ -160,12 +123,18 @@ const EditQuestion: FC<EditQuestionProps> = ({ hideForm }) => {
 						id="editQuestionText"
 						placeholder="Question"
 						required
-						value={text}
-						onChange={(e) => setText(e.target.value)}
+						value={data.text}
+						onChange={(e) => updateData({ text: e.target.value })}
 					/>
 
 					<Text mb="-1rem">Photo</Text>
-					<FileUpload uploadType="photo" defaultPhotoUrl={photoUrl} ref={photoRef} />
+					<FileUpload
+						uploadType="photo"
+						defaultPhotoUrl={data.photoUrl ?? undefined}
+						onFileChange={(photo, photoUrl) =>
+							updateData({ photo, photoUrl: photoUrl ?? null })
+						}
+					/>
 
 					<QuestionPoints />
 

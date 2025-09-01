@@ -23,18 +23,17 @@ import Text from "../../../../../components/ui/Text/Text";
 import IconTextSection from "../../../../../components/layout/IconTextSection/IconTextSection";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import DeleteQuestionModal from "../../../../question/components/layout/DeleteQuestionModal/DeleteQuestionModal";
-import DeleteQuestionProvider from "../../../../question/contexts/DeleteQuestionContext/DeleteQuestionProvider";
+import DeleteQuestionModalProvider from "../../../../question/contexts/DeleteQuestionModalContext/DeleteQuestionModalProvider";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
-import { useParams } from "react-router-dom";
 import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // Functions
 import getElementIndexById from "../../../../../utils/array/getElementIndexById";
-import updateQuizQuestionsOrder from "../../../../question/services/updateQuizQuestionsOrder";
 // CSS
 import "./EditQuizQuestionsList.css";
+import useUpdateQuestionsOrder from "../../../../question/hooks/useUpdateQuestionsOrder";
 
 type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 	questions: QuestionPrivate[];
@@ -42,14 +41,14 @@ type EditQuizQuestionsListProps = HTMLAttributes<HTMLDivElement> & {
 
 const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) => {
 	// #region Hooks
-	const { updateQuestionsOrder, updateQuizState } = useQuizPrivate();
+	const { quiz } = useQuizPrivate();
 	const { loadingGeneration } = useEditQuiz();
-	const { quizId } = useParams();
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(TouchSensor),
 		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
 	);
+	const { mutateAsync } = useUpdateQuestionsOrder();
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
 	//#endregion
@@ -60,7 +59,7 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 		const { active, over } = e;
 
 		// Check over element
-		if (over == null) return;
+		if (!over) return;
 
 		// Check if they are the same
 		if (active.id === over.id) return;
@@ -75,18 +74,12 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 		// Create question order data
 		const newQuestionOrder = newQuestions.map((question) => question.id);
 
-		// Update question order locally
-		updateQuestionsOrder(newQuestionOrder);
-
-		// Validate quiz ID
-		if (quizId == undefined) return;
+		// Check quiz
+		if (!quiz) return;
 
 		try {
 			// Update question order in DB
-			await updateQuizQuestionsOrder(quizId, newQuestionOrder);
-
-			// Update state
-			await updateQuizState();
+			await mutateAsync({ quizId: quiz.id, data: { questionIds: newQuestionOrder } });
 
 			// Show feedback
 			setFeedback({
@@ -94,14 +87,13 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 				message: "Question order updated.",
 			});
 		} catch (err) {
-			// console.log("Error updating the order of questions.", err);
 			setError(err);
 		}
 	}
 	//#endregion
 
 	return (
-		<DeleteQuestionProvider>
+		<DeleteQuestionModalProvider>
 			<DeleteQuestionModal />
 
 			<FlexContainer direction="column" gap="2rem" mb="2rem">
@@ -121,7 +113,7 @@ const EditQuizQuestionsList: FC<EditQuizQuestionsListProps> = ({ questions }) =>
 					</SortableContext>
 				</DndContext>
 			</FlexContainer>
-		</DeleteQuestionProvider>
+		</DeleteQuestionModalProvider>
 	);
 };
 

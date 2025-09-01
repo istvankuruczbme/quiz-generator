@@ -16,7 +16,6 @@ const QuizCreativityRange = forwardRef<HTMLInputElement, QuizCreativityRangeProp
 					<input
 						type="range"
 						id="editQuizQuestionsCreativity"
-						defaultValue={50}
 						min={0}
 						max={100}
 						required

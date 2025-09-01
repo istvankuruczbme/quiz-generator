@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import useQuestion from "../../../../contexts/QuestionContext/useQuestion";
-import useDeleteQuestion from "../../../../contexts/DeleteQuestionContext/useDeleteQuestion";
+import useDeleteQuestion from "../../../../contexts/DeleteQuestionModalContext/useDeleteQuestionModal";
 // CSS
 import "./QuestionListItemDropdown.css";
 
