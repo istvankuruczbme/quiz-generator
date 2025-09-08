@@ -1,0 +1,20 @@
+.completionQuestion {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.completionQuestion__question {
+	display: flex;
+	gap: 0.5rem;
+	font-size: var(--fs-600);
+	font-weight: 700;
+}
+
+.completionQuestion__photo {
+	max-width: 100%;
+	max-height: 25rem;
+	display: block;
+	border-radius: var(--br-400);
+	margin-inline: auto;
+}

@@ -1,0 +1,35 @@
+.completionHeader {
+	display: flex;
+	gap: 3rem;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.completionHeader__points {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.completionHeader__points__container {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.completionHeader__points__item {
+	color: var(--color);
+}
+.completionHeader__points__item--correct {
+	--color: var(--success-color-400);
+}
+.completionHeader__points__item--wrong {
+	--color: var(--danger-color-400);
+}
+.completionHeader__points__item--empty {
+	--color: var(--neutral-color-400);
+}
+
+.completionHeader__questions {
+	display: flex;
+	gap: 0.125rem;
+}

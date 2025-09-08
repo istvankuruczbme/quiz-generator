@@ -1,0 +1,15 @@
+.completionQuestionSkeleton {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.completionQuestionSkeleton__text {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.completionQuestionSkeleton__photo {
+	margin-inline: auto;
+}

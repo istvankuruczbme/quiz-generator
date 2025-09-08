@@ -1,0 +1,67 @@
+.answerOptionCheckbox {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	color: var(--color);
+	background-color: var(--bg-color);
+	border: 1px solid var(--border-color);
+	border-radius: var(--br-400);
+	padding: 1.25rem;
+	position: relative;
+	transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease;
+	cursor: pointer;
+}
+.answerOptionCheckbox--default {
+	--color: var(--neutral-color-700);
+	--bg-color: var(--secondary-color);
+	--border-color: var(--neutral-color-400);
+	--checkbox-color: var(--secondary-color);
+}
+.answerOptionCheckbox--selected {
+	--color: var(--neutral-color-900);
+	--bg-color: var(--secondary-color);
+	--border-color: var(--accent-color-400);
+	--checkbox-color: var(--accent-color-400);
+}
+.answerOptionCheckbox--correct {
+	--color: var(--neutral-color-900);
+	--bg-color: var(--success-color-100);
+	--border-color: var(--success-color-400);
+	--checkbox-color: var(--success-color-400);
+}
+.answerOptionCheckbox--wrong {
+	--color: var(--neutral-color-900);
+	--bg-color: var(--danger-color-100);
+	--border-color: var(--danger-color-400);
+	--checkbox-color: var(--danger-color-400);
+}
+.answerOptionCheckbox--empty {
+	--color: var(--neutral-color-900);
+	--bg-color: var(--danger-color-100);
+	--border-color: var(--danger-color-400);
+	--checkbox-color: var(--danger-color-400);
+}
+
+.answerOptionCheckbox__input {
+	position: absolute;
+	top: 50%;
+	left: 1.5rem;
+	translate: 0 -50%;
+	isolation: isolate;
+	z-index: -1;
+}
+
+.answerOptionCheckbox__marker {
+	width: 1.5rem;
+	height: 1.5rem;
+	display: grid;
+	place-items: center;
+	background-color: var(--checkbox-color);
+	border: 1px solid var(--border-color);
+	border-radius: var(--br-pill);
+	transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.answerOptionCheckbox__marker__icon {
+	color: var(--secondary-color);
+}

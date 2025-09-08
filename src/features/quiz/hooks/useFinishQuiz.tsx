@@ -19,7 +19,6 @@ const useFinishQuiz = () => {
 			queryClient.setQueryData(["users", user?.id, "quizzes", quiz.id], quiz);
 
 			// Update user quizzes
-			// Update user quizzes
 			queryClient.setQueryData(["users", quiz.user.id, "quizzes"], (quizzes?: QuizSummary[]) => {
 				if (!quizzes) return;
 				return quizzes.map((q) => {

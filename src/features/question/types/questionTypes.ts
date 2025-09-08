@@ -13,7 +13,7 @@ export type QuestionPoints = Readonly<{
 }>;
 // #endregion
 
-// #region Question public
+// #region Question (public)
 export type QuestionPublic = Readonly<{
 	id: string;
 	photoUrl: string | null;
@@ -24,7 +24,7 @@ export type QuestionPublic = Readonly<{
 }>;
 // #endregion
 
-// #region Question private
+// #region Question (private)
 export type QuestionPrivate = Readonly<{
 	id: string;
 	photoUrl: string | null;

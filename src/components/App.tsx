@@ -22,6 +22,7 @@ import Unauthorized from "../features/ui/error/pages/Unauthorized/Unauthorized";
 import QuizNotFound from "../features/ui/error/pages/QuizNotFound/QuizNotFound";
 // CSS
 import "./App.css";
+import Completion from "../features/completion/pages/Completion/Completion";
 
 function App() {
 	return (
@@ -34,6 +35,12 @@ function App() {
 						<Route path="/quizzes/:quizId/edit" element={<EditQuiz />} />
 						<Route path="/new-quiz" element={<NewQuiz />} />
 						<Route path="/my-quizzes" element={<MyQuizzes />} />
+
+						{/* Completion */}
+						<Route
+							path="/quizzes/:quizId/completions/:completionId"
+							element={<Completion />}
+						/>
 					</Route>
 
 					{/* Profile */}

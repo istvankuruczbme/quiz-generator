@@ -3,6 +3,10 @@ import { QuestionOrder } from "../assets/questionOrder";
 import { QuestionPrivate, QuestionPublic } from "../../question/types/questionTypes";
 import { UserPublic } from "../../user/types/userTypes";
 import { QuizVisibility } from "../assets/quizVisibility";
+import {
+	CompletionQuestionPrivate,
+	CompletionQuestionPublic,
+} from "../../completionQuestion/types/completionQuestionTypes";
 
 // #region Quiz config
 export type QuizConfig = Readonly<{
@@ -55,3 +59,15 @@ export type QuizPrivate = QuizData & {
 	completionCount: number;
 };
 // #endregion
+
+//#region Completion question (public)
+export type CompletionQuizPublic = QuizData & {
+	questions: CompletionQuestionPublic[];
+};
+//#endregion
+
+//#region Completion question (private)
+export type CompletionQuizPrivate = QuizData & {
+	questions: CompletionQuestionPrivate[];
+};
+//#endregion
