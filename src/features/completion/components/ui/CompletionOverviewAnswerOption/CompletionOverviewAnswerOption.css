@@ -1,0 +1,43 @@
+.completionOverviewAnswerOption {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+.completionOverviewAnswerOption--success {
+	--icon-color: var(--success-color-400);
+	--icon-border-color: var(--success-color-400);
+	--text-color: var(--success-color-400);
+}
+.completionOverviewAnswerOption--danger {
+	--icon-color: var(--danger-color-400);
+	--icon-border-color: var(--danger-color-400);
+	--text-color: var(--danger-color-400);
+}
+.completionOverviewAnswerOption--neutral {
+	--icon-color: var(--neutral-color-900);
+	--icon-border-color: var(--neutral-color-900);
+	--text-color: var(--neutral-color-900);
+}
+.completionOverviewAnswerOption--default {
+	--icon-color: transparent;
+	--icon-border-color: var(--neutral-color-300);
+	--text-color: var(--neutral-color-900);
+}
+
+.completionOverviewAnswerOption__marker {
+	width: 1.75rem;
+	height: 1.75rem;
+	display: grid;
+	place-items: center;
+	background-color: var(--icon-color);
+	border: 1px solid var(--icon-border-color);
+	border-radius: var(--br-pill);
+}
+
+.completionOverviewAnswerOption__icon {
+	color: white;
+}
+
+.completionOverviewAnswerOption__text {
+	color: var(--text-color);
+}

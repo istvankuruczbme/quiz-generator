@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Section from "../../../../../components/layout/Section/Section";
 import Button from "../../../../../components/ui/Button/Button";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
@@ -6,6 +7,7 @@ import useCreateCompletionQuestion from "../../../../completionQuestion/hooks/us
 import validateNewCompletionQuestionData from "../../../../completionQuestion/utils/validation/validateNewCompletionQuestionData";
 import useError from "../../../../error/hooks/useError";
 import useCompletionPublic from "../../../contexts/CompletionPublicContext/useCompletionPublic";
+import useFinishCompletion from "../../../hooks/useFinishCompletion";
 import "./CompletionButtons.css";
 
 const CompletionButtons = () => {
@@ -27,10 +29,11 @@ const CompletionButtons = () => {
 		mutateAsync: getCompletionQuestionPrivate,
 		loading: loadingGetCompletionQuestionPrivate,
 	} = useCompletionQuestionPrivate();
+	const { mutateAsync: finishCompletion, loading: loadingFinishCompletion } =
+		useFinishCompletion();
 	const { setError } = useError();
+	const navigate = useNavigate();
 	// #endregion
-
-	console.log("Selected answer options:", selectedAnswerOptions);
 
 	// #region Contants
 	const lastQuestion = questionNumber === completion?.quiz.questions.length;
@@ -110,6 +113,52 @@ const CompletionButtons = () => {
 			setError(err);
 		}
 	}
+
+	async function handleFinishClick() {
+		// Check completion and question
+		if (!completion || !question) return;
+
+		// Question is already checked
+		if (completionQuestion) {
+			// Remove completion question
+			setCompletionQuestion(null);
+
+			// Reset selected answer options
+			resetAnswerOptions();
+
+			// Finish completion
+			await finishCompletion({ quizId: completion.quiz.id, completionId: completion.id });
+
+			// Navigate
+			navigate(`/quizzes/${completion.quiz.id}/completions/${completion.id}/overview`);
+
+			return;
+		}
+
+		try {
+			// Validation
+			const completionQuestionData = validateNewCompletionQuestionData({
+				selectedAnswerOptions,
+			});
+
+			// Create completion question
+			await createCompletionQuestion({
+				ids: { quizId: completion.quiz.id, completionId: completion.id },
+				data: {
+					selectedAnswerOptions: completionQuestionData.selectedAnswerOptions,
+					questionId: question.id,
+				},
+			});
+
+			// Finish completion
+			await finishCompletion({ quizId: completion.quiz.id, completionId: completion.id });
+
+			// Navigate
+			navigate(`/quizzes/${completion.quiz.id}/completions/${completion.id}/overview`);
+		} catch (err) {
+			setError(err);
+		}
+	}
 	// #endregion
 
 	return (
@@ -117,6 +166,7 @@ const CompletionButtons = () => {
 			<div className="completionButtons">
 				<LoadingButton
 					loading={loadingCreateCompletionQuestion || loadingGetCompletionQuestionPrivate}
+					disabled={completionQuestion != null}
 					full
 					onClick={handleCheckClick}
 				>
@@ -128,7 +178,14 @@ const CompletionButtons = () => {
 					</Button>
 				)}
 				{lastQuestion && (
-					<LoadingButton loading={false} full>
+					<LoadingButton
+						loading={
+							(!completionQuestion && loadingCreateCompletionQuestion) ||
+							loadingFinishCompletion
+						}
+						full
+						onClick={handleFinishClick}
+					>
 						Finish
 					</LoadingButton>
 				)}

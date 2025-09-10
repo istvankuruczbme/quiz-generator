@@ -1,0 +1,29 @@
+.completionOverviewQuiz {
+	display: flex;
+	gap: 3rem;
+}
+
+.completionOverviewQuiz__img {
+	width: 5rem;
+	height: 5rem;
+	border-radius: var(--br-400);
+}
+
+.completionOverviewQuiz__main {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.completionOverviewQuiz__main__top {
+	display: flex;
+	gap: 1.5rem;
+}
+
+.completionOverviewQuiz__title {
+	font-size: var(--fs-600);
+}
+
+.completionOverviewQuiz__main__description {
+	color: var(--neutral-color-700);
+}

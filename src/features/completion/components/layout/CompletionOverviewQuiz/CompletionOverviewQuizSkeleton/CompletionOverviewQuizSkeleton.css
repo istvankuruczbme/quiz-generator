@@ -1,0 +1,16 @@
+.completionOverviewQuizSkeleton {
+	display: flex;
+	gap: 3rem;
+}
+
+.completionOverviewQuizSkeleton__right {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.completionOverviewQuizSkeleton__description {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}

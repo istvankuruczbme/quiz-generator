@@ -47,10 +47,7 @@ const AnswerOptionCheckbox = forwardRef<HTMLInputElement, Props>(
 						<FontAwesomeIcon icon={faXmark} className="answerOptionCheckbox__marker__icon" />
 					)}
 				</span>
-				<span className="answerOptionCheckbox__label">
-					{label}
-					{variant}
-				</span>
+				<span className="answerOptionCheckbox__label">{label}</span>
 			</label>
 		);
 	}

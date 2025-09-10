@@ -39,7 +39,7 @@ const CompletionHeader = () => {
 								{formatSignedValue(question?.points.empty ?? 0)}
 
 								<Tooltip>
-									<Tooltip.Text>Points for unmarked answer</Tooltip.Text>
+									<Tooltip.Text>Points for partially correct answer</Tooltip.Text>
 								</Tooltip>
 							</span>
 						</div>

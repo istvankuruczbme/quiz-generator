@@ -1,0 +1,39 @@
+.completionOverviewMetadata {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 0.1rem solid var(--neutral-color-300);
+	border-bottom: 0.1rem solid var(--neutral-color-300);
+	padding: 2rem;
+}
+
+.completionOverviewMetadata__time {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.completionOverviewMetadata__time__row {
+	display: flex;
+	gap: 0.375rem;
+}
+
+.completionOverviewMetadata__time__row__value {
+	font-weight: 500;
+}
+
+.completionOverviewMetadata__points {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.completionOverviewMetadata__points__value {
+	font-size: var(--fs-900);
+	font-weight: 700;
+}
+
+.completionOverviewMetadata__points__label {
+	text-transform: uppercase;
+}

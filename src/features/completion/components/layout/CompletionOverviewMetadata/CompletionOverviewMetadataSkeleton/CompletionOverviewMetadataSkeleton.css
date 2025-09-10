@@ -1,0 +1,14 @@
+.completionOverviewMetadataSkeleton {
+	display: flex;
+	justify-content: flex-end;
+	border-top: 0.1rem solid var(--neutral-color-300);
+	border-bottom: 0.1rem solid var(--neutral-color-300);
+	padding-block: 2rem;
+}
+
+.completionOverviewMetadataSkeleton__points {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: center;
+}

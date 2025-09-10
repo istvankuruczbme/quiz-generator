@@ -23,6 +23,7 @@ import QuizNotFound from "../features/ui/error/pages/QuizNotFound/QuizNotFound";
 // CSS
 import "./App.css";
 import Completion from "../features/completion/pages/Completion/Completion";
+import CompletionOverview from "../features/completion/pages/CompletionOverview/CompletionOverview";
 
 function App() {
 	return (
@@ -40,6 +41,10 @@ function App() {
 						<Route
 							path="/quizzes/:quizId/completions/:completionId"
 							element={<Completion />}
+						/>
+						<Route
+							path="/quizzes/:quizId/completions/:completionId/overview"
+							element={<CompletionOverview />}
 						/>
 					</Route>
 
