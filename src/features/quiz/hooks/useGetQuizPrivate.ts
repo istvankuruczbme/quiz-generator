@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import useUser from "../../../contexts/UserContext/useUser";
 import getQuizPrivate from "../sevices/getQuizPrivate";
 import useError from "../../error/hooks/useError";
+import { useEffect } from "react";
 
 const useGetQuizPrivate = () => {
 	//#region Hooks
@@ -20,7 +21,9 @@ const useGetQuizPrivate = () => {
 	// #endregion
 
 	// #region Error handling
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	// #endregion
 
 	return { quiz: data ?? null, loading: loadingUser || isLoading };

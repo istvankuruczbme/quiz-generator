@@ -37,3 +37,11 @@ export const EDIT_QUIZ_QUESTION_GENERATION_FORM_DATA = {
 	answerOptionCount: "3",
 };
 export type EditQuizQuestionGenerationFormData = typeof EDIT_QUIZ_QUESTION_GENERATION_FORM_DATA;
+
+// Search quiz
+export const SEARCH_QUIZ_FORM_DATA = {
+	searchText: "",
+	selectedCategories: [] as string[],
+	limit: 5,
+};
+export type SearchQuizFormData = typeof SEARCH_QUIZ_FORM_DATA;

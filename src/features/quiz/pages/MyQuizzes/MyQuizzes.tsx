@@ -14,6 +14,7 @@ import QuizContainer from "../../components/layout/QuizContainer/QuizContainer";
 import Skeleton from "../../../../components/ui/Skeleton/Skeleton";
 import IconTextSection from "../../../../components/layout/IconTextSection/IconTextSection";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
+import Suspense from "../../../../components/layout/Suspense/Suspense";
 
 type MyQuizzesProps = HTMLAttributes<HTMLDivElement>;
 
@@ -21,8 +22,6 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 	//#region Hooks
 	const { quizzes, loading } = useUserQuizzes();
 	//#endregion
-
-	// console.log("Quizzes:", quizzes);
 
 	// #region Variables
 	const draftQuizzes = quizzes.filter((quiz) => quiz.config.state === "DRAFT");
@@ -45,22 +44,24 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			<Section>
 				<Section.Title>Draft quizzes</Section.Title>
 
-				{!loading && draftQuizzes.length === 0 && (
-					<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
-				)}
-
-				<QuizContainer>
-					{loading && (
+				<Suspense
+					loading={loading}
+					fallback={
 						<>
 							<Skeleton type="rect" width="18rem" height="26.5rem" />
 							<Skeleton type="rect" width="18rem" height="26.5rem" />
 						</>
-					)}
-
-					{!loading &&
-						draftQuizzes.length > 0 &&
-						draftQuizzes.map((quiz) => <QuizCard key={quiz.id} quiz={quiz} />)}
-				</QuizContainer>
+					}
+				>
+					<QuizContainer>
+						{draftQuizzes.length === 0 && (
+							<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
+						)}
+						{draftQuizzes.map((quiz) => (
+							<QuizCard key={quiz.id} quiz={quiz} />
+						))}
+					</QuizContainer>
+				</Suspense>
 			</Section>
 
 			{activeQuizzes.length > 0 && (

@@ -44,7 +44,7 @@ const ProfileCategoriesSection: FC<ProfileCategoriesSectionProps> = () => {
 				</Suspense>
 			</CategoriesContainer>
 
-			<ProfileLinkButton to="categories">
+			<ProfileLinkButton to="/profile/categories">
 				{categories.length === 0 ? "Select" : "Change"} categories
 			</ProfileLinkButton>
 		</ProfileSection>

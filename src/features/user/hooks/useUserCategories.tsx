@@ -1,27 +1,30 @@
 import getUserCategories from "../services/getUserCategories";
 import useError from "../../error/hooks/useError";
-import useAuth from "../../auth/contexts/AuthContext/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import useUser from "../../../contexts/UserContext/useUser";
+import { useEffect } from "react";
 
 const useUserCategories = () => {
 	// #region Hooks
-	const { session } = useAuth();
+	const { user, loading: loadingUser } = useUser();
 	const { setError } = useError();
 	//#endregion
 
 	// #region Query
 	const { data, isLoading, error } = useQuery({
-		enabled: session != null,
-		queryKey: ["users", session?.user.id, "categories"],
+		enabled: user != null,
+		queryKey: ["users", user?.id, "categories"],
 		queryFn: getUserCategories,
 	});
 	// #endregion
 
 	// #region Error handling
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	//#endregion
 
-	return { categories: data ?? [], loading: isLoading };
+	return { categories: data ?? [], loading: isLoading || loadingUser };
 };
 
 export default useUserCategories;

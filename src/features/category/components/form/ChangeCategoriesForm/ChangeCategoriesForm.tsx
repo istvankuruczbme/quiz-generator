@@ -11,23 +11,13 @@ import Divider from "../../../../../components/ui/Divider/Divider";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 
 const ChangeCategoriesForm = () => {
-	//#region Hooks
-	const { categories, loading: loadingCategories } = useCategories();
-	const {
-		categories: userCategories,
-		loading: loadingUserCategories,
-		data,
-		updateData,
-	} = useEditUserCategoriesData();
+	// //#region Hooks
+	const { categories } = useCategories();
+	const { categories: userCategories, data, updateData } = useEditUserCategoriesData();
 	const { mutateAsync, loading } = useUpdateUserCategories();
 	const { setError } = useError();
 	const { setFeedback } = useFeedback();
 	//#endregion
-
-	// #region Variables
-	const hasUserCategories = userCategories.length > 0;
-	const loadingData = loadingCategories || loadingUserCategories;
-	// #endregion
 
 	// #region Functions
 	function handleCategoryChange(e: ChangeEvent<HTMLInputElement>, id: string): void {
@@ -59,7 +49,7 @@ const ChangeCategoriesForm = () => {
 	// #endregion
 
 	return (
-		<Suspense loading={loadingData} fallback={<ChangeCategoriesForm />}>
+		<Suspense loading={false} fallback={<ChangeCategoriesForm />}>
 			<form onSubmit={handleSubmitChangeCategoriesClick}>
 				<CategoriesContainer>
 					{categories.map((category) => (
@@ -76,11 +66,9 @@ const ChangeCategoriesForm = () => {
 
 				<Divider my="2rem" />
 
-				{!loadingCategories && (
-					<LoadingButton type="submit" centered loading={loading}>
-						{hasUserCategories ? "Update" : "Select"} Categories
-					</LoadingButton>
-				)}
+				<LoadingButton type="submit" centered loading={loading}>
+					{userCategories.length > 0 ? "Update" : "Select"} Categories
+				</LoadingButton>
 			</form>
 		</Suspense>
 	);

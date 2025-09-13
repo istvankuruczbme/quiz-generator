@@ -13,6 +13,9 @@ const useEditUserCategoriesData = () => {
 	// #endregion
 
 	useEffect(() => {
+		// Check categories
+		if (categories.length === 0) return;
+
 		// Get category IDs
 		const categoryIds = categories.map((category) => category.id);
 

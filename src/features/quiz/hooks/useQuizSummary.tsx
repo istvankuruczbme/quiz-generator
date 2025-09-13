@@ -3,6 +3,7 @@ import getQuizSummary from "../sevices/getQuizSummary";
 import useError from "../../error/hooks/useError";
 import { useQuery } from "@tanstack/react-query";
 import useUser from "../../../contexts/UserContext/useUser";
+import { useEffect } from "react";
 
 const useQuizSummary = () => {
 	// #region Hooks
@@ -20,7 +21,9 @@ const useQuizSummary = () => {
 	// #endregion
 
 	// #region Error handling
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	// #endregion
 
 	return { quizSummary: data ?? null, loading: isLoading || loadingUser };

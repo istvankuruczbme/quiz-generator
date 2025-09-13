@@ -2,10 +2,11 @@ import getUserSubscription from "../services/getUserSubscription";
 import { useQuery } from "@tanstack/react-query";
 import useError from "../../error/hooks/useError";
 import useUser from "../../../contexts/UserContext/useUser";
+import { useEffect } from "react";
 
 const useUserSubscription = () => {
 	// #region Hooks
-	const { user } = useUser();
+	const { user, loading: loadingUser } = useUser();
 	const { setError } = useError();
 	// #endregion
 
@@ -18,10 +19,12 @@ const useUserSubscription = () => {
 	// #endregion
 
 	// #region Error
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	// #endregion
 
-	return { subscription: data ?? null, loading: isLoading };
+	return { subscription: data ?? null, loading: isLoading || loadingUser };
 };
 
 export default useUserSubscription;

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import useError from "../../error/hooks/useError";
 import { useQuery } from "@tanstack/react-query";
 import getCompletionPrivate from "../services/getCompletionPrivate";
+import { useEffect } from "react";
 
 const useGetCompletionPrivate = () => {
 	//#region Hooks
@@ -18,7 +19,9 @@ const useGetCompletionPrivate = () => {
 	//#endregion
 
 	//#region Error handling
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	//#endregion
 
 	return { completion: data ?? null, loading: isLoading };

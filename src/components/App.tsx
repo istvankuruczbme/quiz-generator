@@ -20,10 +20,12 @@ import ChangePassword from "../features/auth/pages/ChangePassword/ChangePassword
 import SubscriptionRequired from "../features/ui/error/pages/SubscriptionRequired/SubscriptionRequired";
 import Unauthorized from "../features/ui/error/pages/Unauthorized/Unauthorized";
 import QuizNotFound from "../features/ui/error/pages/QuizNotFound/QuizNotFound";
-// CSS
-import "./App.css";
 import Completion from "../features/completion/pages/Completion/Completion";
 import CompletionOverview from "../features/completion/pages/CompletionOverview/CompletionOverview";
+import MyCompletions from "../features/completion/pages/MyCompletions/MyCompletions";
+import Browse from "../features/quiz/pages/Browse/Browse";
+// CSS
+import "./App.css";
 
 function App() {
 	return (
@@ -46,6 +48,10 @@ function App() {
 							path="/quizzes/:quizId/completions/:completionId/overview"
 							element={<CompletionOverview />}
 						/>
+						<Route path="/my-completions" element={<MyCompletions />} />
+
+						{/* Browse */}
+						<Route path="/browse" element={<Browse />} />
 					</Route>
 
 					{/* Profile */}

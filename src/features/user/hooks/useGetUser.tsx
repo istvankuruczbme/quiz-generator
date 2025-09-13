@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useError from "../../error/hooks/useError";
 import useAuth from "../../auth/contexts/AuthContext/useAuth";
 import getUser from "../services/getUser";
+import { useEffect } from "react";
 
 function useGetUser() {
 	//#region Hooks
@@ -18,7 +19,9 @@ function useGetUser() {
 	// #endregion
 
 	// #region Error handling
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	// #endregion
 
 	return { user: data ?? null, loading: loadingSession || isLoading };

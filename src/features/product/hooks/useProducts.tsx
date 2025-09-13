@@ -1,24 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import getProducts from "../services/getProducts";
 import useError from "../../error/hooks/useError";
-import useAuth from "../../auth/contexts/AuthContext/useAuth";
+import { useEffect } from "react";
+import useUser from "../../../contexts/UserContext/useUser";
 
 const useProducts = () => {
 	//#region Hooks
-	const { session } = useAuth();
+	const { user } = useUser();
 	const { setError } = useError();
 	// #endregion
 
 	//#region Query
 	const { data, isLoading, error } = useQuery({
-		enabled: session != null,
+		enabled: user != null,
 		queryKey: ["products"],
 		queryFn: getProducts,
 	});
 	// #endregion
 
 	// #region Error
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	//#endregion
 
 	return { products: data ?? [], loading: isLoading };

@@ -1,0 +1,31 @@
+.browseSearch {
+	display: flex;
+	gap: 2rem;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.browseSearch__input {
+	flex: 1;
+}
+
+.browseSearch__button {
+	padding: 0.75rem;
+	position: relative;
+}
+
+.browseSearch__button__badge {
+	width: 1.125rem;
+	height: 1.125rem;
+	display: grid;
+	place-items: center;
+	font-size: var(--fs-100);
+	font-weight: 500;
+	color: var(--secondary-color);
+	background-color: var(--accent-color-400);
+	border-radius: var(--br-pill);
+	position: absolute;
+	top: 0;
+	right: 0;
+	translate: 25% -25%;
+}

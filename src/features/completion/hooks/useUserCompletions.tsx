@@ -1,22 +1,22 @@
-import getUserQuizzes from "../sevices/getUserQuizzes";
 import { useQuery } from "@tanstack/react-query";
 import useError from "../../error/hooks/useError";
-import { useEffect } from "react";
 import useUser from "../../../contexts/UserContext/useUser";
+import getUserCompletions from "../services/getUserCompletions";
+import { useEffect } from "react";
 
-const useUserQuizzes = () => {
-	//#region Hooks
+const useUserCompletions = () => {
+	//   #region Hooks
 	const { user, loading: loadingUser } = useUser();
 	const { setError } = useError();
-	//#endregion
+	// #endregion
 
 	// #region Query
 	const { data, isLoading, error } = useQuery({
 		enabled: user != null,
-		queryKey: ["users", user?.id, "quizzes"],
-		queryFn: getUserQuizzes,
+		queryKey: ["users", user?.id, "completions"],
+		queryFn: getUserCompletions,
 	});
-	//#endregion
+	// #endregion
 
 	// #region Error handling
 	useEffect(() => {
@@ -24,7 +24,7 @@ const useUserQuizzes = () => {
 	}, [error, setError]);
 	// #endregion
 
-	return { quizzes: data ?? [], loading: isLoading || loadingUser };
+	return { completions: data ?? [], loading: isLoading || loadingUser };
 };
 
-export default useUserQuizzes;
+export default useUserCompletions;

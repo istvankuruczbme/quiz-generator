@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import getCompletionPublic from "../services/getCompletionPublic";
 import useError from "../../error/hooks/useError";
+import { useEffect } from "react";
 
 const useGetCompletionPublic = () => {
 	//#region Hooks
@@ -18,7 +19,9 @@ const useGetCompletionPublic = () => {
 	//#endregion
 
 	//#region Error handling
-	if (error) setError(error);
+	useEffect(() => {
+		if (error) setError(error);
+	}, [error, setError]);
 	//#endregion
 
 	return { completion: data ?? null, loading: isLoading };

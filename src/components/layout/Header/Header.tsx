@@ -14,6 +14,7 @@ import useUser from "../../../contexts/UserContext/useUser";
 import defaultUserPhotoUrl from "../../../features/user/assets/defaultUserPhotoUrl";
 // CSS
 import "./Header.css";
+import Suspense from "../Suspense/Suspense";
 
 type HeaderProps = HTMLAttributes<HTMLDivElement>;
 type HeaderChildren = {
@@ -37,38 +38,41 @@ const Header: HeaderComponent = () => {
 
 				<nav className="header__nav">
 					<Header.Menu>
-						{loading && (
-							<Header.Menu className="header__menu">
-								<Skeleton type="rect" width="80px" height="30px" />
-								<Skeleton type="circle" width="30px" height="30px" />
-							</Header.Menu>
-						)}
-						{!loading && (
-							<>
-								<SignedIn>
-									<Header.Menu className="header__menu">
-										<Header.Menu.Item to="/browse" label="Browse" />
-										<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
-										<Header.Menu.Item
-											to="/profile"
-											label={
-												<img
-													src={user?.photoUrl || defaultUserPhotoUrl}
-													alt={user?.name}
-													className="header__user__photo"
-												/>
-											}
-										/>
-									</Header.Menu>
+						<Suspense
+							loading={loading}
+							fallback={
+								<>
+									<Skeleton type="rect" width="80px" height="30px" />
+									<Skeleton type="rect" width="120px" height="30px" />
+									<Skeleton type="rect" width="120px" height="30px" />
+									<Skeleton type="circle" width="30px" height="30px" />
+								</>
+							}
+						>
+							<SignedIn>
+								<Header.Menu className="header__menu">
+									<Header.Menu.Item to="/browse" label="Browse" />
+									<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
+									<Header.Menu.Item to="/my-completions" label="My completions" />
+									<Header.Menu.Item
+										to="/profile"
+										label={
+											<img
+												src={user?.photoUrl || defaultUserPhotoUrl}
+												alt={user?.name}
+												className="header__user__photo"
+											/>
+										}
+									/>
+								</Header.Menu>
 
-									<Header.Menu.Button />
-								</SignedIn>
+								<Header.Menu.Button />
+							</SignedIn>
 
-								<NotSignedIn>
-									<Header.Menu.Item to="/sign-in" label="Sign In" />
-								</NotSignedIn>
-							</>
-						)}
+							<NotSignedIn>
+								<Header.Menu.Item to="/sign-in" label="Sign In" />
+							</NotSignedIn>
+						</Suspense>
 					</Header.Menu>
 				</nav>
 			</Header.Layout>
