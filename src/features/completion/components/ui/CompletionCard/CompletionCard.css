@@ -1,34 +1,16 @@
 .completionCard {
-	width: 18rem;
-	height: 26.5rem;
-	display: flex;
-	flex-direction: column;
 	text-decoration: none;
 	color: inherit;
-	box-shadow: 0 0.25rem 0.5rem var(--neutral-color-300);
-	border-radius: var(--br-400);
-	overflow: hidden;
-	transition: box-shadow 200ms ease;
-}
-.completionCard:hover {
-	box-shadow: 0 0.5rem 1rem var(--neutral-color-300);
-}
-
-.completionCard__img {
-	max-width: 100%;
 }
 
 .completionCard__body {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
 	gap: 1.5rem;
-	padding: 1rem;
 }
 
 .completionCard__body__top {
 	display: flex;
 	gap: 1rem;
+	align-items: flex-start;
 }
 
 .completionCard__quiz__title {
@@ -44,6 +26,23 @@
 
 .completionCard__progress__questions {
 	align-self: flex-end;
+	color: var(--neutral-color-700);
+}
+
+.completionCard__dates {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+	color: var(--neutral-color-400);
+}
+
+.completionCard__date__label {
+	display: inline-block;
+	width: 4.25rem;
+}
+
+.completionCard__date__value {
+	font-weight: 500;
 }
 
 .completionCard__button {

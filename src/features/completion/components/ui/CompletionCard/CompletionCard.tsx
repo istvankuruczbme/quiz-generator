@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import Button from "../../../../../components/ui/Button/Button";
 import ProgressBar from "../../../../../components/ui/ProgressBar/ProgressBar";
-import defaultQuizPhotoUrl from "../../../../quiz/assets/defaultQuizPhotoUrl";
 import QuizCategory from "../../../../quiz/components/ui/QuizCard/QuizCategory/QuizCategory";
 import { CompletionPublic } from "../../../types/completionTypes";
-import "./CompletionCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Card from "../../../../../components/ui/Card/Card";
+import defaultQuizPhotoUrl from "../../../../quiz/assets/defaultQuizPhotoUrl";
+import "./CompletionCard.css";
 
 type Props = {
 	completion: CompletionPublic;
@@ -18,6 +19,8 @@ const CompletionCard = ({ completion }: Props) => {
 		? `/quizzes/${completion.quiz.id}/completions/${completion.id}/overview`
 		: `/quizzes/${completion.quiz.id}/completions/${completion.id}`;
 
+	const finished = completion.finishedAt != null;
+
 	const completedQuestions = completion.quiz.questions.filter(
 		(question) => question.completion != undefined
 	).length;
@@ -26,40 +29,58 @@ const CompletionCard = ({ completion }: Props) => {
 
 	return (
 		<Link to={href} className="completionCard">
-			<img
-				src={completion.quiz.photoUrl ?? defaultQuizPhotoUrl}
-				alt={completion.quiz.title}
-				className="completionCard__img"
-			/>
+			<Card>
+				<Card.Image
+					src={completion.quiz.photoUrl ?? defaultQuizPhotoUrl}
+					alt={completion.quiz.title}
+				/>
 
-			<div className="completionCard__body">
-				<div className="completionCard__body__top">
-					<h4 className="completionCard__quiz__title">{completion.quiz.title}</h4>
-					<QuizCategory category={completion.quiz.category} />
-				</div>
-
-				{completedQuestions !== totalQuestions && (
-					<div className="completionCard__progress">
-						<span className="completionCard__progress__questions">
-							{completedQuestions}/{totalQuestions}
-						</span>
-						<ProgressBar value={completedQuestions} max={totalQuestions} />
+				<Card.Body className="completionCard__body">
+					<div className="completionCard__body__top">
+						<h4 className="completionCard__quiz__title">{completion.quiz.title}</h4>
+						<QuizCategory category={completion.quiz.category} />
 					</div>
-				)}
 
-				{completion.finishedAt != null && (
-					<Button variant="primary" className="completionCard__button">
-						View
-						<FontAwesomeIcon icon={faArrowRight} />
-					</Button>
-				)}
-				{completion.finishedAt == null && (
-					<Button variant="primary" className="completionCard__button">
-						Continue
-						<FontAwesomeIcon icon={faArrowRight} />
-					</Button>
-				)}
-			</div>
+					{!finished && (
+						<div className="completionCard__progress">
+							<span className="completionCard__progress__questions">
+								{completedQuestions}/{totalQuestions}
+							</span>
+							<ProgressBar value={completedQuestions} max={totalQuestions} />
+						</div>
+					)}
+
+					<div className="completionCard__dates">
+						<div className="completionCard__date">
+							<span className="completionCard__date__label">Started:</span>
+							<span className="completionCard__date__value">
+								{new Date(completion.createdAt ?? 0).toLocaleString()}
+							</span>
+						</div>
+						{finished && (
+							<div className="completionCard__date">
+								<span className="completionCard__date__label">Finished:</span>
+								<span className="completionCard__date__value">
+									{new Date(completion.finishedAt ?? 0).toLocaleString()}
+								</span>
+							</div>
+						)}
+					</div>
+
+					{finished && (
+						<Button variant="secondary" className="completionCard__button">
+							View
+							<FontAwesomeIcon icon={faArrowRight} />
+						</Button>
+					)}
+					{!finished && (
+						<Button variant="secondary" className="completionCard__button">
+							Continue
+							<FontAwesomeIcon icon={faArrowRight} />
+						</Button>
+					)}
+				</Card.Body>
+			</Card>
 		</Link>
 	);
 };

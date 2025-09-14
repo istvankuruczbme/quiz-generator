@@ -1,7 +1,8 @@
 import Section from "../../../../../components/layout/Section/Section";
 import Suspense from "../../../../../components/layout/Suspense/Suspense";
-import useCompletionPublic from "../../../contexts/CompletionPublicContext/useCompletionPublic";
+import CompletionAnswerOptionsSkeleton from "./CompletionAnswerOptionsSkeleton/CompletionAnswerOptionsSkeleton";
 import AnswerOptionCheckbox from "../../../../answerOption/components/form/AnswerOptionCheckbox/AnswerOptionCheckbox";
+import useCompletionPublic from "../../../contexts/CompletionPublicContext/useCompletionPublic";
 import "./CompletionAnswerOptions.css";
 
 const CompletionAnswerOptions = () => {
@@ -16,9 +17,9 @@ const CompletionAnswerOptions = () => {
 	//#endregion
 
 	return (
-		<Suspense loading={loading} fallback={null}>
-			<Section>
-				<div className="completionAnswerOptions">
+		<Section>
+			<div className="completionAnswerOptions">
+				<Suspense loading={loading} fallback={<CompletionAnswerOptionsSkeleton />}>
 					{question?.answerOptions.map((option) => {
 						// #region Constants
 						const selectedAnswerOption = selectedAnswerOptions.includes(option.id);
@@ -45,9 +46,9 @@ const CompletionAnswerOptions = () => {
 							/>
 						);
 					})}
-				</div>
-			</Section>
-		</Suspense>
+				</Suspense>
+			</div>
+		</Section>
 	);
 };
 

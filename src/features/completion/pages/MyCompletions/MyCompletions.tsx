@@ -2,11 +2,12 @@ import Page from "../../../../components/layout/Page/Page";
 import Section from "../../../../components/layout/Section/Section";
 import Suspense from "../../../../components/layout/Suspense/Suspense";
 import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
-import QuizContainer from "../../../quiz/components/layout/QuizContainer/QuizContainer";
+import CardContainer from "../../../../components/layout/CardContainer/CardContainer";
 import CompletionCard from "../../components/ui/CompletionCard/CompletionCard";
-import CompletionCardSkeleton from "../../components/ui/CompletionCard/CompletionCardSkeleton/CompletionCardSkeleton";
 import useUserCompletions from "../../hooks/useUserCompletions";
 import "./MyCompletions.css";
+import Card from "../../../../components/ui/Card/Card";
+import { useMemo } from "react";
 
 const MyCompletions = () => {
 	// #region Hooks
@@ -14,8 +15,14 @@ const MyCompletions = () => {
 	// #endregion
 
 	// #region Constants
-	const activeCompletions = completions.filter((completion) => completion.finishedAt != null);
-	const finishedCompletions = completions.filter((completion) => completion.finishedAt == null);
+	const activeCompletions = useMemo(
+		() => completions.filter((completion) => completion.finishedAt == null),
+		[completions]
+	);
+	const finishedCompletions = useMemo(
+		() => completions.filter((completion) => completion.finishedAt != null),
+		[completions]
+	);
 	// #endregion
 
 	return (
@@ -30,41 +37,41 @@ const MyCompletions = () => {
 			<Section>
 				<Section.Title>Active completions</Section.Title>
 
-				<Suspense
-					loading={loading}
-					fallback={
-						<>
-							<CompletionCardSkeleton />
-							<CompletionCardSkeleton />
-						</>
-					}
-				>
-					<QuizContainer>
+				<CardContainer>
+					<Suspense
+						loading={loading}
+						fallback={
+							<>
+								<Card.Skeleton />
+								<Card.Skeleton />
+							</>
+						}
+					>
 						{activeCompletions.map((completion) => (
 							<CompletionCard key={completion.id} completion={completion} />
 						))}
-					</QuizContainer>
-				</Suspense>
+					</Suspense>
+				</CardContainer>
 			</Section>
 
 			<Section>
 				<Section.Title>Finished completions</Section.Title>
 
-				<Suspense
-					loading={loading}
-					fallback={
-						<>
-							<CompletionCardSkeleton />
-							<CompletionCardSkeleton />
-						</>
-					}
-				>
-					<QuizContainer>
+				<CardContainer>
+					<Suspense
+						loading={loading}
+						fallback={
+							<>
+								<Card.Skeleton />
+								<Card.Skeleton />
+							</>
+						}
+					>
 						{finishedCompletions.map((completion) => (
 							<CompletionCard key={completion.id} completion={completion} />
 						))}
-					</QuizContainer>
-				</Suspense>
+					</Suspense>
+				</CardContainer>
 			</Section>
 		</Page>
 	);

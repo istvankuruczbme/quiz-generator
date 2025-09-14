@@ -4,9 +4,9 @@ import { UserPublic } from "../../user/types/userTypes";
 // #region Completion (public)
 export type CompletionPublic = {
 	id: string;
-	updatedAt: Date;
-	createdAt: Date;
-	finishedAt: Date | null;
+	updatedAt: string;
+	createdAt: string;
+	finishedAt: string | null;
 	user: UserPublic;
 	quiz: CompletionQuizPublic;
 };
