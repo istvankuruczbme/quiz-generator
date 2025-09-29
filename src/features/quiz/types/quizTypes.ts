@@ -29,7 +29,6 @@ type QuizData = Readonly<{
 	title: string;
 	description: string;
 	photoUrl: string | null;
-	embedding: number[];
 	updatedAt: Date;
 	createdAt: Date;
 	config: QuizConfig;

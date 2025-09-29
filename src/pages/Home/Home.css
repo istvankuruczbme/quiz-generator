@@ -1,0 +1,40 @@
+.home__hero {
+	text-align: center;
+	margin-top: 3rem;
+	margin-bottom: 4rem;
+}
+
+.home__hero__title {
+	font-size: var(--fs-900);
+	color: var(--accent-color-400);
+	margin-bottom: 1rem;
+}
+
+.home__section {
+	padding-block: 3rem;
+}
+.home__section--welcome {
+	background-color: var(--secondary-color);
+}
+
+.home__welcome__buttons {
+	gap: 1rem;
+	justify-content: center;
+}
+
+.home__feature__container,
+.home__action__container {
+	flex-wrap: wrap;
+	gap: 2rem;
+}
+
+.home__card {
+	height: 100%;
+}
+
+.home__action__link {
+	display: block;
+	width: 275px;
+	text-decoration: none;
+	color: inherit;
+}
