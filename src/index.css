@@ -40,6 +40,10 @@
 	--danger-color-200: hsl(0, 69%, 90%);
 	--danger-color-400: hsl(0, 100%, 67%);
 
+	--warning-color-100: hsl(45, 100%, 93%);
+	--warning-color-200: hsl(45, 96%, 85%);
+	--warning-color-400: hsl(45, 100%, 50%);
+
 	--info-color-200: hsl(218, 91%, 87%);
 	--info-color-400: hsl(218, 93%, 50%);
 

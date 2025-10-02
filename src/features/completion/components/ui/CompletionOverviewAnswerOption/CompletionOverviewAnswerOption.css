@@ -13,10 +13,10 @@
 	--icon-border-color: var(--danger-color-400);
 	--text-color: var(--danger-color-400);
 }
-.completionOverviewAnswerOption--neutral {
-	--icon-color: var(--neutral-color-900);
-	--icon-border-color: var(--neutral-color-900);
-	--text-color: var(--neutral-color-900);
+.completionOverviewAnswerOption--warning {
+	--icon-color: var(--warning-color-400);
+	--icon-border-color: var(--warning-color-400);
+	--text-color: var(--warning-color-400);
 }
 .completionOverviewAnswerOption--default {
 	--icon-color: transparent;

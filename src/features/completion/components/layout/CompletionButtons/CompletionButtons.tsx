@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Section from "../../../../../components/layout/Section/Section";
-import Button from "../../../../../components/ui/Button/Button";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import useCompletionQuestionPrivate from "../../../../completionQuestion/hooks/useCompletionQuestionPrivate";
 import useCreateCompletionQuestion from "../../../../completionQuestion/hooks/useCreateCompletionQuestion";
@@ -9,8 +8,15 @@ import useError from "../../../../error/hooks/useError";
 import useCompletionPublic from "../../../contexts/CompletionPublicContext/useCompletionPublic";
 import useFinishCompletion from "../../../hooks/useFinishCompletion";
 import "./CompletionButtons.css";
+import { useState } from "react";
 
 const CompletionButtons = () => {
+	// #region States
+	const [showCheckLoading, setShowCheckLoading] = useState(false);
+	const [showNextLoading, setShowNextLoading] = useState(false);
+	const [showFinishLoading, setShowFinishLoading] = useState(false);
+	//#endregion
+
 	// #region Hooks
 	const {
 		completion,
@@ -37,6 +43,13 @@ const CompletionButtons = () => {
 
 	// #region Contants
 	const lastQuestion = questionNumber === completion?.quiz.questions.length;
+
+	const loadingCheckQuestion =
+		loadingCreateCompletionQuestion || loadingGetCompletionQuestionPrivate;
+	const loadingNextQuestion = loadingCreateCompletionQuestion;
+	const loadingFinish = loadingCreateCompletionQuestion || loadingFinishCompletion;
+
+	const disableButtons = loadingCheckQuestion || loadingNextQuestion || loadingFinish;
 	// #endregion
 
 	// #region Functions
@@ -45,6 +58,8 @@ const CompletionButtons = () => {
 		if (!completion || !question) return;
 
 		try {
+			setShowCheckLoading(true);
+
 			// Validation
 			const completionQuestionData = validateNewCompletionQuestionData({
 				selectedAnswerOptions,
@@ -68,6 +83,8 @@ const CompletionButtons = () => {
 			setCompletionQuestion(completionQuestion);
 		} catch (err) {
 			setError(err);
+		} finally {
+			setShowCheckLoading(false);
 		}
 	}
 
@@ -90,6 +107,8 @@ const CompletionButtons = () => {
 		}
 
 		try {
+			setShowNextLoading(true);
+
 			// Validation
 			const completionQuestionData = validateNewCompletionQuestionData({
 				selectedAnswerOptions,
@@ -111,6 +130,8 @@ const CompletionButtons = () => {
 			removeAnswerOptions(completionQuestionData.selectedAnswerOptions);
 		} catch (err) {
 			setError(err);
+		} finally {
+			setShowNextLoading(false);
 		}
 	}
 
@@ -126,16 +147,26 @@ const CompletionButtons = () => {
 			// Reset selected answer options
 			resetAnswerOptions();
 
-			// Finish completion
-			await finishCompletion({ quizId: completion.quiz.id, completionId: completion.id });
+			try {
+				setShowFinishLoading(true);
 
-			// Navigate
-			navigate(`/quizzes/${completion.quiz.id}/completions/${completion.id}/overview`);
+				// Finish completion
+				await finishCompletion({ quizId: completion.quiz.id, completionId: completion.id });
+
+				// Navigate
+				navigate(`/quizzes/${completion.quiz.id}/completions/${completion.id}/overview`);
+			} catch (err) {
+				setError(err);
+			} finally {
+				setShowFinishLoading(false);
+			}
 
 			return;
 		}
 
 		try {
+			setShowFinishLoading(true);
+
 			// Validation
 			const completionQuestionData = validateNewCompletionQuestionData({
 				selectedAnswerOptions,
@@ -157,6 +188,8 @@ const CompletionButtons = () => {
 			navigate(`/quizzes/${completion.quiz.id}/completions/${completion.id}/overview`);
 		} catch (err) {
 			setError(err);
+		} finally {
+			setShowFinishLoading(false);
 		}
 	}
 	// #endregion
@@ -165,24 +198,27 @@ const CompletionButtons = () => {
 		<Section>
 			<div className="completionButtons">
 				<LoadingButton
-					loading={loadingCreateCompletionQuestion || loadingGetCompletionQuestionPrivate}
-					disabled={completionQuestion != null}
+					loading={showCheckLoading && loadingCheckQuestion}
+					disabled={disableButtons}
 					full
 					onClick={handleCheckClick}
 				>
 					Check
 				</LoadingButton>
 				{!lastQuestion && (
-					<Button full onClick={handleNextClick}>
+					<LoadingButton
+						loading={showNextLoading && loadingNextQuestion}
+						disabled={disableButtons}
+						full
+						onClick={handleNextClick}
+					>
 						Next
-					</Button>
+					</LoadingButton>
 				)}
 				{lastQuestion && (
 					<LoadingButton
-						loading={
-							(!completionQuestion && loadingCreateCompletionQuestion) ||
-							loadingFinishCompletion
-						}
+						loading={showFinishLoading && loadingFinish}
+						disabled={disableButtons}
 						full
 						onClick={handleFinishClick}
 					>

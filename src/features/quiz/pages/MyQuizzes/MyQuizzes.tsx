@@ -44,24 +44,16 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			<Section>
 				<Section.Title>Draft quizzes</Section.Title>
 
-				<CardContainer>
-					<Suspense
-						loading={loading}
-						fallback={
-							<>
-								<Card.Skeleton />
-								<Card.Skeleton />
-							</>
-						}
-					>
-						{draftQuizzes.length === 0 && (
-							<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
-						)}
+				<Suspense loading={loading} fallback={<Card.Skeleton />}>
+					{draftQuizzes.length === 0 && (
+						<IconTextSection icon={faBan} text={<Text mb="0">No draft quizzes.</Text>} />
+					)}
+					<CardContainer>
 						{draftQuizzes.map((quiz) => (
 							<QuizCard key={quiz.id} quiz={quiz} />
 						))}
-					</Suspense>
-				</CardContainer>
+					</CardContainer>
+				</Suspense>
 			</Section>
 
 			{activeQuizzes.length > 0 && (

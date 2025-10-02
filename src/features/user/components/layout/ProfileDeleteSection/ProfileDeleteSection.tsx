@@ -26,7 +26,7 @@ const ProfileDeleteSection: FC<ProfileDeleteSectionProps> = () => {
 				subscription will be lost.
 			</Text>
 
-			<Button variant="danger" onClick={() => setShowDeleteUserModal(true)}>
+			<Button variant="danger" outlined onClick={() => setShowDeleteUserModal(true)}>
 				Delete profile
 			</Button>
 		</ProfileSection>

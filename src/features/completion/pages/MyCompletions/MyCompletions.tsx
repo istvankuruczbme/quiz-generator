@@ -8,6 +8,9 @@ import useUserCompletions from "../../hooks/useUserCompletions";
 import "./MyCompletions.css";
 import Card from "../../../../components/ui/Card/Card";
 import { useMemo } from "react";
+import IconTextSection from "../../../../components/layout/IconTextSection/IconTextSection";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
+import Text from "../../../../components/ui/Text/Text";
 
 const MyCompletions = () => {
 	// #region Hooks
@@ -37,41 +40,34 @@ const MyCompletions = () => {
 			<Section>
 				<Section.Title>Active completions</Section.Title>
 
-				<CardContainer>
-					<Suspense
-						loading={loading}
-						fallback={
-							<>
-								<Card.Skeleton />
-								<Card.Skeleton />
-							</>
-						}
-					>
+				<Suspense loading={loading} fallback={<Card.Skeleton />}>
+					{activeCompletions.length === 0 && (
+						<IconTextSection icon={faBan} text={<Text mb="0">No active completions.</Text>} />
+					)}
+					<CardContainer>
 						{activeCompletions.map((completion) => (
 							<CompletionCard key={completion.id} completion={completion} />
 						))}
-					</Suspense>
-				</CardContainer>
+					</CardContainer>
+				</Suspense>
 			</Section>
 
 			<Section>
 				<Section.Title>Finished completions</Section.Title>
 
-				<CardContainer>
-					<Suspense
-						loading={loading}
-						fallback={
-							<>
-								<Card.Skeleton />
-								<Card.Skeleton />
-							</>
-						}
-					>
+				<Suspense loading={loading} fallback={<Card.Skeleton />}>
+					{finishedCompletions.length === 0 && (
+						<IconTextSection
+							icon={faBan}
+							text={<Text mb="0">No finished completions.</Text>}
+						/>
+					)}
+					<CardContainer>
 						{finishedCompletions.map((completion) => (
 							<CompletionCard key={completion.id} completion={completion} />
 						))}
-					</Suspense>
-				</CardContainer>
+					</CardContainer>
+				</Suspense>
 			</Section>
 		</Page>
 	);

@@ -1,8 +1,8 @@
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { AnswerOptionPrivate } from "../../../../answerOption/types/answerOptionTypes";
 import { CompletionQuestionPrivate } from "../../../../completionQuestion/types/completionQuestionTypes";
-import "./CompletionOverviewAnswerOption.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./CompletionOverviewAnswerOption.css";
 
 type Props = {
 	answerOption: AnswerOptionPrivate;
@@ -16,7 +16,7 @@ const CompletionOverviewAnswerOption = ({ answerOption, completion }: Props) => 
 	const wrong = !answerOption.isCorrect && selected;
 	const empty = answerOption.isCorrect && !selected;
 
-	const variant = correct ? "success" : wrong ? "danger" : empty ? "neutral" : "default";
+	const variant = correct ? "success" : wrong ? "danger" : empty ? "warning" : "default";
 	const icon = correct ? faCheck : wrong ? faXmark : empty ? faCheck : null;
 	// #endregion
 

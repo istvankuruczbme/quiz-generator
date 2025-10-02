@@ -5,7 +5,7 @@ import "./CompletionOverviewBack.css";
 const CompletionOverviewBack = () => {
 	return (
 		<Section>
-			<BackButton variant="primary" to="/my-quizzes">
+			<BackButton variant="primary" to="/my-completions">
 				My completions
 			</BackButton>
 		</Section>

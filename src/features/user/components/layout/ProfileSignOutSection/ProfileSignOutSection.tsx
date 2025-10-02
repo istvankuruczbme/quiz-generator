@@ -23,7 +23,7 @@ const ProfileSignOutSection = () => {
 		<ProfileSection>
 			<Section.Title>Sign out</Section.Title>
 
-			<Button variant="neutral" onClick={handleSignOutClick}>
+			<Button variant="danger" onClick={handleSignOutClick}>
 				Sign out
 			</Button>
 		</ProfileSection>
