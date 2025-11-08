@@ -42,14 +42,14 @@ const useEditQuizQuestionGenerationData = () => {
 
 	// Set default values for inputs
 	useEffect(() => {
-		if (!quiz || isNaN(maxQuestionCount) || isNaN(maxAnswerOptionCount)) return;
+		if (isNaN(maxQuestionCount) || isNaN(maxAnswerOptionCount)) return;
 
 		// Update form data
 		updateData({
-			questionCount: (maxQuestionCount - quiz.questions.length).toString(),
+			questionCount: maxQuestionCount.toString(),
 			answerOptionCount: (4 > maxAnswerOptionCount ? maxAnswerOptionCount : 4).toString(),
 		});
-	}, [quiz, maxQuestionCount, maxAnswerOptionCount, updateData]);
+	}, [maxQuestionCount, maxAnswerOptionCount, updateData]);
 
 	return {
 		quiz,
