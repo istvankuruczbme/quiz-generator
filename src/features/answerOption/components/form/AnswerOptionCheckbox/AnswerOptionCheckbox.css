@@ -11,6 +11,7 @@
 	transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease;
 	cursor: pointer;
 }
+/* #region Variants */
 .answerOptionCheckbox--default {
 	--color: var(--neutral-color-700);
 	--bg-color: var(--secondary-color);
@@ -41,6 +42,7 @@
 	--border-color: var(--danger-color-400);
 	--checkbox-color: var(--danger-color-400);
 }
+/* #endregion */
 
 .answerOptionCheckbox__input {
 	position: absolute;
@@ -54,6 +56,7 @@
 .answerOptionCheckbox__marker {
 	width: 1.5rem;
 	height: 1.5rem;
+	flex-shrink: 0;
 	display: grid;
 	place-items: center;
 	background-color: var(--checkbox-color);

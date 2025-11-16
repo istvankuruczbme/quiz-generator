@@ -42,8 +42,6 @@ const Header: HeaderComponent = () => {
 							loading={loading}
 							fallback={
 								<>
-									<Skeleton type="rect" width="80px" height="30px" />
-									<Skeleton type="rect" width="120px" height="30px" />
 									<Skeleton type="rect" width="120px" height="30px" />
 									<Skeleton type="circle" width="30px" height="30px" />
 								</>

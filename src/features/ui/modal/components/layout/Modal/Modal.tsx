@@ -42,7 +42,7 @@ const Modal: ModalComponent = ({ inert, className, children }) => {
 	return (
 		<div
 			inert={inert == undefined ? !show : inert}
-			className={`modal${addPropClassName(className)}`}
+			className={`modal${show ? " modal--show" : ""}${addPropClassName(className)}`}
 			ref={modalRef}
 		>
 			{children}

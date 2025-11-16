@@ -26,6 +26,7 @@
 .home__action__container {
 	flex-wrap: wrap;
 	gap: 2rem;
+	justify-content: center;
 }
 
 .home__card {
