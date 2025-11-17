@@ -27,6 +27,9 @@ const HeaderSidebar: HeaderSidebarComponent = () => {
 	return (
 		<div className={`headerSidebar${show ? " headerSidebar--show" : ""}`}>
 			<HeaderSidebar.Menu>
+				<Header.Menu.Item to="/browse" label="Browse" />
+				<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
+				<Header.Menu.Item to="/my-completions" label="My completions" />
 				<Header.Menu.Item
 					to="/profile"
 					label={
@@ -40,8 +43,6 @@ const HeaderSidebar: HeaderSidebarComponent = () => {
 						</div>
 					}
 				/>
-				<Header.Menu.Item to="/browse" label="Browse" />
-				<Header.Menu.Item to="/my-quizzes" label="My quizzes" />
 			</HeaderSidebar.Menu>
 		</div>
 	);

@@ -10,7 +10,7 @@
 	right: 0;
 	z-index: 20;
 	translate: 0 -100%;
-	transition: translate 200ms linear;
+	/* transition: translate 200ms linear; */
 }
 .overlay--show {
 	translate: 0 0;

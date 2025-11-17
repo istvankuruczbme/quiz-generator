@@ -9,6 +9,7 @@ import ModalProvider from "../../../../../ui/modal/contexts/ModalContext/ModalPr
 import { ModalProps } from "../../../../../ui/modal/types/modalTypes";
 import useQuizSearch from "../../../../contexts/QuizSearchContext/useQuizSearch";
 import "./BrowseSearchModal.css";
+import capitalizeString from "../../../../../../utils/formatting/capitalizeString";
 
 type Props = ModalProps;
 
@@ -57,7 +58,7 @@ const BrowseSearchModal = ({ show, setShow }: Props) => {
 							{categories.map((category) => (
 								<Checkbox
 									key={category.id}
-									label={category.name}
+									label={capitalizeString(category.name)}
 									checked={categoryIds.includes(category.id)}
 									onChange={() => handleCategoryChange(category.id)}
 								/>
@@ -65,7 +66,7 @@ const BrowseSearchModal = ({ show, setShow }: Props) => {
 						</div>
 					</Modal.Body>
 
-					<Modal.Footer>
+					<Modal.Footer className="browseSearchModal__footer">
 						<Button variant="neutral" outlined onClick={handleResetClick}>
 							Reset
 						</Button>

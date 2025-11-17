@@ -199,7 +199,7 @@ const CompletionButtons = () => {
 			<div className="completionButtons">
 				<LoadingButton
 					loading={showCheckLoading && loadingCheckQuestion}
-					disabled={disableButtons}
+					disabled={disableButtons || completionQuestion != null}
 					full
 					onClick={handleCheckClick}
 				>
