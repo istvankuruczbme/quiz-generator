@@ -9,10 +9,9 @@
 	color: var(--neutral-color-700);
 }
 
-.logo__icon {
-	aspect-ratio: 1;
-	color: var(--accent-color-400);
+.logo__img {
+	width: 2rem;
+	height: 2rem;
 	background-color: var(--secondary-color);
 	border-radius: var(--br-pill);
-	padding: 0.25rem;
 }
