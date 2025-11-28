@@ -10,7 +10,7 @@ const Logo: FC<LogoProps> = ({ className }) => {
 	return (
 		<div className={`logo${addPropClassName(className)}`}>
 			<FontAwesomeIcon icon={faLightbulb} className="logo__icon" />
-			<span className="logo__text">Logo</span>
+			<span className="logo__text">Quiz generator</span>
 		</div>
 	);
 };

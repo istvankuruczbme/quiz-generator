@@ -148,16 +148,16 @@ const EditQuestion: FC<EditQuestionProps> = ({ hideForm }) => {
 						Cancel
 					</Button>
 
-					<Button variant="neutral">Preview</Button>
+					{/* <Button variant="neutral">Preview</Button> */}
 					<LoadingButton type="submit" variant="accent" full loading={loading}>
 						{question == undefined ? "Create" : "Update"} question
 					</LoadingButton>
 				</FormButtonsContainer>
 
 				<div className="editQuestion__buttons--small">
-					<Button variant="neutral" className="editQuestion__preview">
+					{/* <Button variant="neutral" className="editQuestion__preview">
 						Preview
-					</Button>
+					</Button> */}
 					<FormButtonsContainer>
 						<Button variant="neutral" onClick={handleClose}>
 							Cancel

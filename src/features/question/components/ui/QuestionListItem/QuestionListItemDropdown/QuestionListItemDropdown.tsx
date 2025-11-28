@@ -36,7 +36,7 @@ const QuestionListItemDropdown: FC<QuestionListItemDropdownProps> = () => {
 
 				<Dropdown.Options>
 					<Dropdown.Option onClick={() => setShowEditQuestionForm(true)}>Edit</Dropdown.Option>
-					<Dropdown.Option>Preview</Dropdown.Option>
+					{/* <Dropdown.Option>Preview</Dropdown.Option> */}
 					<Dropdown.Option variant="danger" onClick={handleDeleteQuestionClick}>
 						Delete
 					</Dropdown.Option>
