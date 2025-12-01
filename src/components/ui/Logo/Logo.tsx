@@ -6,12 +6,7 @@ import "./Logo.css";
 type LogoProps = HTMLAttributes<HTMLDivElement>;
 
 const Logo: FC<LogoProps> = ({ className }) => {
-	return (
-		<div className={`logo${addPropClassName(className)}`}>
-			<img src={logo} alt="Logo" className="logo__img" />
-			<span className="logo__text">Quiz generator</span>
-		</div>
-	);
+	return <img src={logo} alt="Logo" className={`logo${addPropClassName(className)}`} />;
 };
 
 export default Logo;

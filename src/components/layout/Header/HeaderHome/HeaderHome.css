@@ -1,3 +1,11 @@
 .headerHome {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	font-size: var(--fs-500);
+	font-weight: 700;
+	font-style: italic;
+	text-wrap: nowrap;
 	text-decoration: none;
+	color: var(--neutral-color-700);
 }

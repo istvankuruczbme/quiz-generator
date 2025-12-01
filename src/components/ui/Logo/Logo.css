@@ -1,15 +1,4 @@
 .logo {
-	display: flex;
-	gap: 0.5rem;
-	align-items: center;
-	font-size: var(--fs-500);
-	font-weight: 700;
-	font-style: italic;
-	text-wrap: nowrap;
-	color: var(--neutral-color-700);
-}
-
-.logo__img {
 	width: 2rem;
 	height: 2rem;
 	background-color: var(--secondary-color);

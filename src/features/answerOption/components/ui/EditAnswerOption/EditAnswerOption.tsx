@@ -4,7 +4,7 @@ import { AnswerOptionPrivate } from "../../../types/answerOptionTypes";
 import EditAnswerOptionIsCorrectCheckbox from "../../form/EditAnswerOptionIsCorrectCheckbox/EditAnswerOptionIsCorrectCheckbox";
 import Button from "../../../../../components/ui/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Textarea from "../../../../../components/form/Textarea/Textarea";
 // Hooks
 import useEditQuestion from "../../../../question/contexts/EditQuestionContext/useEditQuestion";
@@ -49,7 +49,7 @@ const EditAnswerOption: FC<EditAnswerOptionProps> = ({ option, className }) => {
 					className="editAnswerOption__remove"
 					onClick={() => removeAnswerOption(option.id)}
 				>
-					<FontAwesomeIcon icon={faXmark} />
+					<FontAwesomeIcon icon={faTrashAlt} />
 				</Button>
 			</div>
 		</div>
