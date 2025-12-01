@@ -3,6 +3,7 @@ import AlertProvider from "../../../../../contexts/AlertContext/AlertProvider";
 import Alert from "../../../../../components/ui/Alert/Alert";
 import AlertCloseButton from "../../../../../components/ui/Alert/AlertCloseButton/AlertCloseButton";
 import Text from "../../../../../components/ui/Text/Text";
+import LinkButton from "../../../../../components/ui/Button/LinkButton/LinkButton";
 import "./SubscriptionMissingAlert.css";
 
 type SubscriptionMissingAlertProps = HTMLAttributes<HTMLDivElement>;
@@ -23,6 +24,15 @@ const SubscriptionMissingAlert: FC<SubscriptionMissingAlertProps> = () => {
 					<Text variant="secondary" mb="0">
 						Don't worry, there is a free tier.
 					</Text>
+
+					<LinkButton
+						to="/profile/subscription"
+						variant="primary"
+						centered
+						className="subscriptionMissingAlert__button"
+					>
+						Subscriptions
+					</LinkButton>
 				</Alert.Body>
 			</Alert>
 		</AlertProvider>
