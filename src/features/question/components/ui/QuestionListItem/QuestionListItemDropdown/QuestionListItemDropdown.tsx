@@ -3,7 +3,7 @@ import { FC, HTMLAttributes } from "react";
 import DropdownProvider from "../../../../../../contexts/DropdownContext/DropdownProvider";
 import Dropdown from "../../../../../../components/ui/Dropdown/Dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import useQuestion from "../../../../contexts/QuestionContext/useQuestion";
 import useDeleteQuestion from "../../../../contexts/DeleteQuestionModalContext/useDeleteQuestionModal";
@@ -35,9 +35,13 @@ const QuestionListItemDropdown: FC<QuestionListItemDropdownProps> = () => {
 				</Dropdown.Button>
 
 				<Dropdown.Options>
-					<Dropdown.Option onClick={() => setShowEditQuestionForm(true)}>Edit</Dropdown.Option>
+					<Dropdown.Option onClick={() => setShowEditQuestionForm(true)}>
+						<FontAwesomeIcon icon={faPenToSquare} />
+						Edit
+					</Dropdown.Option>
 					{/* <Dropdown.Option>Preview</Dropdown.Option> */}
 					<Dropdown.Option variant="danger" onClick={handleDeleteQuestionClick}>
+						<FontAwesomeIcon icon={faTrashCan} />
 						Delete
 					</Dropdown.Option>
 				</Dropdown.Options>
