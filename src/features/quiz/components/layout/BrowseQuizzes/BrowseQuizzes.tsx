@@ -6,11 +6,12 @@ import CardSkeleton from "../../../../../components/ui/Card/CardSkeleton/CardSke
 import CardContainer from "../../../../../components/layout/CardContainer/CardContainer";
 import QuizCard from "../../ui/QuizCard/QuizCard";
 import useQuizSearch from "../../../contexts/QuizSearchContext/useQuizSearch";
+import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import "./BrowseQuizzes.css";
 
 const BrowseQuizzes = () => {
 	// #region Hooks
-	const { quizzes, loading } = useQuizSearch();
+	const { quizzes, loading, data, updateData } = useQuizSearch();
 	// #endregion
 
 	return (
@@ -31,6 +32,17 @@ const BrowseQuizzes = () => {
 						<QuizCard key={quiz.id} quiz={quiz} />
 					))}
 				</CardContainer>
+
+				{data.limit === quizzes.length && (
+					<LoadingButton
+						centered
+						className="browseQuizzes__loadMoreButton"
+						loading={loading}
+						onClick={() => updateData({ limit: data.limit + 12 })}
+					>
+						Load more quizzes
+					</LoadingButton>
+				)}
 			</Suspense>
 		</Section>
 	);
