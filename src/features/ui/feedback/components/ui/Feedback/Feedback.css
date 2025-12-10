@@ -12,7 +12,7 @@
 	top: 1rem;
 	right: 0;
 	translate: 100% 0;
-	z-index: 20;
+	z-index: 100;
 	isolation: isolate;
 	transition: translate 200ms linear;
 }
