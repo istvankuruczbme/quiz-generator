@@ -1,6 +1,7 @@
 import { FC, HTMLAttributes } from "react";
 // Components
-import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faBan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Page from "../../../../components/layout/Page/Page";
 import Section from "../../../../components/layout/Section/Section";
 import BackButton from "../../../../components/ui/Button/BackButton/BackButton";
@@ -38,7 +39,10 @@ const MyQuizzes: FC<MyQuizzesProps> = () => {
 			</Section>
 
 			<Section>
-				<LinkButton to="/new-quiz">Create quiz</LinkButton>
+				<LinkButton to="/new-quiz">
+					<FontAwesomeIcon icon={faAdd} />
+					Create quiz
+				</LinkButton>
 			</Section>
 
 			<Section>

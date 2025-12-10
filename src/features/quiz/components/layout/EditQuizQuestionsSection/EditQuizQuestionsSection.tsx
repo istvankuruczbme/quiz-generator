@@ -9,6 +9,8 @@ import Button from "../../../../../components/ui/Button/Button";
 import EditQuestionProvider from "../../../../question/contexts/EditQuestionContext/EditQuestionProvider";
 import Skeleton from "../../../../../components/ui/Skeleton/Skeleton";
 import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import useQuizPrivate from "../../../contexts/QuizPrivateContext/useQuizPrivate";
 import useEditQuiz from "../../../contexts/EditQuizContext/useEditQuiz";
@@ -48,7 +50,10 @@ const EditQuizQuestionsSection: FC<EditQuizQuestionsSectionProps> = () => {
 
 					{/* Show new question form button */}
 					{!showNewQuestionForm && (
-						<Button onClick={() => setShowNewQuestionForm(true)}>New question</Button>
+						<Button onClick={() => setShowNewQuestionForm(true)}>
+							<FontAwesomeIcon icon={faAdd} />
+							New question
+						</Button>
 					)}
 
 					{/* New question form */}

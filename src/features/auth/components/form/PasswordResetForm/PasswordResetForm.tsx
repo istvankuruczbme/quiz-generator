@@ -9,9 +9,9 @@ import usePasswordResetData from "../../../hooks/usePasswordResetData";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import validatePasswordResetInputs from "../../../utils/validation/validatePasswordResetInputs";
 import updateAuthPassword from "../../../services/updateAuthPassword";
-import useAuth from "../../../contexts/AuthContext/useAuth";
 import Suspense from "../../../../../components/layout/Suspense/Suspense";
 import PasswordResetFormSkeleton from "./PasswordResetFormSkeleton";
+import signOut from "../../../services/signOut";
 
 const PasswordResetForm = () => {
 	// #region Loading
@@ -20,7 +20,6 @@ const PasswordResetForm = () => {
 
 	// #region Hooks
 	usePasswordReset();
-	const { setSession } = useAuth();
 	const { session, loading: loadingData, data, updateData } = usePasswordResetData();
 	const { setError } = useError();
 	const navigate = useNavigate();
@@ -41,12 +40,10 @@ const PasswordResetForm = () => {
 
 			// Update user password
 			await updateAuthPassword(password);
-
-			// Set session
-			setSession(session);
+			await signOut();
 
 			// Navigate back to sign in page
-			navigate("/");
+			navigate("/sign-in");
 
 			// Remove flag
 			removePasswordResetFlag();

@@ -6,7 +6,8 @@ import EditAnswerOption from "../../ui/EditAnswerOption/EditAnswerOption";
 import FlexContainer from "../../../../../components/layout/FlexContainer/FlexContainer";
 import Button from "../../../../../components/ui/Button/Button";
 import IconTextSection from "../../../../../components/layout/IconTextSection/IconTextSection";
-import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd, faBan } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import useEditQuestion from "../../../../question/contexts/EditQuestionContext/useEditQuestion";
 // Functions
@@ -36,7 +37,10 @@ const EditAnswerOptions: FC<EditAnswerOptionsProps> = ({ className }) => {
 					))}
 				</FlexContainer>
 
-				<Button onClick={addAnswerOption}>New option</Button>
+				<Button onClick={addAnswerOption}>
+					<FontAwesomeIcon icon={faAdd} />
+					New option
+				</Button>
 			</Accordion.Body>
 		</Accordion>
 	);

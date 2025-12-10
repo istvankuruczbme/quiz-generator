@@ -3,7 +3,7 @@ import FormButtonsContainer from "../../../../../components/form/FormButtonsCont
 import FormInputsContainer from "../../../../../components/form/FormInputsContainer/FormInputsContainer";
 import Input from "../../../../../components/form/Input/Input";
 import FileUpload from "../../../../../components/layout/FileUpload/FileUpload";
-import Button from "../../../../../components/ui/Button/Button";
+// import Button from "../../../../../components/ui/Button/Button";
 import LoadingButton from "../../../../../components/ui/Button/LoadingButton/LoadingButton";
 import Text from "../../../../../components/ui/Text/Text";
 import CategorySelect from "../../../../category/components/form/CategorySelect/CategorySelect";
@@ -87,7 +87,7 @@ const EditQuizDataForm = () => {
 				</FormInputsContainer>
 
 				<FormButtonsContainer>
-					<Button variant="neutral">Preview</Button>
+					{/* <Button variant="neutral">Preview</Button> */}
 					<LoadingButton type="submit" full loading={loading}>
 						Save
 					</LoadingButton>

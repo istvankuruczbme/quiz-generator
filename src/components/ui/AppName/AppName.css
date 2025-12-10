@@ -1,0 +1,7 @@
+.appName h2 {
+	font-size: var(--fs-400);
+	line-height: 1rem;
+}
+.appName h2:last-child {
+	margin-left: 1rem;
+}

@@ -14,6 +14,7 @@ import useError from "../../../../error/hooks/useError";
 import useFeedback from "../../../../ui/feedback/contexts/FeedbackContext/useFeedback";
 // CSS
 import "./FinishQuizModal.css";
+import AppError from "../../../../error/classes/AppError";
 
 type FinishQuizModalProps = ModalProps;
 
@@ -32,6 +33,13 @@ const FinishQuizModal: FC<FinishQuizModalProps> = ({ show, setShow }) => {
 		if (!quiz) return;
 
 		try {
+			if (quiz.questions.length === 0) {
+				throw new AppError({
+					message: "Cannot finish quiz",
+					details: "You need to add at least one question to finish the quiz.",
+				});
+			}
+
 			// Finish quiz
 			await mutateAsync(quiz.id);
 

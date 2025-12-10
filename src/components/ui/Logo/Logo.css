@@ -1,18 +1,6 @@
 .logo {
-	display: flex;
-	gap: 0.5rem;
-	align-items: center;
-	font-size: var(--fs-500);
-	font-weight: 700;
-	font-style: italic;
-	text-wrap: nowrap;
-	color: var(--neutral-color-700);
-}
-
-.logo__icon {
-	aspect-ratio: 1;
-	color: var(--accent-color-400);
+	width: 2rem;
+	height: 2rem;
 	background-color: var(--secondary-color);
 	border-radius: var(--br-pill);
-	padding: 0.25rem;
 }
