@@ -42,6 +42,6 @@ export type EditQuizQuestionGenerationFormData = typeof EDIT_QUIZ_QUESTION_GENER
 export const SEARCH_QUIZ_FORM_DATA = {
 	searchText: "",
 	selectedCategories: [] as string[],
-	limit: 5,
+	limit: 12,
 };
 export type SearchQuizFormData = typeof SEARCH_QUIZ_FORM_DATA;
